@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -17,6 +18,8 @@ import java.awt.Font;
 import javax.swing.JTabbedPane;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 
@@ -44,13 +47,16 @@ public class Interfaz {
 	static final String[] MONTHS = {"MES" , "ENERO" , "FEBRERO" , "MARZO" , "ABRIL" , "MAYO" , "JUNIO" , "JULIO" ,
 						"AGOSTO" ,"SEPTIEMBRE" , "OCTUBRE" , "NOVIEMBRE" , "DICIEMBRE" };
 //	static final int[] DAY31 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
-	static final String[] DAY31 = {"DIA" ,"1","2","3","4","5","6","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
+	static final String[] DAY31 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
 							"24","25","26","27","28","29","30","31"};
 //	static final int[] DAY30 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};
-	static final String[] DAY30 = {"DIA" ,"1","2","3","4","5","6","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
+	static final String[] DAY30 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
 			"24","25","26","27","28","29","30"};
 	
 //	static final int[] DAY29 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29};
+	static final String[] DAY29 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
+			"24","25","26","27","28","29"};
+	static String[] dias = {""};
 	
 	static final int SEPARACION_FRAME = 24;
 	static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
@@ -76,6 +82,9 @@ public class Interfaz {
 	private JTextField textFieldApellido;
 	
 	private JComboBox comboBoxMonth, comboBoxDay, comboBoxYear;
+	
+	//variables Control
+	private boolean inicioFechaMonth = true;
 	
 	
 	/**
@@ -107,6 +116,8 @@ public class Interfaz {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		
 		frame = new JFrame();
 //		frame.addKeyListener(new KeyAdapter() {
 //			@Override
@@ -238,15 +249,81 @@ public class Interfaz {
 		panelFecha.add(lblFecha);
 		
 		comboBoxMonth = new JComboBox(MONTHS);
-		comboBoxMonth.setBounds(115, 6, 74, 21);
+		comboBoxMonth.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!inicioFechaMonth) {
+//					System.out.println("acction");
+					/*
+					 * Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y 12diciembre.
+					 * Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre.
+					 */
+					switch (comboBoxMonth.getSelectedIndex()) {
+					//31
+//					case (1||3||5||7||8||10||12):
+					case 1:
+					case 3:
+					case 5:
+					case 7:
+					case 8:
+					case 10:
+					case 12:
+						dias = DAY31;
+//						System.out.println(31);
+						comboBoxDay.removeAllItems();
+						for(String dia: dias) {
+							comboBoxDay.addItem(dia);
+						}
+						break; 
+					//30
+//					case 4|6|9|11:
+					case 4:
+					case 6:
+					case 9:
+					case 11:
+						dias = DAY30;
+//						System.out.println(30);
+						comboBoxDay.removeAllItems();
+						for(String dia: dias) {
+							comboBoxDay.addItem(dia);
+						}
+						break;
+					case 2:
+						dias = DAY29;
+						comboBoxDay.removeAllItems();
+						for(String dia: dias) {
+							comboBoxDay.addItem(dia);
+						}
+						break;
+					default:
+//						throw new IllegalArgumentException("Unexpected value: " + comboBoxMonth.getSelectedIndex());
+//						dias = null;
+//						comboBoxDay.removeAllItems();
+//						comboBoxDay.addItem(dias);
+					}
+					System.out.println("31: " + DAY31.length);
+					System.out.println("30: " + DAY30.length);
+					System.out.println("29: " + DAY29.length);
+//					comboBoxDay.removeAllItems();
+//					comboBoxDay.addItem(dias);
+				}else {
+					inicioFechaMonth = false;
+				}
+			}
+		});
+		comboBoxMonth.setSelectedIndex(0);
+		comboBoxMonth.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBoxMonth.setBounds(115, 6, 85, 21);
 		panelFecha.add(comboBoxMonth);
-		
-		comboBoxDay = new JComboBox();
-		comboBoxDay.setBounds(199, 6, 29, 21);
+				
+		comboBoxDay = new JComboBox(dias);
+		comboBoxDay.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBoxDay.setBounds(210, 6, 71, 21);
 		panelFecha.add(comboBoxDay);
 		
 		comboBoxYear = new JComboBox();
-		comboBoxYear.setBounds(268, 6, 29, 21);
+		comboBoxYear.setEditable(true);
+		comboBoxYear.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBoxYear.setBounds(314, 6, 76, 21);
 		panelFecha.add(comboBoxYear);
 		
 		
