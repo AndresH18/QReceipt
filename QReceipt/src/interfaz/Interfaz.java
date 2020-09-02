@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDateTime;
 import java.awt.Font;
 import javax.swing.JTabbedPane;
 import javax.swing.JSpinner;
@@ -31,7 +32,7 @@ import java.awt.event.ActionEvent;
 public class Interfaz {
 	//FIXME
 	//TODO
-	public static void variables() {
+	private void variables() {
 		//infoEmpresaCLiente --> 
 		Date date;//dia mes año hora minuto
 		///precion y articulos
@@ -41,23 +42,62 @@ public class Interfaz {
 		Object articulos;//Valor, total, forma de pago
 		
 		//infoNuestraEmpresa --> Enumeracion(DIRECCION, NOMBRE, TELEFONO, NIT....)
-
+	}
+	
+	public static String[] generarDias(int cantDias) {
+		String[] dias = new String[cantDias+1];
+		dias[0] = "DIA";
+		for (int i = 1; i <= cantDias; i++) {
+			dias[i] = String.valueOf(i);
+		}
+		for(String a : dias) {
+			System.out.println(a);
+		}
+		return dias;
+		
+	}
+	public static String[] generarAños() {
+		LocalDateTime.now().getYear();
+		int añoMinPredeterminado = 1990;
+		var con = 0;
+		String[] años = new String[LocalDateTime.now().getYear()-añoMinPredeterminado+1];
+		años[0] = "AÑO";
+		for(int i = LocalDateTime.now().getYear() ; i > añoMinPredeterminado ; i--) {
+			años[++con] = String.valueOf(i);
+		}
+//		System.out.println("con:" + con);
+		StringBuilder sb = new StringBuilder();
+//	       sb.append("Termino en prueba").append(LocalDateTime.now().getYear()-añoMinPredeterminado);
+//	       sb.toString();
+		/*
+		for (String año : años) {
+			sb.append(año).append(" ");
+		}
+		System.out.println(sb.toString());
+		*/
+		return años;
 	}
 	
 	//FIXME:
+	
 	static final String[] MONTHS = {"MES" , "ENERO" , "FEBRERO" , "MARZO" , "ABRIL" , "MAYO" , "JUNIO" , "JULIO" ,
 						"AGOSTO" ,"SEPTIEMBRE" , "OCTUBRE" , "NOVIEMBRE" , "DICIEMBRE" };
 //	static final int[] DAY31 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
-	static final String[] DAY31 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
-							"24","25","26","27","28","29","30","31"};
+//	static final String[] DAY31 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
+//							"24","25","26","27","28","29","30","31"};
+	static final String[] DAY31 = generarDias(31);
+	
 //	static final int[] DAY30 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};
-	static final String[] DAY30 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
-			"24","25","26","27","28","29","30"};
+//	static final String[] DAY30 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
+//			"24","25","26","27","28","29","30"};
+	static final String[] DAY30 = generarDias(30);
 	
 //	static final int[] DAY29 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29};
-	static final String[] DAY29 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
-			"24","25","26","27","28","29"};
-	static String[] dias = {""};
+//	static final String[] DAY29 = {"DIA" ,"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
+//			"24","25","26","27","28","29"};
+	static final String[] DAY29 = generarDias(29);
+	static String[] dias = {"DIA"};
+	static final String[] AÑOS = generarAños();
 	
 	static final int SEPARACION_FRAME = 24;
 	static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
@@ -82,7 +122,7 @@ public class Interfaz {
 	private JTextField textFieldNombre;
 	private JTextField textFieldApellido;
 	
-	private JComboBox comboBoxMonth, comboBoxDay, comboBoxYear;
+	private JComboBox<String> comboBoxMonth, comboBoxDay, comboBoxYear;
 	
 	//variables Control
 	private boolean inicioFechaMonth = true;
@@ -208,6 +248,19 @@ public class Interfaz {
 		panelNombre.add(lblNombre);
 		
 		textFieldNombre = new JTextField();
+		textFieldNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if(k.isControlDown() && k.getKeyCode()==KeyEvent.VK_W) {
+					frame.dispose();
+					
+					System.exit(0);
+				}
+				if(k.getKeyCode()==KeyEvent.VK_TAB) {
+					textFieldApellido.requestFocus();
+				}
+			}
+		});
 //		textFieldNombre.setBounds((lblNombre.getWidth() + 5), 6, 350, 19);
 		textFieldNombre.setBounds((lblNombre.getWidth() + 5), 6, 350-100, 19);
 		panelNombre.add(textFieldNombre);
@@ -218,7 +271,6 @@ public class Interfaz {
 		panelApellido.setBackground(COLOR_PANEL);
 //		panelApellido.setBounds(panelNombre.getX(), 143, panelNombre.getWidth(), 30);
 		panelApellido.setBounds(panelNombre.getX(), 143, panelNombre.getWidth(), panelNombre.getHeight());
-//		frame.getContentPane().add(panelApellido);
 		tab1.add(panelApellido);
 		
 		lblApellido = new JLabel("APELLIDO:      ");
@@ -230,6 +282,19 @@ public class Interfaz {
 		panelApellido.add(lblApellido);
 		
 		textFieldApellido = new JTextField();
+		textFieldApellido.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if(k.isControlDown() && k.getKeyCode()==KeyEvent.VK_W) {
+					frame.dispose();
+					
+					System.exit(0);
+				}
+				if(k.getKeyCode()==KeyEvent.VK_TAB) {
+					comboBoxMonth.requestFocus();
+				}
+			}
+		});
 		textFieldApellido.setColumns(10);
 //		textFielApellido.setBounds(105, 6, 350, 19);
 		textFieldApellido.setBounds(105, 6, 350-100, 19);
@@ -268,10 +333,13 @@ public class Interfaz {
 					case 8:
 					case 10:
 					case 12:
-						dias = DAY31;
+//						dias = DAY31;
 //						System.out.println(31);
 						comboBoxDay.removeAllItems();
-						for(String dia: dias) {
+//						for(String dia: dias) {
+//							comboBoxDay.addItem(dia);
+//						}
+						for(String dia: DAY31) {
 							comboBoxDay.addItem(dia);
 						}
 						break; 
@@ -281,17 +349,23 @@ public class Interfaz {
 					case 6:
 					case 9:
 					case 11:
-						dias = DAY30;
+//						dias = DAY30;
 //						System.out.println(30);
 						comboBoxDay.removeAllItems();
-						for(String dia: dias) {
+//						for(String dia: dias) {
+//							comboBoxDay.addItem(dia);
+//						}
+						for(String dia: DAY30) {
 							comboBoxDay.addItem(dia);
 						}
 						break;
 					case 2:
-						dias = DAY29;
+//						dias = DAY29;
 						comboBoxDay.removeAllItems();
-						for(String dia: dias) {
+//						for(String dia: dias) {
+//							comboBoxDay.addItem(dia);
+//						}
+						for(String dia: DAY29) {
 							comboBoxDay.addItem(dia);
 						}
 						break;
@@ -312,23 +386,55 @@ public class Interfaz {
 			}
 		});
 		comboBoxMonth.setSelectedIndex(0);
+		comboBoxMonth.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if(k.isControlDown() && k.getKeyCode()==KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				if(k.getKeyCode()==KeyEvent.VK_TAB) {
+					comboBoxDay.requestFocus();
+				}
+			}
+		});
 		comboBoxMonth.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBoxMonth.setBounds(115, 6, 85, 21);
 		panelFecha.add(comboBoxMonth);
 				
 		comboBoxDay = new JComboBox(dias);
+		comboBoxDay.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if(k.isControlDown() && k.getKeyCode()==KeyEvent.VK_W) {
+					frame.dispose();
+					
+					System.exit(0);
+				}
+				if(k.getExtendedKeyCode()==KeyEvent.VK_TAB) {
+					comboBoxYear.requestFocus();
+				}
+			}
+		});
 		comboBoxDay.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBoxDay.setBounds(210, 6, 71, 21);
 		panelFecha.add(comboBoxDay);
 		
 		comboBoxYear = new JComboBox();
-		comboBoxYear.setEditable(true);
+		comboBoxYear.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if(k.isControlDown() && k.getKeyCode()==KeyEvent.VK_W) {
+					frame.dispose();
+					
+					System.exit(0);
+				}
+				//TODO: implement requestFocus due to next UI(User Interface)components
+			}
+		});
 		comboBoxYear.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBoxYear.setBounds(314, 6, 76, 21);
 		panelFecha.add(comboBoxYear);
-		
-		
-		
 		
 	}
 }
