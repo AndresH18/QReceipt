@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.JToolBar;
 import javax.swing.JInternalFrame;
 import java.awt.event.KeyAdapter;
@@ -38,10 +39,14 @@ public class Interfaz {
 		
 	}
 	static final int SEPARACION_DEL_FRAME = 24;
+	static final Color PANEL_COLOR = new Color(215,215,215);
+	static final Border RAISED_BORDER = BorderFactory.createRaisedSoftBevelBorder();
+	
+	
 	private JFrame frame;
 //	private static JSeparator separador1, separador2;
 	private static JSeparator separador3;
-	private static JPanel panel1;
+	private static JPanel panel1, panel2;
 	
 //	private static Border raisedBorder = BorderFactory.
 
@@ -96,6 +101,7 @@ public class Interfaz {
 		frame.getContentPane().setBackground(new Color(217, 243, 255));//90, 218, 250
 		frame.getContentPane().setLayout(null);
 		
+		
 //		separador1 = new JSeparator();
 //		separador1.setOrientation(SwingConstants.VERTICAL);
 //		separador1.setBounds(57, 0, 1, frame.getHeight());
@@ -116,9 +122,18 @@ public class Interfaz {
 		panel1 = new JPanel();
 //		panel1.setBounds(10, 10, 543, 71);
 		panel1.setBounds(10, 10, frame.getWidth()-panel1.getX()-(SEPARACION_DEL_FRAME+10), 71);
-		panel1.setBackground(new Color(215,215,215));
-		panel1.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+//		panel1.setBackground(new Color(215,215,215));
+		panel1.setBackground(PANEL_COLOR);
+//		panel1.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+		panel1.setBorder(RAISED_BORDER);
+		
 		frame.getContentPane().add(panel1);
+		
+		panel2 = new JPanel();
+		panel2.setBounds(10, 105, frame.getWidth()-panel2.getX()-(SEPARACION_DEL_FRAME+10), 71);
+		panel2.setBackground(PANEL_COLOR);
+		panel2.setBorder(RAISED_BORDER);
+		frame.getContentPane().add(panel2);
 		
 		
 		
