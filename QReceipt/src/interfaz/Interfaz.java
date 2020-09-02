@@ -43,6 +43,7 @@ public class Interfaz {
 		//infoNuestraEmpresa --> Enumeracion(DIRECCION, NOMBRE, TELEFONO, NIT....)
 
 	}
+	
 	//FIXME:
 	static final String[] MONTHS = {"MES" , "ENERO" , "FEBRERO" , "MARZO" , "ABRIL" , "MAYO" , "JUNIO" , "JULIO" ,
 						"AGOSTO" ,"SEPTIEMBRE" , "OCTUBRE" , "NOVIEMBRE" , "DICIEMBRE" };
