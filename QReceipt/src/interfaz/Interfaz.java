@@ -1,4 +1,5 @@
 package interfaz;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.util.Date;
 
@@ -12,9 +13,15 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JToolBar;
 import javax.swing.JInternalFrame;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 
 
-
+/*
+ * **https://htmlcolors.com/google-color-picker
+ * **https://docs.oracle.com/javase/tutorial/uiswing/components/border.html
+ */
 public class Interfaz {
 	//FIXME
 	//TODO
@@ -30,7 +37,7 @@ public class Interfaz {
 		//infoNuestraEmpresa --> Enumeracion(DIRECCION, NOMBRE, TELEFONO, NIT....)
 		
 	}
-	static final int SEPARACION_FRAME = 24;
+	static final int SEPARACION_DEL_FRAME = 24;
 	private JFrame frame;
 //	private static JSeparator separador1, separador2;
 	private static JSeparator separador3;
@@ -47,8 +54,8 @@ public class Interfaz {
 				try {
 					Interfaz window = new Interfaz();
 					window.frame.setVisible(true);
-					System.out.println(window.frame.getWidth()-(panel1.getX()+panel1.getWidth()));
-					System.out.println(window.frame.getWidth()-panel1.getX()-24);
+	//					System.out.println(window.frame.getWidth()-(panel1.getX()+panel1.getWidth()));
+	//					System.out.println(window.frame.getWidth()-panel1.getX()-24);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -68,8 +75,25 @@ public class Interfaz {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+//				if(e.getKeyCode()==e.)
+//				System.out.println("ExtendedkeyCode = " + k.getExtendedKeyCode());//ctrl = 17
+//				System.out.println("KeyCode = " + k.getKeyCode());//ctrl = 17
+				//ctrl + w ==> close window
+				if(k.isControlDown() && k.getKeyCode()==KeyEvent.VK_W) {
+					frame.dispose();
+					//
+					System.exit(0);
+				}
+
+			}
+		});
 		frame.setBounds(100, 100, 572, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.getContentPane().setBackground(new Color(217, 243, 255));//90, 218, 250
 		frame.getContentPane().setLayout(null);
 		
 //		separador1 = new JSeparator();
@@ -91,7 +115,9 @@ public class Interfaz {
 		
 		panel1 = new JPanel();
 //		panel1.setBounds(10, 10, 543, 71);
-		panel1.setBounds(10, 10, frame.getWidth()-panel1.getX()-(SEPARACION_FRAME+10), 71);
+		panel1.setBounds(10, 10, frame.getWidth()-panel1.getX()-(SEPARACION_DEL_FRAME+10), 71);
+		panel1.setBackground(new Color(215,215,215));
+		panel1.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		frame.getContentPane().add(panel1);
 		
 		
