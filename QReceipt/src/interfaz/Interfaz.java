@@ -369,6 +369,7 @@ public class Interfaz {
 				if(k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode()==KeyEvent.VK_ENTER) {
 					
 					textFieldValor.requestFocus();
+					
 				}
 				
 			}
@@ -387,7 +388,7 @@ public class Interfaz {
 		panelValor.setBackground(COLOR_PANEL);
 		tab1.add(panelValor);
 		
-		lblValor = new JLabel("VALOR: / PRECIO:");
+		lblValor = new JLabel("VALOR:    ");
 		lblValor.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblValor.setBounds(5, 5, 100, lblFecha.getHeight());
 		lblValor.setOpaque(true);
@@ -463,7 +464,7 @@ public class Interfaz {
 	private static String[] generarAños() {
 		LocalDateTime.now().getYear();
 		int añoMinPredeterminado = -10000;
-		var con = 0;
+		int con = 0;
 		String[] años = new String[LocalDateTime.now().getYear() - añoMinPredeterminado + 1];
 		años[0] = "AÑO";
 		for (int i = LocalDateTime.now().getYear(); i > añoMinPredeterminado; i--) {
@@ -488,7 +489,7 @@ public class Interfaz {
 
 		 //Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y 12diciembre. 
 		//Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre
-		switch(LocalDateTime.now().getMonthValue()+1) {
+		switch(LocalDateTime.now().getMonthValue()) {
 		//31
 		case 1:
 		case 3:
@@ -519,6 +520,7 @@ public class Interfaz {
 	 * @param boxDay
 	 */
 	private void updateMonthDays(JComboBox<String> boxMonth, JComboBox<String> boxDay) {
+		boxDay.removeAllItems();		
 		/*
 		 * Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
 		 * 12diciembre. Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre.
@@ -535,7 +537,7 @@ public class Interfaz {
 		case 12:
 //			dias = DAY31;
 //			System.out.println(31);
-			boxDay.removeAllItems();
+//			boxDay.removeAllItems();
 //			for(String dia: dias) {
 //				comboBoxDay.addItem(dia);
 //			}
@@ -551,7 +553,7 @@ public class Interfaz {
 		case 11:
 //			dias = DAY30;
 //			System.out.println(30);
-			boxDay.removeAllItems();
+//			boxDay.removeAllItems();
 //			for(String dia: dias) {
 //				comboBoxDay.addItem(dia);
 //			}
@@ -561,7 +563,7 @@ public class Interfaz {
 			break;
 		case 2:
 //			dias = DAY29;
-			boxDay.removeAllItems();
+//			boxDay.removeAllItems();
 //			for(String dia: dias) {
 //				comboBoxDay.addItem(dia);
 //			}
@@ -572,8 +574,9 @@ public class Interfaz {
 		default:
 //			throw new IllegalArgumentException("Unexpected value: " + comboBoxMonth.getSelectedIndex());
 //			dias = null;
-			boxDay.removeAllItems();
+//			boxDay.removeAllItems();
 			boxDay.addItem("DIA");
+			break;
 		}
 	}
 }
