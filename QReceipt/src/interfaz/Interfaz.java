@@ -292,6 +292,8 @@ public class Interfaz {
 		
 		/*
 		 * Panel Fecha
+		 * FIXME: use JDatePicker
+		 * https://www.codejava.net/java-se/swing/how-to-use-jdatepicker-to-display-calendar-component
 		 */
 		panelFecha = new JPanel();
 		panelFecha.setLayout(null);
@@ -388,8 +390,9 @@ public class Interfaz {
 		panelValor.setBackground(COLOR_PANEL);
 		tab1.add(panelValor);
 		
-		lblValor = new JLabel("VALOR:    ");
+		lblValor = new JLabel("VALOR:      ");
 		lblValor.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblValor.setHorizontalAlignment(SwingConstants.CENTER);
 		lblValor.setBounds(5, 5, 100, lblFecha.getHeight());
 		lblValor.setOpaque(true);
 		lblValor.setBorder(RAISED_BORDER);

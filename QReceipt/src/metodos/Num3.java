@@ -93,9 +93,11 @@ public class Num3 {
 //						palabra += UNITS[Character.getNumericValue(sep[i].charAt(j))];
 						
 					if (!skipUnit) {
-//						if(i==sep.length-2
-//								&& Character.getNumericValue(sep[i].charAt(0)) == 0
-//								&& Character.getNumericValue(sep[i].charAt(1)) == 0) {
+						if(i==sep.length-2
+								&& Character.getNumericValue(sep[i].charAt(0)) == 0
+								&& Character.getNumericValue(sep[i].charAt(1)) == 0) {
+									// System.out.println("HEEEEE");
+								
 //							//
 ////							System.out.println("ENTRO");
 ////							System.out.println(sep[i]);
@@ -103,10 +105,10 @@ public class Num3 {
 ////							System.out.println("sep[i].charAt(0) = " + sep[i].charAt(0));
 ////							System.out.println("sep[i].charAt(1) = " + sep[i].charAt(1));
 //							//							
-//						}else {
-//							System.out.println("noooo");
+						}else {
+							// System.out.println("noooo");
 						palabra += UNITS[Character.getNumericValue(sep[i].charAt(j))];
-//						} 
+						} 
 					}
 					break;
 
@@ -115,6 +117,8 @@ public class Num3 {
 				}
 				
 			}
+
+
 			switch (sep.length) {
 			// TODO: mejorar sintaxis: actual[1000 --> un mil]; debe ser[1000-->mil] 
 			//FIXME: Cambiar billones por mil millones
@@ -133,7 +137,14 @@ public class Num3 {
 						palabra += "BILLON";
 					}
 				} else if (i == 1) {
-					palabra += "MIL ";
+					// palabra += "MIL ";
+					buscarSiEsZero:
+					for(int lol = 0; lol<3; lol++) {
+						if(sep[i].charAt(lol) != '0') {
+							palabra += "MIL ";
+						break buscarSiEsZero;
+						}
+					}
 				} else if (i == 2) {
 					// 012
 					// 2 !=1
@@ -147,7 +158,14 @@ public class Num3 {
 						palabra += "MILLON ";
 					}
 				} else if (i == 3) {
-					palabra += "MIL ";
+					// palabra += "MIL ";
+					buscarSiEsZero:
+					for(int lol = 0; lol<3; lol++) {
+						if(sep[i].charAt(lol) != '0') {
+							palabra += "MIL ";
+						break buscarSiEsZero;
+						}
+					}
 				} else {
 
 				}
@@ -155,7 +173,14 @@ public class Num3 {
 			//MIL MILLONES
 			case 4:
 				if (i == 0) {
-					palabra += "MIL ";
+					// palabra += "MIL ";
+					buscarSiEsZero:
+					for(int lol = 0; lol<3; lol++) {
+						if(sep[i].charAt(lol) != '0') {
+							palabra += "MIL ";
+						break buscarSiEsZero;
+						}
+					}
 				} else if (i == 1) {
 					// 012
 					// 2 !=1
@@ -169,7 +194,14 @@ public class Num3 {
 						palabra += "MILLON ";
 					}
 				} else if (i == 2) {
-					palabra += "MIL ";
+					// palabra += "MIL ";
+					buscarSiEsZero:
+					for(int lol = 0; lol<3; lol++) {
+						if(sep[i].charAt(lol) != '0') {
+							palabra += "MIL ";
+						break buscarSiEsZero;
+						}
+					}
 				} else {
 
 				}
@@ -194,7 +226,7 @@ public class Num3 {
 					//FIXME
 					buscarSiEsZero:
 					for(int lol = 0; lol<3; lol++) {
-						if(Character.valueOf(sep[i].charAt(0)) != 0) {
+						if(sep[i].charAt(lol) != '0') {
 							palabra += "MIL ";
 						break buscarSiEsZero;
 						}
@@ -206,7 +238,14 @@ public class Num3 {
 			//MIL
 			case 2:
 				if (i == 0) {
-					palabra += "MIL ";
+					// palabra += "MIL ";
+					buscarSiEsZero:
+					for(int lol = 0; lol<3; lol++) {
+						if(sep[i].charAt(lol) != '0') {
+							palabra += "MIL ";
+						break buscarSiEsZero;
+						}
+					}
 				} else {
 
 				}
