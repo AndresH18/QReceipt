@@ -435,7 +435,11 @@ public class Interfaz {
 		
 	}
 	
-	
+	/**
+	 * Genera una lista de Dias(int) a partir de la cantidad de dias de dias por mes
+	 * @param cantDias
+	 * @return
+	 */
 	private static String[] generarDias(int cantDias) {
 		String[] dias = new String[cantDias + 1];
 		dias[0] = "DIA";
@@ -452,6 +456,10 @@ public class Interfaz {
 		return dias;
 
 	}
+	/**
+	 * Genera una lista con años a partir del año actual
+	 * @return
+	 */
 	private static String[] generarAños() {
 		LocalDateTime.now().getYear();
 		int añoMinPredeterminado = -10000;
@@ -472,6 +480,10 @@ public class Interfaz {
 		 */
 		return años;
 	}
+	/**
+	 * Establece el mes actual en la lista de Meses
+	 * @return
+	 */
 	private String[] findActualMonthForDay(){
 
 		 //Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y 12diciembre. 
@@ -501,6 +513,11 @@ public class Interfaz {
 				return null;
 		}
 	}
+	/**
+	 * Actualiza la Lista de los dias, de acuerdo al mes seleccionado
+	 * @param boxMonth
+	 * @param boxDay
+	 */
 	private void updateMonthDays(JComboBox<String> boxMonth, JComboBox<String> boxDay) {
 		/*
 		 * Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
