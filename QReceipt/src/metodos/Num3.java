@@ -1,6 +1,6 @@
 package metodos;
 
-public class Num2_New {
+public class Num3 {
 
 	private String numeroInt;
 	private String numeroString;
@@ -20,7 +20,7 @@ public class Num2_New {
 	private final static String[] CENTENAS = { "", "CIENTO ", "DOSCIENTOS ", "TRESCIENTOS ", "CUATROCIENTOS ",
 			"QUINIENTOS ", "SEISCIENTOS ", "SETECIENTOS ", "OCHOCIENTOS ", "NOVECIENTOS " };
 
-	public Num2_New(String numeroInt) {
+	public Num3(String numeroInt) {
 			if(numeroInt != null) {
 				this.numeroInt = numeroInt;
 				completarTripletas();
@@ -89,10 +89,24 @@ public class Num2_New {
 					}
 					break;
 				case 3:
+//					if (!skipUnit) {
+//						palabra += UNITS[Character.getNumericValue(sep[i].charAt(j))];
+						
 					if (!skipUnit) {
+//						if(i==sep.length-2
+//								&& Character.getNumericValue(sep[i].charAt(0)) == 0
+//								&& Character.getNumericValue(sep[i].charAt(1)) == 0) {
+//							//
+////							System.out.println("ENTRO");
+////							System.out.println(sep[i]);
+////							System.out.println("i: " + i + " == sep.length-2: " + (sep.length-2));
+////							System.out.println("sep[i].charAt(0) = " + sep[i].charAt(0));
+////							System.out.println("sep[i].charAt(1) = " + sep[i].charAt(1));
+//							//							
+//						}else {
+//							System.out.println("noooo");
 						palabra += UNITS[Character.getNumericValue(sep[i].charAt(j))];
-					} else {
-						// TODO: no se si se hace algo aqui...
+//						} 
 					}
 					break;
 
@@ -103,6 +117,8 @@ public class Num2_New {
 			}
 			switch (sep.length) {
 			// TODO: mejorar sintaxis: actual[1000 --> un mil]; debe ser[1000-->mil] 
+			//FIXME: Cambiar billones por mil millones
+			//BILLON
 			case 5:
 				if (i == 0) {
 					// 012
@@ -116,7 +132,6 @@ public class Num2_New {
 					} else {
 						palabra += "BILLON";
 					}
-					palabra += "BILLON ";
 				} else if (i == 1) {
 					palabra += "MIL ";
 				} else if (i == 2) {
@@ -137,6 +152,7 @@ public class Num2_New {
 
 				}
 				break;
+			//MIL MILLONES
 			case 4:
 				if (i == 0) {
 					palabra += "MIL ";
@@ -158,6 +174,7 @@ public class Num2_New {
 
 				}
 				break;
+			//MILLONES
 			case 3:
 				if (i == 0) {
 					// 012
@@ -172,11 +189,21 @@ public class Num2_New {
 						palabra += "MILLON ";
 					}
 				} else if (i == 1) {
-					palabra += "MIL ";
+					//FIXME
+					//FIXME
+					//FIXME
+					buscarSiEsZero:
+					for(int lol = 0; lol<3; lol++) {
+						if(Character.valueOf(sep[i].charAt(0)) != 0) {
+							palabra += "MIL ";
+						break buscarSiEsZero;
+						}
+					}
 				} else {
 
 				}
 				break;
+			//MIL
 			case 2:
 				if (i == 0) {
 					palabra += "MIL ";
@@ -184,9 +211,11 @@ public class Num2_New {
 
 				}
 				break;
+			//NADA (centenas)
 			default:
 				break;
 			}
+
 		}
 		return palabra;
 	}

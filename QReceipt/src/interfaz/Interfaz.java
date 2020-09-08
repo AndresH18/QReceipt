@@ -3,7 +3,6 @@ package interfaz;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,7 +13,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import metodos.Num2_New;
+import metodos.Num3;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -24,12 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JToolBar;
-import javax.swing.JLayeredPane;
-import javax.swing.JInternalFrame;
-import javax.swing.border.BevelBorder;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
+
 
 /*
  * **https://htmlcolors.com/google-color-picker
@@ -41,6 +35,7 @@ public class Interfaz {
 	
 	// FIXME: 
 	// TODO:
+	/*
 	private void variables() {
 		// infoEmpresaCLiente -->
 		Date date;// dia mes año hora minuto
@@ -52,6 +47,7 @@ public class Interfaz {
 
 		// infoNuestraEmpresa --> Enumeracion(DIRECCION, NOMBRE, TELEFONO, NIT....)
 	}
+	*/
 
 
 	// FIXME: Delete Commented Lines
@@ -88,7 +84,6 @@ public class Interfaz {
 	private JFrame frame;
 	private JSeparator separador1;
 //	private static JSeparator separador3, separador2;
-	
 	//TABS
 	private JPanel tab1, tab2;
 	//JPanels
@@ -414,9 +409,9 @@ public class Interfaz {
 				}
 				if(k.getKeyCode() == KeyEvent.VK_ENTER) {
 //					System.out.println("Enter KeyCode: " + k.getKeyCode());
-					if(textFieldValor.getText().matches(Num2_New.FORMATO_VALIDO)) {
+					if(textFieldValor.getText().matches(Num3.FORMATO_VALIDO)) {
 						lblValorPalabras.setForeground(Color.BLACK);
-						lblValorPalabras.setText(new Num2_New(textFieldValor.getText()).getNumeroString());
+						lblValorPalabras.setText(new Num3(textFieldValor.getText()).getNumeroString());
 					}else {
 						lblValorPalabras.setForeground(Color.red);
 						lblValorPalabras.setText("INTRODUZCA UN VALOR VALIDO");
