@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
+import javax.swing.JInternalFrame;
 
 /*
  * **https://htmlcolors.com/google-color-picker
@@ -177,7 +178,6 @@ public class Interfaz {
 		 * TAB 1
 		 */
 		new Pestaña1(frame, tab1, datosProductos);
-		
 		
 		
 		/*
