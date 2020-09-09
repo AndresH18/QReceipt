@@ -27,7 +27,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import metodos.Num3;
+import metodos.Num5;
 
 public class Pestaña1 {
 
@@ -378,7 +378,7 @@ public class Pestaña1 {
 				}
 				if (k.getKeyCode() == KeyEvent.VK_ENTER) {
 					//Valor valido
-					if (!textFieldValorUnidad.getText().matches(Num3.FORMATO_VALIDO)) {
+					if (!textFieldValorUnidad.getText().matches(Num5.FORMATO_VALIDO)) {
 						lblValorConsola.setForeground(Color.red);
 						lblValorConsola.setText("<html>VALOR NO VALIDO</html>");
 						lblValorConsola.setVisible(true);
@@ -397,7 +397,7 @@ public class Pestaña1 {
 						listaProductos.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
 						//textFieldProductos.requestFocus();
 						textFieldValorTotal.setText(sumarValorProductos());
-						lblValorPalabras.setText(new Num3(sumarValorProductos()).getNumeroString());
+						lblValorPalabras.setText(new Num5(sumarValorProductos()).getNumeroString());
 						
 						cantProductos.setValue((int) 1);
 						textFieldValorUnidad.setText("");
@@ -457,9 +457,9 @@ public class Pestaña1 {
 				if (k.getKeyCode() == KeyEvent.VK_TAB) {
 				}
 				if (k.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (textFieldValorTotal.getText().matches(Num3.FORMATO_VALIDO)) {
+					if (textFieldValorTotal.getText().matches(Num5.FORMATO_VALIDO)) {
 						lblValorPalabras.setForeground(Color.BLACK);
-						lblValorPalabras.setText(new Num3(textFieldValorTotal.getText()).getNumeroString());
+						lblValorPalabras.setText(new Num5(textFieldValorTotal.getText()).getNumeroString());
 					} else {
 						lblValorPalabras.setForeground(Color.red);
 						lblValorPalabras.setText("INTRODUZCA UN VALOR VALIDO");

@@ -1,6 +1,6 @@
 package metodos;
 
-public class Num3 {
+public class Num5 {
 
 	private String numeroInt;
 	private String numeroString;
@@ -16,11 +16,13 @@ public class Num3 {
 
 	private final static String[] DECENAS2 = { "DIEZ ", "ONCE ", "DOCE ", "TRECE ", "CATORCE ", "QUINCE ", "DIECISEIS ",
 			"DIECISIETE ", "DIECIOCHO ", "DIECINUEVE " };
+	private final static String[] DECENAS3 = { "VEINTE ", "VEINTIUN ", "VEINTIDOS ", "VEINTITRES ", "VEINTICUATRO ", "VEINTICINCO ", "VEINTISEIS ",
+			"VEINTISIETE ", "VEINTIOCHO ", "VEINTINUEVE " };
 
 	private final static String[] CENTENAS = { "", "CIENTO ", "DOSCIENTOS ", "TRESCIENTOS ", "CUATROCIENTOS ",
 			"QUINIENTOS ", "SEISCIENTOS ", "SETECIENTOS ", "OCHOCIENTOS ", "NOVECIENTOS " };
 
-	public Num3(String numeroInt) {
+	public Num5(String numeroInt) {
 			if(numeroInt != null) {
 				this.numeroInt = numeroInt;
 				completarTripletas();
@@ -108,7 +110,12 @@ public class Num3 {
 //							//			
 							
 						}else {
-							// System.out.println("noooo");
+						
+						//QUE no haya un zero
+						if(Character.getNumericValue(sep[i].charAt(2)) != 0 
+								&& Character.getNumericValue(sep[i].charAt(1)) != 0) {
+								palabra += "Y ";
+							}
 						palabra += UNITS[Character.getNumericValue(sep[i].charAt(j))];
 						} 
 					}
@@ -168,9 +175,8 @@ public class Num3 {
 						break buscarSiEsZero;
 						}
 					}
-				} else {
-
 				}
+				
 				break;
 			//MIL MILLONES
 			case 4:
@@ -205,8 +211,8 @@ public class Num3 {
 						}
 					}
 				} else {
-
 				}
+				
 				break;
 			//MILLONES
 			case 3:
@@ -234,8 +240,8 @@ public class Num3 {
 						}
 					}
 				} else {
-
 				}
+				
 				break;
 			//MIL
 			case 2:
@@ -249,14 +255,13 @@ public class Num3 {
 						}
 					}
 				} else {
-
 				}
+				
 				break;
 			//NADA (centenas)
 			default:
 				break;
 			}
-
 		}
 		return palabra;
 	}
