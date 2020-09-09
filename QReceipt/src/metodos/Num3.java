@@ -95,7 +95,8 @@ public class Num3 {
 					if (!skipUnit) {
 						if(i==sep.length-2
 								&& Character.getNumericValue(sep[i].charAt(0)) == 0
-								&& Character.getNumericValue(sep[i].charAt(1)) == 0) {
+								&& Character.getNumericValue(sep[i].charAt(1)) == 0
+								&& Character.getNumericValue(sep[i].charAt(2)) == 1) {
 									// System.out.println("HEEEEE");
 								
 //							//
@@ -104,7 +105,8 @@ public class Num3 {
 ////							System.out.println("i: " + i + " == sep.length-2: " + (sep.length-2));
 ////							System.out.println("sep[i].charAt(0) = " + sep[i].charAt(0));
 ////							System.out.println("sep[i].charAt(1) = " + sep[i].charAt(1));
-//							//							
+//							//			
+							
 						}else {
 							// System.out.println("noooo");
 						palabra += UNITS[Character.getNumericValue(sep[i].charAt(j))];

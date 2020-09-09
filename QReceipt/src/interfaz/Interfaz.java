@@ -29,6 +29,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JToggleButton;
+import javax.swing.JCheckBox;
 
 /*
  * **https://htmlcolors.com/google-color-picker
@@ -61,33 +63,38 @@ public class Interfaz {
 	private JPanel panelObjetos;
 
 	// JLabels
-	private JLabel lblNombre;
-	private JLabel lblApellido;
-	private JLabel lblFecha;
-	private JLabel lblProductos;
-	private JLabel lblCantidadProductos;
+	private JLabel lblHeaderNombre;
+	private JLabel lblHeaderApellido;
+	private JLabel lblHeaderFecha;
+	private JLabel lblHeaderProductos;
+	private JLabel lblHeaderCantidadProductos;
+	private JLabel lblHeaderValor;
+	private JLabel lblHeaderValorUnidad;
 	private JLabel lblValorConsola;
-	private JLabel lblValor;
 	private JLabel lblValorPalabras;
-
-	private JLabel lblValorUnidad;
-	private JTextField textFieldValorUnidad;
+	private JLabel lblValorTotal;
 
 	// JTextFields
-	private JTextField textFieldNombre;
+	private static JTextField textFieldNombre;
 	private JTextField textFieldApellido;
-	private JTextField textFieldValor;
+	private JTextField textFieldValorTotal;
 	private JTextField textFieldProductos;
+	private JTextField textFieldValorUnidad;
+
+	
 	// JComboBox s Fechas
 	private JComboBox<String> comboBoxMonth, comboBoxDay, comboBoxYear;
 	// JTable
 	private JTable listaProductos;
-
+	
 	// JSpinner
 	private JSpinner cantProductos;
 	
 	//JScrollPane
 	private JScrollPane scrollProductos;
+	
+	//JCheckBox
+	private JCheckBox modificarValor;
 
 	private JPasswordField passwordField;
 
@@ -134,6 +141,8 @@ public class Interfaz {
 				try {
 					Interfaz window = new Interfaz();
 					window.frame.setVisible(true);
+					textFieldNombre.requestFocus();
+					
 //					System.out.println(window.frame.getWidth()-(panel1.getX()+panel1.getWidth()));
 //					System.out.println(window.frame.getWidth()-panel1.getX()-24);
 //					System.out.println(lblNombre.getHeight());
@@ -243,13 +252,13 @@ public class Interfaz {
 //		frame.getContentPane().add(panel1);
 		tab1.add(panelNombre);
 
-		lblNombre = new JLabel("<html>Nombre:</html>".toUpperCase());// 6 Spaces
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNombre.setBounds(5, 5, 100, panelNombre.getHeight() - 2 * 5);
-		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombre.setOpaque(true);
-		lblNombre.setBorder(RAISED_BORDER);
-		panelNombre.add(lblNombre);
+		lblHeaderNombre = new JLabel("<html>Nombre:</html>".toUpperCase());// 6 Spaces
+		lblHeaderNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderNombre.setBounds(5, 5, 100, panelNombre.getHeight() - 2 * 5);
+		lblHeaderNombre.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderNombre.setOpaque(true);
+		lblHeaderNombre.setBorder(RAISED_BORDER);
+		panelNombre.add(lblHeaderNombre);
 
 		textFieldNombre = new JTextField();
 		textFieldNombre.addKeyListener(new KeyAdapter() {
@@ -267,7 +276,7 @@ public class Interfaz {
 			}
 		});
 //		textFieldNombre.setBounds((lblNombre.getWidth() + 5), 6, 350, 19);
-		textFieldNombre.setBounds((lblNombre.getWidth() + 5), 6, 350 - 100, 19);
+		textFieldNombre.setBounds((lblHeaderNombre.getWidth() + 5), 6, 350 - 100, 19);
 		panelNombre.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 
@@ -281,13 +290,13 @@ public class Interfaz {
 		panelApellido.setBounds(panelNombre.getX(), 143, panelNombre.getWidth(), panelNombre.getHeight());
 		tab1.add(panelApellido);
 
-		lblApellido = new JLabel("<html>APELLIDO:</html>");
-		lblApellido.setOpaque(true);
-		lblApellido.setHorizontalAlignment(SwingConstants.CENTER);
-		lblApellido.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblApellido.setBorder(RAISED_BORDER);
-		lblApellido.setBounds(5, 5, 100, panelApellido.getHeight() - 2 * 5);
-		panelApellido.add(lblApellido);
+		lblHeaderApellido = new JLabel("<html>APELLIDO:</html>");
+		lblHeaderApellido.setOpaque(true);
+		lblHeaderApellido.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderApellido.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderApellido.setBorder(RAISED_BORDER);
+		lblHeaderApellido.setBounds(5, 5, 100, panelApellido.getHeight() - 2 * 5);
+		panelApellido.add(lblHeaderApellido);
 
 		textFieldApellido = new JTextField();
 		textFieldApellido.addKeyListener(new KeyAdapter() {
@@ -322,13 +331,13 @@ public class Interfaz {
 		panelFecha.setBackground(COLOR_PANEL);
 		tab1.add(panelFecha);
 
-		lblFecha = new JLabel("<html>FECHA:</html>");
-		lblFecha.setOpaque(true);
-		lblFecha.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblFecha.setBorder(RAISED_BORDER);
-		lblFecha.setBounds(5, 5, 100, panelFecha.getHeight() - 2 * 5);
-		panelFecha.add(lblFecha);
+		lblHeaderFecha = new JLabel("<html>FECHA:</html>");
+		lblHeaderFecha.setOpaque(true);
+		lblHeaderFecha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderFecha.setBorder(RAISED_BORDER);
+		lblHeaderFecha.setBounds(5, 5, 100, panelFecha.getHeight() - 2 * 5);
+		panelFecha.add(lblHeaderFecha);
 
 		comboBoxMonth = new JComboBox(MONTHS);
 		comboBoxMonth.setSelectedIndex(LocalDateTime.now().getMonthValue());
@@ -389,7 +398,7 @@ public class Interfaz {
 				}
 				// requestFocus of next Component
 				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldValor.requestFocus();
+					textFieldProductos.requestFocus();
 				}
 			}
 		});
@@ -408,13 +417,13 @@ public class Interfaz {
 		tab1.add(panelObjetos);
 		panelObjetos.setLayout(null);
 
-		lblProductos = new JLabel("<html>PRODUCTO:</html>");
-		lblProductos.setOpaque(true);
-		lblProductos.setHorizontalAlignment(SwingConstants.CENTER);
-		lblProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblProductos.setBorder(RAISED_BORDER);
-		lblProductos.setBounds(5, 5, 100, 20);
-		panelObjetos.add(lblProductos);
+		lblHeaderProductos = new JLabel("<html>PRODUCTO:</html>");
+		lblHeaderProductos.setOpaque(true);
+		lblHeaderProductos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderProductos.setBorder(RAISED_BORDER);
+		lblHeaderProductos.setBounds(5, 5, 100, 20);
+		panelObjetos.add(lblHeaderProductos);
 
 		textFieldProductos = new JTextField();
 		textFieldProductos.addKeyListener(new KeyAdapter() {
@@ -427,6 +436,7 @@ public class Interfaz {
 				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode()==KeyEvent.VK_ENTER) {
 					//cantProductos.getEditor().requestFocus();
 					cantProductos.setValue((int) 1);
+					textFieldValorUnidad.requestFocus();
 
 				}
 			}
@@ -434,13 +444,13 @@ public class Interfaz {
 		textFieldProductos.setBounds(5, 25, 140, 20);
 		panelObjetos.add(textFieldProductos);
 
-		lblCantidadProductos = new JLabel("<html>CANTIDAD:</html>");
-		lblCantidadProductos.setOpaque(true);
-		lblCantidadProductos.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCantidadProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblCantidadProductos.setBorder(RAISED_BORDER);
-		lblCantidadProductos.setBounds(5, 51, 100, 20);
-		panelObjetos.add(lblCantidadProductos);
+		lblHeaderCantidadProductos = new JLabel("<html>CANTIDAD:</html>");
+		lblHeaderCantidadProductos.setOpaque(true);
+		lblHeaderCantidadProductos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderCantidadProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderCantidadProductos.setBorder(RAISED_BORDER);
+		lblHeaderCantidadProductos.setBounds(5, 51, 100, 20);
+		panelObjetos.add(lblHeaderCantidadProductos);
 
 		cantProductos = new JSpinner();
 		cantProductos.addKeyListener(new KeyAdapter() {
@@ -455,9 +465,10 @@ public class Interfaz {
 				}
 			}
 		});
-		cantProductos.setBounds((lblCantidadProductos.getX() + lblCantidadProductos.getWidth() + 3) ,
-				lblCantidadProductos.getY(), 40, lblCantidadProductos.getHeight());
+		cantProductos.setBounds((lblHeaderCantidadProductos.getX() + lblHeaderCantidadProductos.getWidth() + 3) ,
+				lblHeaderCantidadProductos.getY(), 40, lblHeaderCantidadProductos.getHeight());
 		cantProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cantProductos.setValue((int) 1);
 		//cantProductos.setFocusable(true);
 		panelObjetos.add(cantProductos);
 		
@@ -482,13 +493,13 @@ public class Interfaz {
 		scrollProductos.setBounds(190, 9, 342, 136);
 		panelObjetos.add(scrollProductos);
 		
-		lblValorUnidad = new JLabel("<html>VALOR UNIDAD:</html>");
-		lblValorUnidad.setOpaque(true);
-		lblValorUnidad.setHorizontalAlignment(SwingConstants.CENTER);
-		lblValorUnidad.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblValorUnidad.setBorder(RAISED_BORDER);
-		lblValorUnidad.setBounds(5, 79, 100, 20);
-		panelObjetos.add(lblValorUnidad);
+		lblHeaderValorUnidad = new JLabel("<html>VALOR UNIDAD:</html>");
+		lblHeaderValorUnidad.setOpaque(true);
+		lblHeaderValorUnidad.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderValorUnidad.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderValorUnidad.setBorder(RAISED_BORDER);
+		lblHeaderValorUnidad.setBounds(5, 79, 100, 20);
+		panelObjetos.add(lblHeaderValorUnidad);
 		
 		textFieldValorUnidad = new JTextField();
 		textFieldValorUnidad.addKeyListener(new KeyAdapter() {
@@ -503,7 +514,7 @@ public class Interfaz {
 					// TODO: implement requestFocus due to next UI(User Interface)components
 				}
 				if (k.getKeyCode() == KeyEvent.VK_ENTER) {
-//					System.out.println("Enter KeyCode: " + k.getKeyCode());
+					//Valor valido
 					if (!textFieldValorUnidad.getText().matches(Num3.FORMATO_VALIDO)) {
 						lblValorConsola.setForeground(Color.red);
 						lblValorConsola.setText("<html>VALOR NO VALIDO</html>");
@@ -522,6 +533,13 @@ public class Interfaz {
 						listaProductos.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
 						listaProductos.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
 						//textFieldProductos.requestFocus();
+						textFieldValorTotal.setText(sumarValorProductos());
+						lblValorPalabras.setText(new Num3(sumarValorProductos()).getNumeroString());
+						
+						cantProductos.setValue((int) 1);
+						textFieldValorUnidad.setText("");
+						textFieldProductos.setText("");
+						textFieldProductos.requestFocus();
 						
 					}
 
@@ -554,16 +572,17 @@ public class Interfaz {
 		panelValor.setBackground(COLOR_PANEL);
 		tab1.add(panelValor);
 
-		lblValor = new JLabel("<html>VALOR:      ");
-		lblValor.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblValor.setHorizontalAlignment(SwingConstants.CENTER);
-		lblValor.setBounds(5, 5, 100, lblFecha.getHeight());
-		lblValor.setOpaque(true);
-		lblValor.setBorder(RAISED_BORDER);
-		panelValor.add(lblValor);
+		lblHeaderValor = new JLabel("<html>VALOR:      ");
+		lblHeaderValor.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderValor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderValor.setBounds(5, 5, 100, lblHeaderFecha.getHeight());
+		lblHeaderValor.setOpaque(true);
+		lblHeaderValor.setBorder(RAISED_BORDER);
+		panelValor.add(lblHeaderValor);
 
-		textFieldValor = new JTextField();
-		textFieldValor.addKeyListener(new KeyAdapter() {
+		
+		textFieldValorTotal = new JTextField();
+		textFieldValorTotal.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent k) {
 				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
@@ -575,10 +594,9 @@ public class Interfaz {
 				if (k.getKeyCode() == KeyEvent.VK_TAB) {
 				}
 				if (k.getKeyCode() == KeyEvent.VK_ENTER) {
-//					System.out.println("Enter KeyCode: " + k.getKeyCode());
-					if (textFieldValor.getText().matches(Num3.FORMATO_VALIDO)) {
+					if (textFieldValorTotal.getText().matches(Num3.FORMATO_VALIDO)) {
 						lblValorPalabras.setForeground(Color.BLACK);
-						lblValorPalabras.setText(new Num3(textFieldValor.getText()).getNumeroString());
+						lblValorPalabras.setText(new Num3(textFieldValorTotal.getText()).getNumeroString());
 					} else {
 						lblValorPalabras.setForeground(Color.red);
 						lblValorPalabras.setText("INTRODUZCA UN VALOR VALIDO");
@@ -587,15 +605,35 @@ public class Interfaz {
 				}
 			}
 		});
-		textFieldValor.setColumns(10);
-		textFieldValor.setBounds(115, 7, 126, 20);
-		panelValor.add(textFieldValor);
+		textFieldValorTotal.setColumns(10);
+		textFieldValorTotal.setVisible(true);
+		textFieldValorTotal.setEditable(false);
+		textFieldValorTotal.setBounds(115, 7, 126, 20);
+		panelValor.add(textFieldValorTotal);
 
 		lblValorPalabras = new JLabel("");
 		lblValorPalabras.setOpaque(false);
 		lblValorPalabras.setBounds(5, 32, 527, 20);
 		lblValorPalabras.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelValor.add(lblValorPalabras);
+		
+		modificarValor = new JCheckBox("<html>MODIFICAR EL VALOR</html>");
+		modificarValor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if(modificarValor.isSelected()) {
+					textFieldValorTotal.setText("");
+					textFieldValorTotal.setEditable(true);
+				} else {
+					textFieldValorTotal.setEditable(false);
+					textFieldValorTotal.setText(sumarValorProductos());
+				}
+			
+			}
+		});
+		modificarValor.setFont(new Font("Tahoma" , Font.PLAIN , 10));
+		modificarValor.setBounds(272, 6, 135, 21);
+		panelValor.add(modificarValor);
 
 		
 		
@@ -800,5 +838,16 @@ public class Interfaz {
 		}
 		datosProductos[filas][2] = valor;
 		
+	}
+	
+	public static String sumarValorProductos() {
+		String[][] temporal = datosProductos.clone();
+		int total = 0;
+		//Tener en cuenta cantidad{columna 1} y valorUnidad{columna 2}  [formtato desde 0 hasta n]
+		for (int i = 1 ; i<temporal.length ; i++) {
+			total += (Integer.valueOf(temporal[i][1]) * Integer.valueOf(temporal[i][2]));
+		}
+		
+		return String.valueOf(total);
 	}
 }
