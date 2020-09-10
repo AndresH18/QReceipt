@@ -15,7 +15,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import viejos.Num3;
+import metodos.Num5;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
