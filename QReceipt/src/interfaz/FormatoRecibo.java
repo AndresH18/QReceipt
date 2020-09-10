@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,11 +29,12 @@ import javax.swing.table.DefaultTableModel;
 
 import numeros.Num5;
 
-public class Pestaña1 {
+public class FormatoRecibo {
 	String fecha;
 	String nombre;
 	String id;
 	String direccion;
+	private boolean isReciboShowing = false;;
 
 	static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
 			"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
@@ -46,7 +48,7 @@ public class Pestaña1 {
 
 	static final String[] AÑOS = generarAños();
 
-	private static String[][] datosProductos;
+	private String[][] datosProductos = new String[1][3];
 
 	static final Color COLOR_FRAME = new Color(217, 222, 222);
 	static final Color COLOR_PANEL = new Color(202, 202, 202);
@@ -54,7 +56,7 @@ public class Pestaña1 {
 	static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
 
 	private JFrame frame;
-	private JPanel tab1;
+	private JPanel panelFormato;
 
 	// JPanels
 	private JPanel panelFecha;
@@ -86,6 +88,16 @@ public class Pestaña1 {
 
 	// JComboBox s Fechas
 	private JComboBox<String> comboBoxMonth, comboBoxDay, comboBoxYear;
+	public JComboBox<String> getComboBoxMonth() {
+		return comboBoxMonth;
+	}
+	public JComboBox<String> getComboBoxDay() {
+		return comboBoxDay;
+	}
+	public JComboBox<String> getComboBoxYear() {
+		return comboBoxYear;
+	}
+
 	// JTable
 	private JTable listaProductos;
 	// JSpinner
@@ -100,11 +112,14 @@ public class Pestaña1 {
 	// JButton
 	private JButton btnGenerarRecibo;
 
-	public Pestaña1(JFrame frame, JPanel tab, String[][] datosProductos) {
+	public JButton getBtnGenerarRecibo() {
+		return btnGenerarRecibo;
+	}
+
+	public FormatoRecibo(JFrame frame, JPanel panelFormato) {
 
 		this.frame = frame;
-		this.tab1 = tab;
-		Pestaña1.datosProductos = datosProductos;
+		this.panelFormato = panelFormato;
 
 		initialize();
 		textFieldNombre.requestFocus();
@@ -121,9 +136,10 @@ public class Pestaña1 {
 		 */
 		panelFecha = new JPanel();
 		panelFecha.setLayout(null);
+		panelFecha.setVisible(true);
 		panelFecha.setBounds(15, 32, 400, 30);
 		panelFecha.setBackground(COLOR_PANEL);
-		tab1.add(panelFecha);
+		panelFormato.add(panelFecha);
 
 		lblHeaderFecha = new JLabel("<html>FECHA:</html>");
 		lblHeaderFecha.setOpaque(true);
@@ -154,6 +170,9 @@ public class Pestaña1 {
 				}
 			}
 		});
+		comboBoxMonth.setFocusable(true);
+		comboBoxMonth.setEnabled(true);
+		comboBoxMonth.setVisible(true);
 		comboBoxMonth.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBoxMonth.setBounds(115, 5, 102, 21);
 		panelFecha.add(comboBoxMonth);
@@ -175,6 +194,9 @@ public class Pestaña1 {
 				}
 			}
 		});
+		comboBoxDay.setFocusable(true);
+		comboBoxDay.setEnabled(true);
+		comboBoxDay.setVisible(true);
 		comboBoxDay.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBoxDay.setBounds(243, 5, 50, 21);
 		panelFecha.add(comboBoxDay);
@@ -196,6 +218,8 @@ public class Pestaña1 {
 				}
 			}
 		});
+		comboBoxYear.setFocusable(true);
+		comboBoxYear.setEnabled(true);
 		comboBoxYear.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBoxYear.setBounds(314, 5, 76, 21);
 		panelFecha.add(comboBoxYear);
@@ -206,9 +230,10 @@ public class Pestaña1 {
 		panelNombre = new JPanel();
 		panelNombre.setLayout(null);
 //		panelNombre.setBounds(15, 103, 538, 30);
+		panelNombre.setVisible(true);
 		panelNombre.setBounds(15, 72, panelFecha.getWidth(), panelFecha.getHeight());
 		panelNombre.setBackground(COLOR_PANEL);
-		tab1.add(panelNombre);
+		panelFormato.add(panelNombre);
 
 		lblHeaderNombre = new JLabel("<html>Nombre:</html>".toUpperCase());// 6 Spaces
 		lblHeaderNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -219,6 +244,7 @@ public class Pestaña1 {
 		panelNombre.add(lblHeaderNombre);
 
 		textFieldNombre = new JTextField();
+		textFieldNombre.setColumns(10);
 		textFieldNombre.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent k) {
@@ -235,18 +261,20 @@ public class Pestaña1 {
 		});
 //		textFieldNombre.setBounds((lblNombre.getWidth() + 5), 6, 350, 19);
 		textFieldNombre.setBounds((lblHeaderNombre.getWidth() + 5), 6, 350 - 100, 19);
+		textFieldNombre.setFocusable(true);
+		textFieldNombre.setEnabled(true);
 		panelNombre.add(textFieldNombre);
-		textFieldNombre.setColumns(10);
 
 		/*
 		 * PANEL ID_NIT
 		 */
 		panelID_NIT = new JPanel();
 		panelID_NIT.setLayout(null);
+		panelID_NIT.setVisible(true);
 		panelID_NIT.setBackground(COLOR_PANEL);
 //		panelID_NIT.setBounds(panelNombre.getX(), 143, panelNombre.getWidth(), 30);
 		panelID_NIT.setBounds(15, 112, panelFecha.getWidth(), panelFecha.getHeight());
-		tab1.add(panelID_NIT);
+		panelFormato.add(panelID_NIT);
 
 		lblHeaderID_NIT = new JLabel("<html>ID / NIT:</html>");
 		lblHeaderID_NIT.setOpaque(true);
@@ -274,6 +302,8 @@ public class Pestaña1 {
 		textFieldID_NIT.setColumns(10);
 //		textFielID_NIT.setBounds(105, 6, 350, 19);
 		textFieldID_NIT.setBounds(105, 6, 350 - 100, 19);
+		textFieldID_NIT.setFocusable(true);
+		textFieldID_NIT.setEnabled(true);
 		panelID_NIT.add(textFieldID_NIT);
 
 		/*
@@ -281,9 +311,10 @@ public class Pestaña1 {
 		 */
 		panelDireccion = new JPanel();
 		panelDireccion.setLayout(null);
+		panelDireccion.setVisible(true);
 		panelDireccion.setBackground(new Color(202, 202, 202));
 		panelDireccion.setBounds(15, 152, 400, 30);
-		tab1.add(panelDireccion);
+		panelFormato.add(panelDireccion);
 
 		lblDireccion = new JLabel("<html>DIRECCION:</html>");
 		lblDireccion.setOpaque(true);
@@ -309,6 +340,8 @@ public class Pestaña1 {
 		});
 		textFieldDireccion.setColumns(10);
 		textFieldDireccion.setBounds(105, 6, 250, 19);
+		textFieldDireccion.setFocusable(true);
+		textFieldDireccion.setEnabled(true);
 		panelDireccion.add(textFieldDireccion);
 
 		/*
@@ -317,7 +350,8 @@ public class Pestaña1 {
 		panelObjetos = new JPanel();
 		panelObjetos.setBounds(panelFecha.getX(), 223, 542, 157);
 		panelObjetos.setBackground(COLOR_PANEL);
-		tab1.add(panelObjetos);
+		panelObjetos.setVisible(true);
+		panelFormato.add(panelObjetos);
 		panelObjetos.setLayout(null);
 
 		lblHeaderProductos = new JLabel("<html>PRODUCTO:</html>");
@@ -345,6 +379,8 @@ public class Pestaña1 {
 			}
 		});
 		textFieldProductos.setBounds(5, 25, 140, 20);
+		textFieldProductos.setFocusable(true);
+		textFieldProductos.setEnabled(true);
 		panelObjetos.add(textFieldProductos);
 
 		lblHeaderCantidadProductos = new JLabel("<html>CANTIDAD:</html>");
@@ -372,6 +408,8 @@ public class Pestaña1 {
 				lblHeaderCantidadProductos.getY(), 40, lblHeaderCantidadProductos.getHeight());
 		cantProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cantProductos.setValue((int) 1);
+		cantProductos.setFocusable(true);
+		cantProductos.setEnabled(true);
 		panelObjetos.add(cantProductos);
 
 		listaProductos = new JTable();
@@ -410,6 +448,7 @@ public class Pestaña1 {
 		panelObjetos.add(lblHeaderValorUnidad);
 
 		textFieldValorUnidad = new JTextField();
+		textFieldValorUnidad.setColumns(10);
 		textFieldValorUnidad.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent k) {
@@ -462,8 +501,9 @@ public class Pestaña1 {
 			}
 		});
 		textFieldValorUnidad.setBounds(5, 98, 119, 19);
+		textFieldValorUnidad.setFocusable(true);
+		textFieldValorUnidad.setEnabled(true);
 		panelObjetos.add(textFieldValorUnidad);
-		textFieldValorUnidad.setColumns(10);
 
 		lblValorConsola = new JLabel("");
 		lblValorConsola.setHorizontalAlignment(SwingConstants.LEFT);
@@ -484,7 +524,7 @@ public class Pestaña1 {
 		panelValor.setLayout(null);
 		panelValor.setBounds(15, 424, 542, 58);
 		panelValor.setBackground(COLOR_PANEL);
-		tab1.add(panelValor);
+		panelFormato.add(panelValor);
 
 		lblHeaderValor = new JLabel("<html>VALOR:      ");
 		lblHeaderValor.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -568,25 +608,24 @@ public class Pestaña1 {
 					textFieldNombre.requestFocus();
 				}
 				if (k.getKeyCode() == KeyEvent.VK_ENTER) {
-					
+
 					if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
 							&& comboBoxYear.getSelectedIndex() != 0) {
-						recolectarInformacionCliente();
+//						generar();
 					}
 
 				}
 			}
 		});
 		btnGenerarRecibo.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				System.out.println("Generar");
 				
 				if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
 						&& comboBoxYear.getSelectedIndex() != 0) {
-					recolectarInformacionCliente();
+
+//					generar();
+
 				}
 			}
 		});
@@ -595,44 +634,45 @@ public class Pestaña1 {
 		btnGenerarRecibo.setHorizontalAlignment(SwingConstants.CENTER);
 		btnGenerarRecibo.setVerticalAlignment(SwingConstants.CENTER);
 		btnGenerarRecibo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		tab1.add(btnGenerarRecibo);
+		panelFormato.add(btnGenerarRecibo);
 
 	}
 
-	private void recolectarInformacionCliente() {
-		StringBuilder sb = new StringBuilder();
-		String fecha;
-		String nombre;
-		String id;
-		String direccion;
-
-		sb.append(comboBoxDay.getSelectedItem().toString()).append(" / ");
-		sb.append(comboBoxMonth.getSelectedItem().toString()).append(" / ");
-		sb.append(comboBoxMonth.getSelectedIndex()).append(" / ");
-		sb.append(comboBoxYear.getSelectedItem().toString());
-		fecha = sb.toString();
-//		System.out.println(fecha);
-		if (textFieldNombre.getText() == null) {
-			nombre = "";
-		} else {
-			nombre = textFieldNombre.getText();
-		}
-		if (textFieldID_NIT.getText() == null) {
-			id = "";
-		} else {
-			id = textFieldID_NIT.getText();
-		}
-		if (textFieldDireccion.getText() == null) {
-			direccion = "";
-		} else {
-			direccion = textFieldDireccion.getText();
-		}
-		this.fecha = fecha;
-		this.nombre = nombre;
-		this.id = id;
-		this.direccion = direccion;
-
-	}
+//	private String[] recolectarInformacionCliente() {
+//		StringBuilder sb = new StringBuilder();
+//		String fecha;
+//		String nombre;
+//		String id;
+//		String direccion;
+//
+//		sb.append(comboBoxDay.getSelectedItem().toString()).append(" / ");
+//		sb.append(comboBoxMonth.getSelectedItem().toString()).append(" / ");
+//		sb.append(comboBoxMonth.getSelectedIndex()).append(" / ");
+//		sb.append(comboBoxYear.getSelectedItem().toString());
+//		fecha = sb.toString();
+////		System.out.println(fecha);
+//		if (textFieldNombre.getText() == null) {
+//			nombre = "";
+//		} else {
+//			nombre = textFieldNombre.getText();
+//		}
+//		if (textFieldID_NIT.getText() == null) {
+//			id = "";
+//		} else {
+//			id = textFieldID_NIT.getText();
+//		}
+//		if (textFieldDireccion.getText() == null) {
+//			direccion = "";
+//		} else {
+//			direccion = textFieldDireccion.getText();
+//		}
+////		this.fecha = fecha;
+////		this.nombre = nombre;
+////		this.id = id;
+////		this.direccion = direccion;
+//		return new String[] { fecha, nombre, id, direccion };
+//
+//	}
 
 	/**
 	 * Genera una lista de Dias(int) a partir de la cantidad de dias de dias por mes
@@ -663,7 +703,7 @@ public class Pestaña1 {
 	 * 
 	 * @return
 	 */
-	private static String[] generarAños() {
+	private static  String[] generarAños() {
 		LocalDateTime.now().getYear();
 		int añoMinPredeterminado = -10000;
 		int con = 0;
@@ -726,7 +766,7 @@ public class Pestaña1 {
 	 * @param boxMonth
 	 * @param boxDay
 	 */
-	private static void updateMonthDays(JComboBox<String> boxMonth, JComboBox<String> boxDay) {
+	private void updateMonthDays(JComboBox<String> boxMonth, JComboBox<String> boxDay) {
 		boxDay.removeAllItems();
 		/*
 		 * Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
@@ -794,7 +834,7 @@ public class Pestaña1 {
 	 * @param cantidadProducto
 	 * @param valorProducto
 	 */
-	private static void agregarProductos(String nombreProducto, int cantidadProducto, String valorProducto) {
+	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProducto) {
 		// Nombre | Cantidad | valorUnidad | valorSemiTotal
 		String[][] matrizTemporal = datosProductos.clone();
 
@@ -828,7 +868,7 @@ public class Pestaña1 {
 
 	}
 
-	public String sumarValorProductos() {
+	private String sumarValorProductos() {
 		String[][] temporal = datosProductos.clone();
 		int total = 0;
 		// Tener en cuenta cantidad{columna 1} y valorUnidad{columna 2} [formtato desde
@@ -838,5 +878,117 @@ public class Pestaña1 {
 		}
 
 		return String.valueOf(total);
+	}
+
+//	private void comportamiento() {
+//		if (!isReciboShowing) {
+//			// fecha
+//			comboBoxMonth.setFocusable(false);
+//			comboBoxMonth.setEnabled(false);
+//			comboBoxDay.setFocusable(false);
+//			comboBoxDay.setEnabled(false);
+//			comboBoxYear.setFocusable(false);
+//			comboBoxYear.setEnabled(false);
+//			panelFecha.setVisible(false);
+//			// nombre
+//			textFieldNombre.setFocusable(false);
+//			textFieldNombre.setEnabled(false);
+//			panelNombre.setVisible(false);
+//			// ID
+//			textFieldID_NIT.setFocusable(false);
+//			textFieldID_NIT.setEnabled(false);
+//			panelID_NIT.setVisible(false);
+//			// direccion
+//			textFieldDireccion.setFocusable(false);
+//			textFieldDireccion.setEnabled(false);
+//			panelDireccion.setVisible(false);
+//			// objetos
+//			textFieldProductos.setFocusable(false);
+//			textFieldProductos.setEnabled(false);
+//			cantProductos.setFocusable(false);
+//			cantProductos.setEnabled(false);
+//			textFieldValorUnidad.setFocusable(false);
+//			textFieldValorUnidad.setEnabled(false);
+//			panelObjetos.setVisible(false);
+//			// valor
+//			textFieldValorTotal.setFocusable(false);
+//			textFieldValorTotal.setEnabled(false);
+//			modificarValor.setFocusable(false);
+//			modificarValor.setSelected(false);
+//			modificarValor.setEnabled(false);
+//			panelValor.setVisible(false);
+//
+////			panelRecibo.setVisible(true);
+//			isReciboShowing = true;
+//		} else {
+//			// isReciboSowing es true ====false
+//			// fecha
+//			comboBoxMonth.setFocusable(true);
+//			comboBoxMonth.setEnabled(true);
+//			comboBoxDay.setFocusable(true);
+//			comboBoxDay.setEnabled(true);
+//			comboBoxYear.setFocusable(true);
+//			comboBoxYear.setEnabled(true);
+//			panelFecha.setVisible(true);
+//			// nombre
+//			textFieldNombre.setFocusable(true);
+//			textFieldNombre.setEnabled(true);
+//			panelNombre.setVisible(true);
+//			// ID
+//			textFieldID_NIT.setFocusable(true);
+//			textFieldID_NIT.setEnabled(true);
+//			panelID_NIT.setVisible(true);
+//			// direccion
+//			textFieldDireccion.setFocusable(true);
+//			textFieldDireccion.setEnabled(true);
+//			panelDireccion.setVisible(true);
+//			// objetos
+//			textFieldProductos.setFocusable(true);
+//			textFieldProductos.setEnabled(true);
+//			cantProductos.setFocusable(true);
+//			cantProductos.setEnabled(true);
+//			textFieldValorUnidad.setFocusable(true);
+//			textFieldValorUnidad.setEnabled(true);
+//			panelObjetos.setVisible(true);
+//			// valor
+//			textFieldValorTotal.setFocusable(true);
+//			textFieldValorTotal.setEnabled(true);
+//			modificarValor.setFocusable(true);
+//			modificarValor.setSelected(true);
+//			modificarValor.setEnabled(true);
+//			panelValor.setVisible(true);
+//
+////			panelRecibo.setVisible(false);
+//			isReciboShowing = false;
+//
+//		}
+//
+//	}
+//
+//	private void generar() {
+//		String[] info = recolectarInformacionCliente();
+//
+//		String fecha = info[0];
+//		String nombre = info[1];
+//		String id = info[2];
+//		String direccString = info[3];
+//
+//	}
+	public JComponent[] getComponents() {
+		JComponent[] componentes = new JComponent[12];
+		componentes[0] = panelFormato;
+		componentes[1] = comboBoxMonth;
+		componentes[2] = comboBoxDay;
+		componentes[3] = comboBoxYear;
+		componentes[4] = textFieldNombre;
+		componentes[5] = textFieldID_NIT;
+		componentes[6] = textFieldDireccion;
+		componentes[7] = textFieldProductos;
+		componentes[8] = cantProductos;
+		componentes[9] = textFieldValorUnidad;
+		componentes[10] = modificarValor;
+		componentes[11] = btnGenerarRecibo;
+		
+		return componentes;
 	}
 }
