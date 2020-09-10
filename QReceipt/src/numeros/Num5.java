@@ -1,4 +1,4 @@
-package metodos;
+package numeros;
 
 public class Num5 {
 
