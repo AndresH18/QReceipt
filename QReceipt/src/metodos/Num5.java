@@ -86,7 +86,10 @@ public class Num5 {
 					if (Character.getNumericValue(sep[i].charAt(j)) == 1) {
 						palabra += DECENAS2[Character.getNumericValue(sep[i].charAt(j + 1))];
 						skipUnit = true;
-					} else {
+					}else if(Character.getNumericValue(sep[i].charAt(j)) == 2) {
+						palabra += DECENAS3[Character.getNumericValue(sep[i].charAt(j+1))];
+						skipUnit = true;
+					}else {
 						palabra += DECENAS[Character.getNumericValue(sep[i].charAt(j))];
 					}
 					break;
