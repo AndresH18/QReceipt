@@ -22,9 +22,10 @@ import javax.swing.JScrollPane;
 
 public class EspacioRecibo {
 	private boolean enConstructor = false;
-	
+
 //	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
 	private String[][] datosProductos;
+
 	public void setDatosProductos(String[][] datosProductos) {
 		refrescarTabla(datosProductos.clone());
 		this.datosProductos = datosProductos.clone();
@@ -33,7 +34,6 @@ public class EspacioRecibo {
 	static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
 	static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
 
-	
 	private String fechaString;
 	private String nombreString;
 	private String idString;
@@ -41,7 +41,6 @@ public class EspacioRecibo {
 
 	private JFrame frame;
 	private JPanel panelRecibo;// panelGenerarRecibo
-	
 
 	private JPanel header;
 	private JLabel lblEmpresaCliente;
@@ -61,14 +60,14 @@ public class EspacioRecibo {
 	private JLabel id;
 	private JLabel direccion;
 	private JLabel numFact;
-	
+
 	private JSeparator separator2;
-	private JLabel lblObjetosHeader1 , lblObjetosHeader2 , lblObjetosHeader3;
+//	private JLabel lblObjetosHeader1, lblObjetosHeader2, lblObjetosHeader3;
 
 	private JButton btnRegresar;
 	private JTable tabla;
 	private JScrollPane scrollPane;
-	
+
 	public JButton getBtnRegresar() {
 		return btnRegresar;
 	}
@@ -87,6 +86,7 @@ public class EspacioRecibo {
 		enConstructor = true;
 		initialize();
 	}
+
 	/**
 	 * 
 	 * @param frame
@@ -132,7 +132,7 @@ public class EspacioRecibo {
 	// TODO: Pasar lo que esta en interfaz para aca. Adicionar los las variables a
 	// los JLabels
 	private void initialize() {
-		
+
 		header = new JPanel();
 		header.setBounds(10, 0, 557, 90);
 		header.setLayout(null);
@@ -230,9 +230,9 @@ public class EspacioRecibo {
 		body.add(numFact);
 
 		separator2 = new JSeparator();
-		separator2.setBounds(0, 153,frame.getWidth() - 40, 2);
+		separator2.setBounds(0, 153, frame.getWidth() - 40, 2);
 		body.add(separator2);
-		
+
 //		lblObjetosHeader1 = new JLabel("CANTIDAD");//10 espacios    -    20 espacios
 //		lblObjetosHeader1.setBounds(10, 158, 180, 15);
 //		lblObjetosHeader1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -253,21 +253,17 @@ public class EspacioRecibo {
 //		lblObjetosHeader3.setVerticalAlignment(SwingConstants.CENTER);
 //		lblObjetosHeader3.setFont(FUENTE_BOLD_12);
 //		body.add(lblObjetosHeader3);
-		
-		
+
 		tabla = new JTable();
 		tabla.setEnabled(false);
 		tabla.setLayout(new FlowLayout());
 		tabla.setBounds(173, 9, 359, 62);
-		tabla.setModel(
-				new DefaultTableModel(datosProductos, new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));	
-		
+		tabla.setModel(new DefaultTableModel(datosProductos, new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));
+
 		scrollPane = new JScrollPane(tabla);
 		scrollPane.setBounds(20, 183, 517, 214);
 		body.add(scrollPane);
-		
-		
-		
+
 		btnRegresar = new JButton("<html>REGRESAR</html>");
 		btnRegresar.addKeyListener(new KeyAdapter() {
 			@Override
@@ -285,29 +281,30 @@ public class EspacioRecibo {
 		btnRegresar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelRecibo.add(btnRegresar);
 	}
-/*
-	/**
-	 * PARA PREUBAS INTERNAS
+
+	/*
+	 * /** PARA PREUBAS INTERNAS
 	 */
 	private EspacioRecibo() {
 		pruebasInternas();
 	}
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					EspacioRecibo window = new EspacioRecibo();
 					window.frame.setVisible(true);
-				}catch(Exception e){
-					
+				} catch (Exception e) {
+
 				}
 			}
 		});
-	}	
+	}
+
 	private void pruebasInternas() {
 		final Color COLOR_FRAME = new Color(217, 222, 222);
-		
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -316,14 +313,14 @@ public class EspacioRecibo {
 		frame.setResizable(false);
 		frame.setAlwaysOnTop(true);
 		frame.getContentPane().setBackground(COLOR_FRAME);
-		
+
 		JPanel panelRecibo = new JPanel();
 		panelRecibo.setLayout(null);
 		panelRecibo.setVisible(true);
 		panelRecibo.setBackground(new Color(255, 255, 255));
 		panelRecibo.setBounds(0, 0, 578, 577);
 		frame.getContentPane().add(panelRecibo);
-		
+
 		/**
 		 * 
 		 * DESDE AQUI SE COPIA
@@ -426,9 +423,9 @@ public class EspacioRecibo {
 		body.add(numFact);
 
 		separator2 = new JSeparator();
-		separator2.setBounds(0, 153,frame.getWidth() - 40, 2);
+		separator2.setBounds(0, 153, frame.getWidth() - 40, 2);
 		body.add(separator2);
-		
+
 //		lblObjetosHeader1 = new JLabel("CANTIDAD");//10 espacios    -    20 espacios
 //		lblObjetosHeader1.setBounds(10, 158, 180, 15);
 //		lblObjetosHeader1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -449,21 +446,17 @@ public class EspacioRecibo {
 //		lblObjetosHeader3.setVerticalAlignment(SwingConstants.CENTER);
 //		lblObjetosHeader3.setFont(FUENTE_BOLD_12);
 //		body.add(lblObjetosHeader3);
-		
-		
+
 		tabla = new JTable();
 		tabla.setEnabled(false);
 		tabla.setLayout(new FlowLayout());
 		tabla.setBounds(173, 9, 359, 62);
-		tabla.setModel(
-				new DefaultTableModel(datosProductos, new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));	
-		
+		tabla.setModel(new DefaultTableModel(datosProductos, new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));
+
 		scrollPane = new JScrollPane(tabla);
 		scrollPane.setBounds(20, 183, 517, 214);
 		body.add(scrollPane);
-		
-		
-		
+
 		btnRegresar = new JButton("<html>REGRESAR</html>");
 		btnRegresar.addKeyListener(new KeyAdapter() {
 			@Override
@@ -488,14 +481,13 @@ public class EspacioRecibo {
 		btnRegresar.setVerticalAlignment(SwingConstants.CENTER);
 		btnRegresar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelRecibo.add(btnRegresar);
-		
-		
+
 	}
-	
-	//FIXME: Replace JTable with a JLabel
+
+	// FIXME: Replace JTable with a JLabel
 	public void refrescarTabla(String[][] datosProductosOrig) {
-		String[][] datosProductos = ordenarMatriz(datosProductosOrig).clone();
-		
+		String[][] datosProductos = valordeProductos(datosProductosOrig).clone();
+
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
 		textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
 //		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
@@ -504,25 +496,28 @@ public class EspacioRecibo {
 		textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
 //		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
 //		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-		tabla.setModel(new DefaultTableModel(datosProductos.clone(), new String[] {"CANTIDAD" , "NOMBRE" , "VALOR"}));
-		
+		tabla.setModel(new DefaultTableModel(datosProductos.clone(), new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));
+
 		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
 		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
 		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
 	}
+
 	/**
 	 * 
 	 * @param datosProductos String[][] original {Nombre , Cantidad , ValorUnitario}
-	 * @return mat   String[][] {Cantidad , Nombre , ValorTotalProducto}
+	 * @return mat String[][] {Cantidad , Nombre , ValorTotalProducto}
 	 */
-	public String[][] ordenarMatriz(String[][] datosProductos) {
+	public String[][] valordeProductos(String[][] datosProductos) {
 		String[][] mat = datosProductos.clone();
-//		//Valor cant*valorUnitario
+////		//Valor cant*valorUnitario
+		// WARNING: Tener en cuenta que se cambio el orden de la matriz
+
 //		for (int i = 0; i < mat.length; i++) {
 //			int valUni = Integer.valueOf(mat[i][2]);
-//			mat[i][2] = String.valueOf(Integer.valueOf(mat[i][1])*valUni);
+//			mat[i][2] = String.valueOf(Integer.valueOf(mat[i][1]) * valUni);
 //		}
-//		
+
 //		//Intercambio columnas 0 1
 //		for (int i = 0; i < mat.length; i++) {
 //			String temp = mat[i][0];
@@ -531,4 +526,21 @@ public class EspacioRecibo {
 //		}
 		return mat;
 	}
+
+	private void actualizarDatosCliente() {
+		this.fecha.setText(this.fechaString);
+		this.nombre.setText(this.nombreString);
+		this.id.setText(this.idString);
+		this.direccion.setText(this.direccionString);
+	}
+
+	public void setDatosClientes(String[] infoCliente) {
+//		infoCliente => {fecha, nombre, id, direccion}
+		this.fechaString = infoCliente[0];
+		this.nombreString = infoCliente[1];
+		this.idString = infoCliente[2];
+		this.direccionString = infoCliente[3];
+		actualizarDatosCliente();
+	}
+
 }

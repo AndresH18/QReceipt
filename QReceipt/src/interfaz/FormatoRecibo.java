@@ -35,6 +35,7 @@ public class FormatoRecibo {
 	String nombre;
 	String id;
 	String direccion;
+
 	private boolean isReciboShowing = false;
 
 	static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
@@ -49,13 +50,14 @@ public class FormatoRecibo {
 
 	static final String[] AÑOS = generarAños();
 
-//	private String[][] datosProductos = new String[1][3];
+	private String[][] datosProductos = new String[1][3];
+
 	public String[][] getDatosProductos() {
 		return datosProductos.clone();
 	}
-	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
-	
-	
+
+//	private String[][] datosProductos = { { "TV", "10002", "8888" }, { "computador", "333", "888" },
+//			{ "holla", "2", "100" } };
 
 	static final Color COLOR_FRAME = new Color(217, 222, 222);
 	static final Color COLOR_PANEL = new Color(202, 202, 202);
@@ -95,12 +97,15 @@ public class FormatoRecibo {
 
 	// JComboBox s Fechas
 	private JComboBox<String> comboBoxMonth, comboBoxDay, comboBoxYear;
+
 	public JComboBox<String> getComboBoxMonth() {
 		return comboBoxMonth;
 	}
+
 	public JComboBox<String> getComboBoxDay() {
 		return comboBoxDay;
 	}
+
 	public JComboBox<String> getComboBoxYear() {
 		return comboBoxYear;
 	}
@@ -423,8 +428,7 @@ public class FormatoRecibo {
 		listaProductos.setEnabled(false);
 		listaProductos.setLayout(new FlowLayout());
 		listaProductos.setBounds(173, 9, 359, 62);
-		listaProductos.setModel(
-				new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+		listaProductos.setModel(new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
 //		listaProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(SwingConstants.RIGHT));
 		// Manipular el alignment del texto de la tabla
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
@@ -480,7 +484,8 @@ public class FormatoRecibo {
 						agregarProductos((String) textFieldProductos.getText(), (Integer) cantProductos.getValue(),
 								textFieldValorUnidad.getText());
 						// scrollProductos.remove(listaProductos);
-						listaProductos.setModel(new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+						listaProductos.setModel(new DefaultTableModel(datosProductos,
+								new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
 
 						// organiza la orientacion del texto de la Tabla
 						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
@@ -620,7 +625,7 @@ public class FormatoRecibo {
 		btnGenerarRecibo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
 						&& comboBoxYear.getSelectedIndex() != 0) {
 
@@ -638,266 +643,6 @@ public class FormatoRecibo {
 
 	}
 
-//	private String[] recolectarInformacionCliente() {
-//		StringBuilder sb = new StringBuilder();
-//		String fecha;
-//		String nombre;
-//		String id;
-//		String direccion;
-//
-//		sb.append(comboBoxDay.getSelectedItem().toString()).append(" / ");
-//		sb.append(comboBoxMonth.getSelectedItem().toString()).append(" / ");
-//		sb.append(comboBoxMonth.getSelectedIndex()).append(" / ");
-//		sb.append(comboBoxYear.getSelectedItem().toString());
-//		fecha = sb.toString();
-////		System.out.println(fecha);
-//		if (textFieldNombre.getText() == null) {
-//			nombre = "";
-//		} else {
-//			nombre = textFieldNombre.getText();
-//		}
-//		if (textFieldID_NIT.getText() == null) {
-//			id = "";
-//		} else {
-//			id = textFieldID_NIT.getText();
-//		}
-//		if (textFieldDireccion.getText() == null) {
-//			direccion = "";
-//		} else {
-//			direccion = textFieldDireccion.getText();
-//		}
-////		this.fecha = fecha;
-////		this.nombre = nombre;
-////		this.id = id;
-////		this.direccion = direccion;
-//		return new String[] { fecha, nombre, id, direccion };
-//
-//	}
-
-	/**
-	 * Genera una lista de Dias(int) a partir de la cantidad de dias de dias por mes
-	 * 
-	 * @param cantDias
-	 * @return
-	 */
-	private static String[] generarDias(int cantDias) {
-		// FIXME: Condicional de año biziesto(no se como se escribe)
-		String[] dias = new String[cantDias + 1];
-		dias[0] = "DIA";
-		for (int i = 1; i <= cantDias; i++) {
-			if (i < 10) {
-				dias[i] = "0" + String.valueOf(i);
-			} else {
-				dias[i] = String.valueOf(i);
-			}
-		}
-//		for (String a : dias) {
-//			System.out.println(a);
-//		}
-		return dias;
-
-	}
-
-	/**
-	 * Genera una lista con años a partir del año actual
-	 * 
-	 * @return
-	 */
-	private static  String[] generarAños() {
-		LocalDateTime.now().getYear();
-		int añoMinPredeterminado = -10000;
-		int con = 0;
-		String[] años = new String[LocalDateTime.now().getYear() - añoMinPredeterminado + 1];
-		años[0] = "AÑO";
-		for (int i = LocalDateTime.now().getYear(); i > añoMinPredeterminado; i--) {
-			años[++con] = String.valueOf(i);
-		}
-//		System.out.println(años.length);
-//		System.out.println("con:" + con);
-//		StringBuilder sb = new StringBuilder();
-//	       sb.append("Termino en prueba").append(LocalDateTime.now().getYear()-añoMinPredeterminado);
-//	       sb.toString();
-		/*
-		 * for (String año : años) { sb.append(año).append(" "); }
-		 * System.out.println(sb.toString());
-		 */
-		return años;
-	}
-
-	/**
-	 * Establece el mes actual en la lista de Meses
-	 * 
-	 * @return
-	 */
-	private static String[] findActualMonthForDay() {
-
-		// Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
-		// 12diciembre.
-		// Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre
-		switch (LocalDateTime.now().getMonthValue()) {
-		// 31
-		case 1:
-		case 3:
-		case 5:
-		case 7:
-		case 8:
-		case 10:
-		case 12:
-			return DAYS31;
-		// 30
-		case 4:
-		case 6:
-		case 9:
-		case 11:
-			return DAYS30;
-
-		// 29
-		case 2:
-			return DAYS29;
-
-		default:
-			return null;
-		}
-	}
-
-	/**
-	 * Actualiza la Lista de los dias, de acuerdo al mes seleccionado
-	 * 
-	 * @param boxMonth
-	 * @param boxDay
-	 */
-	private void updateMonthDays(JComboBox<String> boxMonth, JComboBox<String> boxDay) {
-		boxDay.removeAllItems();
-		/*
-		 * Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
-		 * 12diciembre. Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre.
-		 */
-		switch (boxMonth.getSelectedIndex()) {
-		// 31
-//		case (1||3||5||7||8||10||12):
-		case 1:
-		case 3:
-		case 5:
-		case 7:
-		case 8:
-		case 10:
-		case 12:
-//			dias = DAY31;
-//			System.out.println(31);
-//			boxDay.removeAllItems();
-//			for(String dia: dias) {
-//				comboBoxDay.addItem(dia);
-//			}
-			for (String dia : DAYS31) {
-				boxDay.addItem(dia);
-			}
-			break;
-		// 30
-//		case 4|6|9|11:
-		case 4:
-		case 6:
-		case 9:
-		case 11:
-//			dias = DAY30;
-//			System.out.println(30);
-//			boxDay.removeAllItems();
-//			for(String dia: dias) {
-//				comboBoxDay.addItem(dia);
-//			}
-			for (String dia : DAYS30) {
-				boxDay.addItem(dia);
-			}
-			break;
-		case 2:
-//			dias = DAY29;
-//			boxDay.removeAllItems();
-//			for(String dia: dias) {
-//				comboBoxDay.addItem(dia);
-//			}
-			for (String dia : DAYS29) {
-				boxDay.addItem(dia);
-			}
-			break;
-		default:
-//			throw new IllegalArgumentException("Unexpected value: " + comboBoxMonth.getSelectedIndex());
-//			dias = null;
-//			boxDay.removeAllItems();
-			boxDay.addItem("DIA");
-			break;
-		}
-	}
-
-	/**
-	 * Agregar productos a la lista de productos
-	 * 
-	 * @param nombreProducto
-	 * @param cantidadProducto
-	 * @param valorProducto
-	 */
-	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProducto) {
-		// Nombre | Cantidad | valorUnidad | valorSemiTotal
-		String[][] matrizTemporal = datosProductos.clone();
-
-		String nombre = nombreProducto.toUpperCase();
-		String cantidad = String.valueOf(cantidadProducto);
-		String valor = valorProducto;
-
-		int columnas = datosProductos[0].length;
-		int filas = datosProductos.length;
-
-		datosProductos = null;
-		datosProductos = new String[filas + 1][columnas];
-		// llenar columna 0
-		for (int i = 0; i < filas; i++) {
-//			datosProductos[i][0] = new String(matrizTemporal[i][0]);
-			datosProductos[i][0] = matrizTemporal[i][0];
-		}
-		datosProductos[filas][0] = nombre;
-
-		// llenar columna 1
-		for (int i = 0; i < filas; i++) {
-			datosProductos[i][1] = matrizTemporal[i][1];
-		}
-		datosProductos[filas][1] = cantidad;
-
-		// llenar columna 2
-		for (int i = 0; i < filas; i++) {
-			datosProductos[i][2] = matrizTemporal[i][2];
-		}
-		datosProductos[filas][2] = valor;
-
-	}
-
-	private String sumarValorProductos() {
-		String[][] temporal = datosProductos.clone();
-		int total = 0;
-		// Tener en cuenta cantidad{columna 1} y valorUnidad{columna 2} [formtato desde
-		// 0 hasta n]
-		for (int i = 1; i < temporal.length; i++) {
-			total += (Integer.valueOf(temporal[i][1]) * Integer.valueOf(temporal[i][2]));
-		}
-
-		return String.valueOf(total);
-	}
-	public JComponent[] getComponents() {
-		JComponent[] componentes = new JComponent[12];
-		componentes[0] = panelFormato;
-		componentes[1] = comboBoxMonth;
-		componentes[2] = comboBoxDay;
-		componentes[3] = comboBoxYear;
-		componentes[4] = textFieldNombre;
-		componentes[5] = textFieldID_NIT;
-		componentes[6] = textFieldDireccion;
-		componentes[7] = textFieldProductos;
-		componentes[8] = cantProductos;
-		componentes[9] = textFieldValorUnidad;
-		componentes[10] = modificarValor;
-		componentes[11] = btnGenerarRecibo;
-		
-		return componentes;
-	}
-	
-	
 	/*
 	 * PARA PRUEBAS INTERNAS
 	 */
@@ -907,18 +652,20 @@ public class FormatoRecibo {
 				try {
 					FormatoRecibo window = new FormatoRecibo();
 					window.frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 			}
 		});
 	}
+
 	private FormatoRecibo() {
 		pruebasInternas();
 	}
+
 	private void pruebasInternas() {
-		
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -927,21 +674,20 @@ public class FormatoRecibo {
 		frame.setResizable(false);
 		frame.setAlwaysOnTop(true);
 		frame.getContentPane().setBackground(COLOR_FRAME);
-		
+
 		JPanel panelFormato = new JPanel();
 		panelFormato.setLayout(null);
 		panelFormato.setVisible(true);
 		panelFormato.setBackground(new Color(255, 255, 255));
 		panelFormato.setBounds(0, 0, 578, 577);
 		frame.getContentPane().add(panelFormato);
-		
-		
+
 		/**
 		 * 
 		 * DESDE AQUI SE COPIA
 		 * 
 		 */
-		
+
 		/*
 		 * PANEL FECHA
 		 * 
@@ -1231,8 +977,7 @@ public class FormatoRecibo {
 		listaProductos.setEnabled(false);
 		listaProductos.setLayout(new FlowLayout());
 		listaProductos.setBounds(173, 9, 359, 62);
-		listaProductos.setModel(
-				new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+		listaProductos.setModel(new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
 //		listaProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(SwingConstants.RIGHT));
 		// Manipular el alignment del texto de la tabla
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
@@ -1288,7 +1033,8 @@ public class FormatoRecibo {
 						agregarProductos((String) textFieldProductos.getText(), (Integer) cantProductos.getValue(),
 								textFieldValorUnidad.getText());
 						// scrollProductos.remove(listaProductos);
-						listaProductos.setModel(new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+						listaProductos.setModel(new DefaultTableModel(datosProductos,
+								new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
 
 						// organiza la orientacion del texto de la Tabla
 						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
@@ -1428,7 +1174,7 @@ public class FormatoRecibo {
 		btnGenerarRecibo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
 						&& comboBoxYear.getSelectedIndex() != 0) {
 
@@ -1444,7 +1190,262 @@ public class FormatoRecibo {
 		btnGenerarRecibo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelFormato.add(btnGenerarRecibo);
 	}
-	
-	
 
+	//
+
+	/**
+	 * Genera una lista de Dias(int) a partir de la cantidad de dias de dias por mes
+	 * 
+	 * @param cantDias
+	 * @return
+	 */
+	private static String[] generarDias(int cantDias) {
+		// FIXME: Condicional de año biziesto(no se como se escribe)
+		String[] dias = new String[cantDias + 1];
+		dias[0] = "DIA";
+		for (int i = 1; i <= cantDias; i++) {
+			if (i < 10) {
+				dias[i] = "0" + String.valueOf(i);
+			} else {
+				dias[i] = String.valueOf(i);
+			}
+		}
+//		for (String a : dias) {
+//			System.out.println(a);
+//		}
+		return dias;
+
+	}
+
+	/**
+	 * Genera una lista con años a partir del año actual
+	 * 
+	 * @return
+	 */
+	private static String[] generarAños() {
+		LocalDateTime.now().getYear();
+		int añoMinPredeterminado = -10000;
+		int con = 0;
+		String[] años = new String[LocalDateTime.now().getYear() - añoMinPredeterminado + 1];
+		años[0] = "AÑO";
+		for (int i = LocalDateTime.now().getYear(); i > añoMinPredeterminado; i--) {
+			años[++con] = String.valueOf(i);
+		}
+//		System.out.println(años.length);
+//		System.out.println("con:" + con);
+//		StringBuilder sb = new StringBuilder();
+//	       sb.append("Termino en prueba").append(LocalDateTime.now().getYear()-añoMinPredeterminado);
+//	       sb.toString();
+		/*
+		 * for (String año : años) { sb.append(año).append(" "); }
+		 * System.out.println(sb.toString());
+		 */
+		return años;
+	}
+
+	/**
+	 * Establece el mes actual en la lista de Meses
+	 * 
+	 * @return
+	 */
+	private static String[] findActualMonthForDay() {
+
+		// Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
+		// 12diciembre.
+		// Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre
+		switch (LocalDateTime.now().getMonthValue()) {
+		// 31
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+			return DAYS31;
+		// 30
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			return DAYS30;
+
+		// 29
+		case 2:
+			return DAYS29;
+
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * Actualiza la Lista de los dias, de acuerdo al mes seleccionado
+	 * 
+	 * @param boxMonth
+	 * @param boxDay
+	 */
+	private void updateMonthDays(JComboBox<String> boxMonth, JComboBox<String> boxDay) {
+		boxDay.removeAllItems();
+		/*
+		 * Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
+		 * 12diciembre. Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre.
+		 */
+		switch (boxMonth.getSelectedIndex()) {
+		// 31
+//		case (1||3||5||7||8||10||12):
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+//			dias = DAY31;
+//			System.out.println(31);
+//			boxDay.removeAllItems();
+//			for(String dia: dias) {
+//				comboBoxDay.addItem(dia);
+//			}
+			for (String dia : DAYS31) {
+				boxDay.addItem(dia);
+			}
+			break;
+		// 30
+//		case 4|6|9|11:
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+//			dias = DAY30;
+//			System.out.println(30);
+//			boxDay.removeAllItems();
+//			for(String dia: dias) {
+//				comboBoxDay.addItem(dia);
+//			}
+			for (String dia : DAYS30) {
+				boxDay.addItem(dia);
+			}
+			break;
+		case 2:
+//			dias = DAY29;
+//			boxDay.removeAllItems();
+//			for(String dia: dias) {
+//				comboBoxDay.addItem(dia);
+//			}
+			for (String dia : DAYS29) {
+				boxDay.addItem(dia);
+			}
+			break;
+		default:
+//			throw new IllegalArgumentException("Unexpected value: " + comboBoxMonth.getSelectedIndex());
+//			dias = null;
+//			boxDay.removeAllItems();
+			boxDay.addItem("DIA");
+			break;
+		}
+	}
+
+	/**
+	 * Agregar productos a la lista de productos
+	 * 
+	 * @param nombreProducto
+	 * @param cantidadProducto
+	 * @param valorProducto
+	 */
+	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProducto) {
+		// Nombre | Cantidad | valorUnidad | valorSemiTotal
+		String[][] matrizTemporal = datosProductos.clone();
+
+		String nombre = nombreProducto.toUpperCase();
+		String cantidad = String.valueOf(cantidadProducto);
+		String valor = valorProducto;
+
+		int columnas = datosProductos[0].length;
+		int filas = datosProductos.length;
+
+		datosProductos = null;
+		datosProductos = new String[filas + 1][columnas];
+		// llenar columna 0
+		for (int i = 0; i < filas; i++) {
+//			datosProductos[i][0] = new String(matrizTemporal[i][0]);
+			datosProductos[i][0] = matrizTemporal[i][0];
+		}
+		datosProductos[filas][0] = nombre;
+
+		// llenar columna 1
+		for (int i = 0; i < filas; i++) {
+			datosProductos[i][1] = matrizTemporal[i][1];
+		}
+		datosProductos[filas][1] = cantidad;
+
+		// llenar columna 2
+		for (int i = 0; i < filas; i++) {
+			datosProductos[i][2] = matrizTemporal[i][2];
+		}
+		datosProductos[filas][2] = valor;
+
+	}
+
+	private String sumarValorProductos() {
+		String[][] temporal = datosProductos.clone();
+		int total = 0;
+		// Tener en cuenta cantidad{columna 1} y valorUnidad{columna 2} [formtato desde
+		// 0 hasta n]
+		for (int i = 1; i < temporal.length; i++) {
+			total += (Integer.valueOf(temporal[i][1]) * Integer.valueOf(temporal[i][2]));
+		}
+
+		return String.valueOf(total);
+	}
+
+	public JComponent[] getComponents() {
+		JComponent[] componentes = new JComponent[12];
+		componentes[0] = panelFormato;
+		componentes[1] = comboBoxMonth;
+		componentes[2] = comboBoxDay;
+		componentes[3] = comboBoxYear;
+		componentes[4] = textFieldNombre;
+		componentes[5] = textFieldID_NIT;
+		componentes[6] = textFieldDireccion;
+		componentes[7] = textFieldProductos;
+		componentes[8] = cantProductos;
+		componentes[9] = textFieldValorUnidad;
+		componentes[10] = modificarValor;
+		componentes[11] = btnGenerarRecibo;
+
+		return componentes;
+	}
+
+	public String[] getInfoCliente() {
+		StringBuilder sb = new StringBuilder();
+		String fecha;
+		String nombre;
+		String id;
+		String direccion;
+
+		sb.append(comboBoxDay.getSelectedItem().toString()).append(" / ");
+		sb.append(comboBoxMonth.getSelectedItem().toString()).append(" / ");
+		sb.append(comboBoxMonth.getSelectedIndex()).append(" / ");
+		sb.append(comboBoxYear.getSelectedItem().toString());
+		fecha = sb.toString();
+//		System.out.println(fecha);
+		if (textFieldNombre.getText() == null) {
+			nombre = "";
+		} else {
+			nombre = textFieldNombre.getText();
+		}
+		if (textFieldID_NIT.getText() == null) {
+			id = "";
+		} else {
+			id = textFieldID_NIT.getText();
+		}
+		if (textFieldDireccion.getText() == null) {
+			direccion = "";
+		} else {
+			direccion = textFieldDireccion.getText();
+		}
+
+		return new String[] { fecha, nombre, id, direccion };
+	}
 }

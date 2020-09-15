@@ -64,9 +64,9 @@ public class Interfaz {
 
 	static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
 	static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
-	
+
 	private boolean isVisibleFactura = false;
-	
+
 	private EspacioRecibo espacioRecibo;
 	private FormatoRecibo formatoRecibo;
 	private JFrame frame;
@@ -79,9 +79,6 @@ public class Interfaz {
 	private JPasswordField passwordField;
 
 	// FIXME: Delete Commented Lines
-
-	
-
 
 	/**
 	 * Launch the application.
@@ -171,9 +168,11 @@ public class Interfaz {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("GENERAR");
-				
+
 				igualarDatosProductos(formatoRecibo, espacioRecibo);
-				
+
+				entregarDatosCliente(formatoRecibo, espacioRecibo);
+
 				controlVisibilidadFormato_Recibo();
 			}
 		});
@@ -209,20 +208,28 @@ public class Interfaz {
 		tab2.add(passwordField);
 
 	}
+
 	private void controlVisibilidadFormato_Recibo() {
+//	private void controlVisibilidadFormato_Recibo(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
 		JComponent[] componentesformato = formatoRecibo.getComponents();
-		//true - 
-		if(!isVisibleFactura) {
+		//
+		if (!isVisibleFactura) {
+			// formato ->invisible, recibo -> visible
 			for (JComponent componente : componentesformato) {
 				componente.setVisible(false);
 				componente.setFocusable(false);
 				componente.setEnabled(false);
 			}
+			espacioRecibo.getBtnRegresar().setVisible(true);
+			espacioRecibo.getBtnRegresar().setEnabled(true);
 			panelRecibo.setVisible(true);
 			isVisibleFactura = true;
-		}else {
+		} else {
+			// recibo -> invisiblre, formato -> visible
 			panelFormato.setVisible(true);
 			isVisibleFactura = false;
+			espacioRecibo.getBtnRegresar().setVisible(false);
+			espacioRecibo.getBtnRegresar().setEnabled(false);
 			for (JComponent componente : componentesformato) {
 				componente.setVisible(true);
 				componente.setFocusable(true);
@@ -230,14 +237,21 @@ public class Interfaz {
 			}
 		}
 	}
+
 	/**
 	 * Sends String[][] datosProductos From formatoRecibo to espacioRecibo
+	 * 
 	 * @param formatoRecibo
 	 * @param espacioRecibo
 	 */
 	private void igualarDatosProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
-		
+//	private void igualarDatosProductos() {
 		espacioRecibo.setDatosProductos(formatoRecibo.getDatosProductos().clone());
 	}
-	
+
+	private void entregarDatosCliente(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
+//	private void entregarDatosCliente() {
+		espacioRecibo.setDatosClientes(formatoRecibo.getInfoCliente());
+	}
+
 }
