@@ -171,7 +171,9 @@ public class InterfazMostrarRecibo {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("GENERAR");
+				
 				igualarDatosProductos(formatoRecibo, espacioRecibo);
+				
 				controlVisibilidadFormato_Recibo();
 			}
 		});
@@ -183,7 +185,7 @@ public class InterfazMostrarRecibo {
 		panelRecibo.setBounds(0, 0, 578, 577);
 		tab1.add(panelRecibo);
 
-		espacioRecibo = new EspacioRecibo(frame, panelRecibo);
+		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -228,8 +230,14 @@ public class InterfazMostrarRecibo {
 			}
 		}
 	}
+	/**
+	 * Sends String[][] datosProductos From formatoRecibo to espacioRecibo
+	 * @param formatoRecibo
+	 * @param espacioRecibo
+	 */
 	private void igualarDatosProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
 		
+		espacioRecibo.setDatosProductos(formatoRecibo.getDatosProductos().clone());
 	}
 	
 }

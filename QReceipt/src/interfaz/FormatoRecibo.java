@@ -34,7 +34,7 @@ public class FormatoRecibo {
 	String nombre;
 	String id;
 	String direccion;
-	private boolean isReciboShowing = false;;
+	private boolean isReciboShowing = false;
 
 	static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
 			"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
@@ -48,8 +48,12 @@ public class FormatoRecibo {
 
 	static final String[] AÑOS = generarAños();
 
-	private String[][] datosProductos = new String[1][3];
-//	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
+//	private String[][] datosProductos = new String[1][3];
+	public String[][] getDatosProductos() {
+		return datosProductos.clone();
+	}
+	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
+	
 
 
 	static final Color COLOR_FRAME = new Color(217, 222, 222);
@@ -970,7 +974,6 @@ public class FormatoRecibo {
 //
 //	}
 	public JComponent[] getComponents() {
-		System.out.println("componentes FormatoRecibo");
 		JComponent[] componentes = new JComponent[12];
 		componentes[0] = panelFormato;
 		componentes[1] = comboBoxMonth;
@@ -987,8 +990,6 @@ public class FormatoRecibo {
 		
 		return componentes;
 	}
-	public String[][] getDatosProductos() {
-		return datosProductos;
-	}
+	
 
 }

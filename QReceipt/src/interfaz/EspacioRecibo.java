@@ -22,7 +22,12 @@ import javax.swing.JScrollPane;
 
 public class EspacioRecibo {
 	
-	String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
+//	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
+	private String[][] datosProductos;
+	public void setDatosProductos(String[][] datosProductos) {
+		refrescarTabla(datosProductos.clone());
+		this.datosProductos = datosProductos.clone();
+	}
 
 	static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
 	static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
@@ -57,7 +62,6 @@ public class EspacioRecibo {
 	private JLabel numFact;
 	
 	private JSeparator separator2;
-	private JPanel panelObjetos;
 	private JLabel lblObjetosHeader1 , lblObjetosHeader2 , lblObjetosHeader3;
 
 	private JButton btnRegresar;
@@ -74,6 +78,12 @@ public class EspacioRecibo {
 		initialize();
 	}
 
+	public EspacioRecibo(JFrame frame, JPanel panelRecibo, String[][] datosProductos) {
+		this.frame = frame;
+		this.panelRecibo = panelRecibo;
+		this.datosProductos = datosProductos.clone();
+		initialize();
+	}
 	/**
 	 * 
 	 * @param frame
@@ -213,60 +223,39 @@ public class EspacioRecibo {
 		numFact.setFont(new Font("Tahoma", Font.BOLD, 12));
 		numFact.setBounds(448, 2, 100, 15);
 		body.add(numFact);
-		
-//		panelObjetos = new JPanel();
-//		panelObjetos.setBounds(0, 174, 558, 233);
-//		body.add(panelObjetos);
-//		panelObjetos.setLayout(null);
-		
-		
-		
+
 		separator2 = new JSeparator();
 		separator2.setBounds(0, 153,frame.getWidth() - 40, 2);
 		body.add(separator2);
 		
-		lblObjetosHeader1 = new JLabel("CANTIDAD");//10 espacios    -    20 espacios
-		lblObjetosHeader1.setBounds(10, 158, 180, 15);
-		lblObjetosHeader1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblObjetosHeader1.setVerticalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader1.setFont(FUENTE_BOLD_12);
-		body.add(lblObjetosHeader1);
-		
-		lblObjetosHeader2 = new JLabel("DESCRIPCION");//10 espacios    -    20 espacios
-		lblObjetosHeader2.setBounds(200, 158, 238, 15);
-		lblObjetosHeader2.setHorizontalAlignment(SwingConstants.LEFT);
-		lblObjetosHeader2.setVerticalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader2.setFont(FUENTE_BOLD_12);
-		body.add(lblObjetosHeader2);
-		
-		lblObjetosHeader3 = new JLabel("VALOR");//10 espacios    -    20 espacios
-		lblObjetosHeader3.setBounds(448, 158, 110, 15);
-		lblObjetosHeader3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader3.setVerticalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader3.setFont(FUENTE_BOLD_12);
-		body.add(lblObjetosHeader3);
-		
-		
-		
-//		tabla = new JTable();
-//		tabla.setEnabled(false);
-//		tabla.setLayout(new FlowLayout());
-//		tabla.setBounds(173, 9, 359, 62);
-//		tabla.setModel(
-//				new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
-////		
-//
-//		scrollPane = new JScrollPane(tabla);
-//		scrollPane.setBounds(20, 183, 538, 214);
-//		body.add(scrollPane);
+//		lblObjetosHeader1 = new JLabel("CANTIDAD");//10 espacios    -    20 espacios
+//		lblObjetosHeader1.setBounds(10, 158, 180, 15);
+//		lblObjetosHeader1.setHorizontalAlignment(SwingConstants.LEFT);
+//		lblObjetosHeader1.setVerticalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader1.setFont(FUENTE_BOLD_12);
+//		body.add(lblObjetosHeader1);
 //		
+//		lblObjetosHeader2 = new JLabel("DESCRIPCION");//10 espacios    -    20 espacios
+//		lblObjetosHeader2.setBounds(200, 158, 238, 15);
+//		lblObjetosHeader2.setHorizontalAlignment(SwingConstants.LEFT);
+//		lblObjetosHeader2.setVerticalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader2.setFont(FUENTE_BOLD_12);
+//		body.add(lblObjetosHeader2);
+//		
+//		lblObjetosHeader3 = new JLabel("VALOR");//10 espacios    -    20 espacios
+//		lblObjetosHeader3.setBounds(448, 158, 110, 15);
+//		lblObjetosHeader3.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader3.setVerticalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader3.setFont(FUENTE_BOLD_12);
+//		body.add(lblObjetosHeader3);
+		
+		
 		tabla = new JTable();
 		tabla.setEnabled(false);
 		tabla.setLayout(new FlowLayout());
 		tabla.setBounds(173, 9, 359, 62);
 		tabla.setModel(
-				new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
-//		
+				new DefaultTableModel(datosProductos, new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));	
 		
 		scrollPane = new JScrollPane(tabla);
 		scrollPane.setBounds(20, 183, 517, 214);
@@ -284,14 +273,6 @@ public class EspacioRecibo {
 				}
 			}
 		});
-		btnRegresar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				refrescarTabla(datosProductos);
-				
-			}
-		});
 		btnRegresar.setBounds(471, 513, 86, 40);
 		btnRegresar.setFocusable(true);
 		btnRegresar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -299,18 +280,14 @@ public class EspacioRecibo {
 		btnRegresar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelRecibo.add(btnRegresar);
 	}
-//	private void start() {
-//		fecha.setText(fechaString);
-//		nombre.setText(nombreString);
-//		id.setText(idString);
-//		direccion.setText(direccionString);
-//	}
+/*
 	/**
 	 * PARA PREUBAS INTERNAS
 	 */
 	private EspacioRecibo() {
 		initialize2();
 	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -322,7 +299,7 @@ public class EspacioRecibo {
 				}
 			}
 		});
-	}
+	}	
 	private void initialize2() {
 		final Color COLOR_FRAME = new Color(217, 222, 222);
 		
@@ -437,60 +414,39 @@ public class EspacioRecibo {
 		numFact.setFont(new Font("Tahoma", Font.BOLD, 12));
 		numFact.setBounds(448, 2, 100, 15);
 		body.add(numFact);
-		
-//		panelObjetos = new JPanel();
-//		panelObjetos.setBounds(0, 174, 558, 233);
-//		body.add(panelObjetos);
-//		panelObjetos.setLayout(null);
-		
-		
-		
+
 		separator2 = new JSeparator();
 		separator2.setBounds(0, 153,frame.getWidth() - 40, 2);
 		body.add(separator2);
 		
-		lblObjetosHeader1 = new JLabel("CANTIDAD");//10 espacios    -    20 espacios
-		lblObjetosHeader1.setBounds(10, 158, 180, 15);
-		lblObjetosHeader1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblObjetosHeader1.setVerticalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader1.setFont(FUENTE_BOLD_12);
-		body.add(lblObjetosHeader1);
-		
-		lblObjetosHeader2 = new JLabel("DESCRIPCION");//10 espacios    -    20 espacios
-		lblObjetosHeader2.setBounds(200, 158, 238, 15);
-		lblObjetosHeader2.setHorizontalAlignment(SwingConstants.LEFT);
-		lblObjetosHeader2.setVerticalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader2.setFont(FUENTE_BOLD_12);
-		body.add(lblObjetosHeader2);
-		
-		lblObjetosHeader3 = new JLabel("VALOR");//10 espacios    -    20 espacios
-		lblObjetosHeader3.setBounds(448, 158, 110, 15);
-		lblObjetosHeader3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader3.setVerticalAlignment(SwingConstants.CENTER);
-		lblObjetosHeader3.setFont(FUENTE_BOLD_12);
-		body.add(lblObjetosHeader3);
-		
-		
-		
-//		tabla = new JTable();
-//		tabla.setEnabled(false);
-//		tabla.setLayout(new FlowLayout());
-//		tabla.setBounds(173, 9, 359, 62);
-//		tabla.setModel(
-//				new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
-////		
-//
-//		scrollPane = new JScrollPane(tabla);
-//		scrollPane.setBounds(20, 183, 538, 214);
-//		body.add(scrollPane);
+//		lblObjetosHeader1 = new JLabel("CANTIDAD");//10 espacios    -    20 espacios
+//		lblObjetosHeader1.setBounds(10, 158, 180, 15);
+//		lblObjetosHeader1.setHorizontalAlignment(SwingConstants.LEFT);
+//		lblObjetosHeader1.setVerticalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader1.setFont(FUENTE_BOLD_12);
+//		body.add(lblObjetosHeader1);
 //		
+//		lblObjetosHeader2 = new JLabel("DESCRIPCION");//10 espacios    -    20 espacios
+//		lblObjetosHeader2.setBounds(200, 158, 238, 15);
+//		lblObjetosHeader2.setHorizontalAlignment(SwingConstants.LEFT);
+//		lblObjetosHeader2.setVerticalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader2.setFont(FUENTE_BOLD_12);
+//		body.add(lblObjetosHeader2);
+//		
+//		lblObjetosHeader3 = new JLabel("VALOR");//10 espacios    -    20 espacios
+//		lblObjetosHeader3.setBounds(448, 158, 110, 15);
+//		lblObjetosHeader3.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader3.setVerticalAlignment(SwingConstants.CENTER);
+//		lblObjetosHeader3.setFont(FUENTE_BOLD_12);
+//		body.add(lblObjetosHeader3);
+		
+		
 		tabla = new JTable();
 		tabla.setEnabled(false);
 		tabla.setLayout(new FlowLayout());
 		tabla.setBounds(173, 9, 359, 62);
 		tabla.setModel(
-				new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
-//		
+				new DefaultTableModel(datosProductos, new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));	
 		
 		scrollPane = new JScrollPane(tabla);
 		scrollPane.setBounds(20, 183, 517, 214);
@@ -508,14 +464,14 @@ public class EspacioRecibo {
 				}
 			}
 		});
-		btnRegresar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				refrescarTabla(datosProductos);
-				
-			}
-		});
+//		btnRegresar.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				refrescarTabla(datosProductos);
+//				
+//			}
+//		});
 		btnRegresar.setBounds(471, 513, 86, 40);
 		btnRegresar.setFocusable(true);
 		btnRegresar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -526,17 +482,17 @@ public class EspacioRecibo {
 	
 	//FIXME: Replace JTable with a JLabel
 	public void refrescarTabla(String[][] datosProductosOrig) {
-		String[][] datosProductos = ordenarMatriz(datosProductosOrig);
+		String[][] datosProductos = ordenarMatriz(datosProductosOrig).clone();
 		
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
 		textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+//		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
 
 		DefaultTableCellRenderer textoTablaCentro = new DefaultTableCellRenderer();
 		textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
-		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
-		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-		tabla.setModel(new DefaultTableModel(this.datosProductos, new String[] {"CANTIDAD" , "NOMBRE" , "VALOR"}));
+//		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+//		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+		tabla.setModel(new DefaultTableModel(datosProductos.clone(), new String[] {"CANTIDAD" , "NOMBRE" , "VALOR"}));
 		
 		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
 		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
@@ -550,19 +506,18 @@ public class EspacioRecibo {
 	public String[][] ordenarMatriz(String[][] datosProductos) {
 		String[][] mat = datosProductos.clone();
 		
-		//Valor cant*valorUnitario
-		for (int i = 0; i < mat.length; i++) {
-			int valUni = Integer.valueOf(mat[i][2]);
-			mat[i][2] = String.valueOf(Integer.valueOf(mat[i][1])*valUni);
-		}
-		
-		
-		//Intercambio columnas 0 1
-		for (int i = 0; i < mat.length; i++) {
-			String temp = mat[i][0];
-			mat[i][0] = mat[i][1];
-			mat[i][1] = temp;
-		}
+//		//Valor cant*valorUnitario
+//		for (int i = 0; i < mat.length; i++) {
+//			int valUni = Integer.valueOf(mat[i][2]);
+//			mat[i][2] = String.valueOf(Integer.valueOf(mat[i][1])*valUni);
+//		}
+//		
+//		//Intercambio columnas 0 1
+//		for (int i = 0; i < mat.length; i++) {
+//			String temp = mat[i][0];
+//			mat[i][0] = mat[i][1];
+//			mat[i][1] = temp;
+//		}
 		return mat;
 	}
 }
