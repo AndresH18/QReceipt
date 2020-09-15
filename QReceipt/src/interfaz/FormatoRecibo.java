@@ -49,6 +49,8 @@ public class FormatoRecibo {
 	static final String[] AÑOS = generarAños();
 
 	private String[][] datosProductos = new String[1][3];
+//	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
+
 
 	static final Color COLOR_FRAME = new Color(217, 222, 222);
 	static final Color COLOR_PANEL = new Color(202, 202, 202);
@@ -413,17 +415,11 @@ public class FormatoRecibo {
 		panelObjetos.add(cantProductos);
 
 		listaProductos = new JTable();
-//		listaProductos.setModel(new DefaultTableModel() {
-//			@Override
-//			public boolean isCellEditable(int row, int column) {
-//				return false;
-//			}
-//		});
 		listaProductos.setEnabled(false);
 		listaProductos.setLayout(new FlowLayout());
 		listaProductos.setBounds(173, 9, 359, 62);
 		listaProductos.setModel(
-				new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+				new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
 //		listaProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(SwingConstants.RIGHT));
 		// Manipular el alignment del texto de la tabla
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
@@ -479,8 +475,7 @@ public class FormatoRecibo {
 						agregarProductos((String) textFieldProductos.getText(), (Integer) cantProductos.getValue(),
 								textFieldValorUnidad.getText());
 						// scrollProductos.remove(listaProductos);
-						listaProductos.setModel(new DefaultTableModel(datosProductos,
-								new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+						listaProductos.setModel(new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
 
 						// organiza la orientacion del texto de la Tabla
 						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
@@ -975,6 +970,7 @@ public class FormatoRecibo {
 //
 //	}
 	public JComponent[] getComponents() {
+		System.out.println("componentes FormatoRecibo");
 		JComponent[] componentes = new JComponent[12];
 		componentes[0] = panelFormato;
 		componentes[1] = comboBoxMonth;
@@ -991,4 +987,8 @@ public class FormatoRecibo {
 		
 		return componentes;
 	}
+	public String[][] getDatosProductos() {
+		return datosProductos;
+	}
+
 }

@@ -41,7 +41,7 @@ import javax.swing.JDesktopPane;
  * **https://docs.oracle.com/javase/tutorial/uiswing/components/border.html
  * **https://stackoverflow.com/questions/37396939/jcombobox-customize-vertical-scrollbar
  */
-public class Interfaz {
+public class InterfazMostrarRecibo {
 	// TODO: make Javadoc
 	// TODO: Implementar shift + tab para regresar en componentes
 
@@ -90,7 +90,7 @@ public class Interfaz {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Interfaz window = new Interfaz();
+					InterfazMostrarRecibo window = new InterfazMostrarRecibo();
 					window.frame.setVisible(true);
 //					Pestaña1.textFieldNombre.requestFocus();
 
@@ -108,7 +108,7 @@ public class Interfaz {
 	/**
 	 * Create the application.
 	 */
-	public Interfaz() {
+	public InterfazMostrarRecibo() {
 		initialize();
 
 	}
@@ -170,7 +170,8 @@ public class Interfaz {
 		formatoRecibo.getBtnGenerarRecibo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("GEEEENENENENENENENENE");
+				System.out.println("GENERAR");
+				igualarDatosProductos(formatoRecibo, espacioRecibo);
 				controlVisibilidadFormato_Recibo();
 			}
 		});
@@ -186,7 +187,7 @@ public class Interfaz {
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("HOHOHOHOHOHOHOH");
+				System.out.println("DESGENERAR");
 				controlVisibilidadFormato_Recibo();
 			}
 		});
@@ -208,6 +209,7 @@ public class Interfaz {
 	}
 	private void controlVisibilidadFormato_Recibo() {
 		JComponent[] componentesformato = formatoRecibo.getComponents();
+		//true - 
 		if(!isVisibleFactura) {
 			for (JComponent componente : componentesformato) {
 				componente.setVisible(false);
@@ -217,7 +219,7 @@ public class Interfaz {
 			panelRecibo.setVisible(true);
 			isVisibleFactura = true;
 		}else {
-			panelRecibo.setVisible(false);
+			panelFormato.setVisible(true);
 			isVisibleFactura = false;
 			for (JComponent componente : componentesformato) {
 				componente.setVisible(true);
@@ -225,6 +227,9 @@ public class Interfaz {
 				componente.setEnabled(true);
 			}
 		}
+	}
+	private void igualarDatosProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
+		
 	}
 	
 }
