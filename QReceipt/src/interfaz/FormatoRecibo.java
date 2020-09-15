@@ -39,7 +39,7 @@ public class FormatoRecibo {
 	private boolean isReciboShowing = false;
 
 	static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
-			"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
+	 		"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
 	static final String[] DAYS31 = generarDias(31);
 
 	static final String[] DAYS30 = generarDias(30);

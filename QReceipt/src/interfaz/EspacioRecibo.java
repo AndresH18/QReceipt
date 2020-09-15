@@ -30,7 +30,7 @@ public class EspacioRecibo {
 		refrescarTabla(datosProductos.clone());
 		this.datosProductos = datosProductos.clone();
 	}
-
+ 
 	static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
 	static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
 

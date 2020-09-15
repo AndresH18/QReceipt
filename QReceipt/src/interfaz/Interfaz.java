@@ -45,7 +45,7 @@ public class Interfaz {
 	// TODO: make Javadoc
 	// TODO: Implementar shift + tab para regresar en componentes
 
-	//
+	// 
 	/*
 	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes año
 	 * hora minuto /// precion y articulos String nombreCliente, telefonoCliente,
