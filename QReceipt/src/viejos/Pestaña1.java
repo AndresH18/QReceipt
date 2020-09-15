@@ -1,4 +1,4 @@
-package interfaz;
+package viejos;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
