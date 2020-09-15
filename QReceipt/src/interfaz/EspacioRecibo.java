@@ -60,6 +60,8 @@ public class EspacioRecibo {
 	private JLabel id;
 	private JLabel direccion;
 	private JLabel numFact;
+	
+	private JLabel lblQR;
 
 	private JSeparator separator2;
 //	private JLabel lblObjetosHeader1, lblObjetosHeader2, lblObjetosHeader3;
@@ -204,23 +206,29 @@ public class EspacioRecibo {
 
 		fecha = new JLabel("FECHA");
 		fecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		fecha.setBounds(186, 11, 200, 13);
+		fecha.setBounds(186, 11, 230, 13);
 		clienteInfo.add(fecha);
 
 		nombre = new JLabel("NOMBRE");
 		nombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		nombre.setBounds(186, 34, 200, 13);
+		nombre.setBounds(186, 34, 230, 13);
 		clienteInfo.add(nombre);
 
 		id = new JLabel("id");
 		id.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		id.setBounds(186, 57, 200, 13);
+		id.setBounds(186, 57, 230, 13);
 		clienteInfo.add(id);
 
 		direccion = new JLabel("DIRECCION");
 		direccion.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		direccion.setBounds(186, 80, 200, 13);
+		direccion.setBounds(186, 80, 230, 13);
 		clienteInfo.add(direccion);
+		
+		lblQR = new JLabel("");
+		lblQR.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQR.setVerticalAlignment(SwingConstants.CENTER);
+		lblQR.setBounds(448, 11, 100, 100);
+		clienteInfo.add(lblQR);
 
 		numFact = new JLabel("");
 		numFact.setVerticalAlignment(SwingConstants.TOP);
@@ -397,23 +405,29 @@ public class EspacioRecibo {
 
 		fecha = new JLabel("FECHA");
 		fecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		fecha.setBounds(186, 11, 200, 13);
+		fecha.setBounds(186, 11, 230, 13);
 		clienteInfo.add(fecha);
 
 		nombre = new JLabel("NOMBRE");
 		nombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		nombre.setBounds(186, 34, 200, 13);
+		nombre.setBounds(186, 34, 230, 13);
 		clienteInfo.add(nombre);
 
 		id = new JLabel("id");
 		id.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		id.setBounds(186, 57, 200, 13);
+		id.setBounds(186, 57, 230, 13);
 		clienteInfo.add(id);
 
 		direccion = new JLabel("DIRECCION");
 		direccion.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		direccion.setBounds(186, 80, 200, 13);
+		direccion.setBounds(186, 80, 230, 13);
 		clienteInfo.add(direccion);
+		
+		JLabel lblQR = new JLabel("");
+		lblQR.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQR.setVerticalAlignment(SwingConstants.CENTER);
+		lblQR.setBounds(448, 11, 100, 100);
+		clienteInfo.add(lblQR);
 
 		numFact = new JLabel("");
 		numFact.setVerticalAlignment(SwingConstants.TOP);
@@ -512,6 +526,8 @@ public class EspacioRecibo {
 		String[][] mat = datosProductos.clone();
 ////		//Valor cant*valorUnitario
 		// WARNING: Tener en cuenta que se cambio el orden de la matriz
+		//FIXME se modifica el valor original 
+		//TODO: valor productos = cantidad*valorUni
 
 //		for (int i = 0; i < mat.length; i++) {
 //			int valUni = Integer.valueOf(mat[i][2]);
@@ -542,5 +558,4 @@ public class EspacioRecibo {
 		this.direccionString = infoCliente[3];
 		actualizarDatosCliente();
 	}
-
 }

@@ -50,7 +50,7 @@ public class FormatoRecibo {
 
 	static final String[] AÑOS = generarAños();
 
-	private String[][] datosProductos = new String[1][3];
+	private String[][] datosProductos = new String[0][3];
 
 	public String[][] getDatosProductos() {
 		return datosProductos.clone();
@@ -485,7 +485,7 @@ public class FormatoRecibo {
 								textFieldValorUnidad.getText());
 						// scrollProductos.remove(listaProductos);
 						listaProductos.setModel(new DefaultTableModel(datosProductos,
-								new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+								new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
 
 						// organiza la orientacion del texto de la Tabla
 						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
@@ -710,7 +710,7 @@ public class FormatoRecibo {
 		lblHeaderFecha.setBounds(5, 5, 100, panelFecha.getHeight() - 2 * 5);
 		panelFecha.add(lblHeaderFecha);
 
-		comboBoxMonth = new JComboBox<String>(MONTHS);
+		comboBoxMonth = new JComboBox(MONTHS);
 		comboBoxMonth.setSelectedIndex(LocalDateTime.now().getMonthValue());
 		((JLabel) comboBoxMonth.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		comboBoxMonth.addActionListener(new ActionListener() {
@@ -738,7 +738,7 @@ public class FormatoRecibo {
 		comboBoxMonth.setBounds(115, 5, 102, 21);
 		panelFecha.add(comboBoxMonth);
 
-		comboBoxDay = new JComboBox<String>(dias);
+		comboBoxDay = new JComboBox(dias);
 		comboBoxDay.setSelectedIndex(LocalDateTime.now().getDayOfMonth());
 		((JLabel) comboBoxDay.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		comboBoxDay.addKeyListener(new KeyAdapter() {
@@ -762,7 +762,7 @@ public class FormatoRecibo {
 		comboBoxDay.setBounds(243, 5, 50, 21);
 		panelFecha.add(comboBoxDay);
 
-		comboBoxYear = new JComboBox<String>(AÑOS);
+		comboBoxYear = new JComboBox(AÑOS);
 		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
 //		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
 		((JLabel) comboBoxYear.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -977,7 +977,7 @@ public class FormatoRecibo {
 		listaProductos.setEnabled(false);
 		listaProductos.setLayout(new FlowLayout());
 		listaProductos.setBounds(173, 9, 359, 62);
-		listaProductos.setModel(new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+		listaProductos.setModel(new DefaultTableModel(null, new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
 //		listaProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(SwingConstants.RIGHT));
 		// Manipular el alignment del texto de la tabla
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
@@ -1034,7 +1034,7 @@ public class FormatoRecibo {
 								textFieldValorUnidad.getText());
 						// scrollProductos.remove(listaProductos);
 						listaProductos.setModel(new DefaultTableModel(datosProductos,
-								new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+								new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
 
 						// organiza la orientacion del texto de la Tabla
 						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
@@ -1346,6 +1346,76 @@ public class FormatoRecibo {
 		}
 	}
 
+//	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProducto) {
+//		
+//		// fila zero
+//		// Nombre | Cantidad | valorUnidad | valorSemiTotal
+//		String[][] matrizTemporal = datosProductos.clone();
+//
+//		String nombre = nombreProducto.toUpperCase();
+//		String cantidad = String.valueOf(cantidadProducto);
+//		String valor = valorProducto;
+//
+//		int columnas = datosProductos[0].length;
+//		int filas = datosProductos.length;
+//
+//		datosProductos = null;
+//		datosProductos = new String[filas + 1][columnas];
+//		// llenar columna 0
+//		for (int i = 0; i < filas; i++) {
+////			datosProductos[i][0] = new String(matrizTemporal[i][0]);
+//			datosProductos[i][0] = matrizTemporal[i][0];
+//		}
+//		datosProductos[filas][0] = nombre;
+//
+//		// llenar columna 1
+//		for (int i = 0; i < filas; i++) {
+//			datosProductos[i][1] = matrizTemporal[i][1];
+//		}
+//		datosProductos[filas][1] = cantidad;
+//
+//		// llenar columna 2
+//		for (int i = 0; i < filas; i++) {
+//			datosProductos[i][2] = matrizTemporal[i][2];
+//		}
+//		datosProductos[filas][2] = valor;
+//
+//	}
+
+//	private void agregarProduct(String nombreProducto, int cantidadProducto, String valorProductoUni) {
+//		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
+//		String[][] matrizTemporal = datosProductos.clone();
+//
+//		String nombre = nombreProducto.toUpperCase();
+//		String cantidad = String.valueOf(cantidadProducto);
+//		String valoruUni = valorProductoUni;
+//
+//		int columnas = datosProductos[0].length;// 3
+//		int filas = datosProductos.length;// 1
+////					datosProductos.length+1;//1 + 1//2
+//
+//		datosProductos = null;
+//		datosProductos = new String[filas + 1][columnas];// [2][3] -1/// [2][3]
+//
+//		for (int i = 0; i < filas; i++) {
+////			datosProductos[i][0] = new String(matrizTemporal[i][0]);
+//			datosProductos[i][0] = matrizTemporal[i][0];
+//		}
+//		datosProductos[filas][0] = cantidad;
+//
+//		// llenar columna 1
+//		for (int i = 0; i < filas; i++) {
+//			datosProductos[i][1] = matrizTemporal[i][1];
+//		}
+//		datosProductos[filas][1] = nombre;
+//
+//		// llenar columna 2
+//		for (int i = 0; i < filas; i++) {
+//			datosProductos[i][2] = matrizTemporal[i][2];
+//		}
+//		datosProductos[filas][2] = valoruUni;
+//	}
+
 	/**
 	 * Agregar productos a la lista de productos
 	 * 
@@ -1353,47 +1423,62 @@ public class FormatoRecibo {
 	 * @param cantidadProducto
 	 * @param valorProducto
 	 */
-	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProducto) {
-		// Nombre | Cantidad | valorUnidad | valorSemiTotal
-		String[][] matrizTemporal = datosProductos.clone();
+	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProductoUni) {
+		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
+		String[][] matTemporal = this.datosProductos.clone();
 
 		String nombre = nombreProducto.toUpperCase();
 		String cantidad = String.valueOf(cantidadProducto);
-		String valor = valorProducto;
+		String valoruUni = valorProductoUni;
 
-		int columnas = datosProductos[0].length;
-		int filas = datosProductos.length;
+		int columnas = 3;// matrizTemporal[0].lentgth
+		int filas = (matTemporal.length + 1);
 
-		datosProductos = null;
-		datosProductos = new String[filas + 1][columnas];
-		// llenar columna 0
-		for (int i = 0; i < filas; i++) {
-//			datosProductos[i][0] = new String(matrizTemporal[i][0]);
-			datosProductos[i][0] = matrizTemporal[i][0];
+		this.datosProductos = null;
+		this.datosProductos = new String[filas][columnas];
+
+		// [i][0]
+		for (int i = 0; i < matTemporal.length; i++) {
+			this.datosProductos[i][0] = matTemporal[i][0];
 		}
-		datosProductos[filas][0] = nombre;
+		this.datosProductos[matTemporal.length][0] = cantidad;
 
-		// llenar columna 1
-		for (int i = 0; i < filas; i++) {
-			datosProductos[i][1] = matrizTemporal[i][1];
+		// [i][1]
+		for (int i = 0; i < matTemporal.length; i++) {
+			this.datosProductos[i][1] = matTemporal[i][1];
 		}
-		datosProductos[filas][1] = cantidad;
+		this.datosProductos[matTemporal.length][1] = nombre;
 
-		// llenar columna 2
-		for (int i = 0; i < filas; i++) {
-			datosProductos[i][2] = matrizTemporal[i][2];
+		// [i][2]
+		for (int i = 0; i < matTemporal.length; i++) {
+			this.datosProductos[i][2] = matTemporal[i][2];
 		}
-		datosProductos[filas][2] = valor;
+		this.datosProductos[matTemporal.length][2] = valoruUni;
 
 	}
 
+//	private String sumarValorProductos() {
+//		String[][] temporal = datosProductos.clone();
+//		int total = 0;
+//		//
+//		// Tener en cuenta cantidad{columna 1} y valorUnidad{columna 2} [formtato desde
+//		// 0 hasta n]
+//		
+//		for (int i = 1; i < temporal.length; i++) {
+//			total += (Integer.valueOf(temporal[i][1]) * Integer.valueOf(temporal[i][2]));
+//		}
+//
+//		return String.valueOf(total);
+//	}
+
 	private String sumarValorProductos() {
-		String[][] temporal = datosProductos.clone();
+		String[][] temporal = this.datosProductos.clone();
+		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
 		int total = 0;
-		// Tener en cuenta cantidad{columna 1} y valorUnidad{columna 2} [formtato desde
-		// 0 hasta n]
-		for (int i = 1; i < temporal.length; i++) {
-			total += (Integer.valueOf(temporal[i][1]) * Integer.valueOf(temporal[i][2]));
+		// int i = 0;
+		for (int i = 0; i < temporal.length; i++) {
+//			[i][0] cantidad , [i][2] valorUnidad
+			total += (Integer.valueOf(temporal[i][0]) * Integer.valueOf(temporal[i][2]));
 		}
 
 		return String.valueOf(total);
