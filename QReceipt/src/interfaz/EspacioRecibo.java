@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 public class EspacioRecibo {
+	private boolean enConstructor = false;
 	
 //	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
 	private String[][] datosProductos;
@@ -75,6 +76,7 @@ public class EspacioRecibo {
 	public EspacioRecibo(JFrame frame, JPanel panelRecibo) {
 		this.frame = frame;
 		this.panelRecibo = panelRecibo;
+		enConstructor = true;
 		initialize();
 	}
 
@@ -82,6 +84,7 @@ public class EspacioRecibo {
 		this.frame = frame;
 		this.panelRecibo = panelRecibo;
 		this.datosProductos = datosProductos.clone();
+		enConstructor = true;
 		initialize();
 	}
 	/**
@@ -98,6 +101,7 @@ public class EspacioRecibo {
 		this.nombreString = datos[1];
 		this.idString = datos[2];
 		this.direccionString = datos[3];
+		enConstructor = true;
 		initialize();
 //		start();
 	}
@@ -119,6 +123,7 @@ public class EspacioRecibo {
 		this.nombreString = nombre;
 		this.idString = id;
 		this.direccionString = direccion;
+		enConstructor = true;
 		initialize();
 //		start();
 
@@ -127,7 +132,7 @@ public class EspacioRecibo {
 	// TODO: Pasar lo que esta en interfaz para aca. Adicionar los las variables a
 	// los JLabels
 	private void initialize() {
-
+		
 		header = new JPanel();
 		header.setBounds(10, 0, 557, 90);
 		header.setLayout(null);
@@ -285,7 +290,7 @@ public class EspacioRecibo {
 	 * PARA PREUBAS INTERNAS
 	 */
 	private EspacioRecibo() {
-		initialize2();
+		pruebasInternas();
 	}
 	
 	public static void main(String[] args) {
@@ -300,7 +305,7 @@ public class EspacioRecibo {
 			}
 		});
 	}	
-	private void initialize2() {
+	private void pruebasInternas() {
 		final Color COLOR_FRAME = new Color(217, 222, 222);
 		
 		frame = new JFrame();
@@ -319,6 +324,11 @@ public class EspacioRecibo {
 		panelRecibo.setBounds(0, 0, 578, 577);
 		frame.getContentPane().add(panelRecibo);
 		
+		/**
+		 * 
+		 * DESDE AQUI SE COPIA
+		 * 
+		 */
 		header = new JPanel();
 		header.setBounds(10, 0, 557, 90);
 		header.setLayout(null);
@@ -478,6 +488,8 @@ public class EspacioRecibo {
 		btnRegresar.setVerticalAlignment(SwingConstants.CENTER);
 		btnRegresar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelRecibo.add(btnRegresar);
+		
+		
 	}
 	
 	//FIXME: Replace JTable with a JLabel
@@ -505,7 +517,6 @@ public class EspacioRecibo {
 	 */
 	public String[][] ordenarMatriz(String[][] datosProductos) {
 		String[][] mat = datosProductos.clone();
-		
 //		//Valor cant*valorUnitario
 //		for (int i = 0; i < mat.length; i++) {
 //			int valUni = Integer.valueOf(mat[i][2]);

@@ -41,7 +41,7 @@ import javax.swing.JDesktopPane;
  * **https://docs.oracle.com/javase/tutorial/uiswing/components/border.html
  * **https://stackoverflow.com/questions/37396939/jcombobox-customize-vertical-scrollbar
  */
-public class InterfazMostrarRecibo {
+public class Interfaz {
 	// TODO: make Javadoc
 	// TODO: Implementar shift + tab para regresar en componentes
 
@@ -90,7 +90,7 @@ public class InterfazMostrarRecibo {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InterfazMostrarRecibo window = new InterfazMostrarRecibo();
+					Interfaz window = new Interfaz();
 					window.frame.setVisible(true);
 //					Pestaña1.textFieldNombre.requestFocus();
 
@@ -108,7 +108,7 @@ public class InterfazMostrarRecibo {
 	/**
 	 * Create the application.
 	 */
-	public InterfazMostrarRecibo() {
+	public Interfaz() {
 		initialize();
 
 	}

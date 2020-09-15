@@ -1,6 +1,7 @@
 package interfaz;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -54,7 +55,7 @@ public class FormatoRecibo {
 	}
 	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
 	
-
+	
 
 	static final Color COLOR_FRAME = new Color(217, 222, 222);
 	static final Color COLOR_PANEL = new Color(202, 202, 202);
@@ -878,101 +879,6 @@ public class FormatoRecibo {
 
 		return String.valueOf(total);
 	}
-
-//	private void comportamiento() {
-//		if (!isReciboShowing) {
-//			// fecha
-//			comboBoxMonth.setFocusable(false);
-//			comboBoxMonth.setEnabled(false);
-//			comboBoxDay.setFocusable(false);
-//			comboBoxDay.setEnabled(false);
-//			comboBoxYear.setFocusable(false);
-//			comboBoxYear.setEnabled(false);
-//			panelFecha.setVisible(false);
-//			// nombre
-//			textFieldNombre.setFocusable(false);
-//			textFieldNombre.setEnabled(false);
-//			panelNombre.setVisible(false);
-//			// ID
-//			textFieldID_NIT.setFocusable(false);
-//			textFieldID_NIT.setEnabled(false);
-//			panelID_NIT.setVisible(false);
-//			// direccion
-//			textFieldDireccion.setFocusable(false);
-//			textFieldDireccion.setEnabled(false);
-//			panelDireccion.setVisible(false);
-//			// objetos
-//			textFieldProductos.setFocusable(false);
-//			textFieldProductos.setEnabled(false);
-//			cantProductos.setFocusable(false);
-//			cantProductos.setEnabled(false);
-//			textFieldValorUnidad.setFocusable(false);
-//			textFieldValorUnidad.setEnabled(false);
-//			panelObjetos.setVisible(false);
-//			// valor
-//			textFieldValorTotal.setFocusable(false);
-//			textFieldValorTotal.setEnabled(false);
-//			modificarValor.setFocusable(false);
-//			modificarValor.setSelected(false);
-//			modificarValor.setEnabled(false);
-//			panelValor.setVisible(false);
-//
-////			panelRecibo.setVisible(true);
-//			isReciboShowing = true;
-//		} else {
-//			// isReciboSowing es true ====false
-//			// fecha
-//			comboBoxMonth.setFocusable(true);
-//			comboBoxMonth.setEnabled(true);
-//			comboBoxDay.setFocusable(true);
-//			comboBoxDay.setEnabled(true);
-//			comboBoxYear.setFocusable(true);
-//			comboBoxYear.setEnabled(true);
-//			panelFecha.setVisible(true);
-//			// nombre
-//			textFieldNombre.setFocusable(true);
-//			textFieldNombre.setEnabled(true);
-//			panelNombre.setVisible(true);
-//			// ID
-//			textFieldID_NIT.setFocusable(true);
-//			textFieldID_NIT.setEnabled(true);
-//			panelID_NIT.setVisible(true);
-//			// direccion
-//			textFieldDireccion.setFocusable(true);
-//			textFieldDireccion.setEnabled(true);
-//			panelDireccion.setVisible(true);
-//			// objetos
-//			textFieldProductos.setFocusable(true);
-//			textFieldProductos.setEnabled(true);
-//			cantProductos.setFocusable(true);
-//			cantProductos.setEnabled(true);
-//			textFieldValorUnidad.setFocusable(true);
-//			textFieldValorUnidad.setEnabled(true);
-//			panelObjetos.setVisible(true);
-//			// valor
-//			textFieldValorTotal.setFocusable(true);
-//			textFieldValorTotal.setEnabled(true);
-//			modificarValor.setFocusable(true);
-//			modificarValor.setSelected(true);
-//			modificarValor.setEnabled(true);
-//			panelValor.setVisible(true);
-//
-////			panelRecibo.setVisible(false);
-//			isReciboShowing = false;
-//
-//		}
-//
-//	}
-//
-//	private void generar() {
-//		String[] info = recolectarInformacionCliente();
-//
-//		String fecha = info[0];
-//		String nombre = info[1];
-//		String id = info[2];
-//		String direccString = info[3];
-//
-//	}
 	public JComponent[] getComponents() {
 		JComponent[] componentes = new JComponent[12];
 		componentes[0] = panelFormato;
@@ -990,6 +896,555 @@ public class FormatoRecibo {
 		
 		return componentes;
 	}
+	
+	
+	/*
+	 * PARA PRUEBAS INTERNAS
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FormatoRecibo window = new FormatoRecibo();
+					window.frame.setVisible(true);
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		});
+	}
+	private FormatoRecibo() {
+		pruebasInternas();
+	}
+	private void pruebasInternas() {
+		
+		frame = new JFrame();
+		frame.setBounds(100, 100, 587, 632);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle(this.getClass().getCanonicalName());
+		frame.setBackground(new Color(0, 0, 0));
+		frame.setResizable(false);
+		frame.setAlwaysOnTop(true);
+		frame.getContentPane().setBackground(COLOR_FRAME);
+		
+		JPanel panelFormato = new JPanel();
+		panelFormato.setLayout(null);
+		panelFormato.setVisible(true);
+		panelFormato.setBackground(new Color(255, 255, 255));
+		panelFormato.setBounds(0, 0, 578, 577);
+		frame.getContentPane().add(panelFormato);
+		
+		
+		/**
+		 * 
+		 * DESDE AQUI SE COPIA
+		 * 
+		 */
+		
+		/*
+		 * PANEL FECHA
+		 * 
+		 * FIXME: use JDatePicker
+		 * https://www.codejava.net/java-se/swing/how-to-use-jdatepicker-to-display-
+		 * calendar-component
+		 */
+		panelFecha = new JPanel();
+		panelFecha.setLayout(null);
+		panelFecha.setVisible(true);
+		panelFecha.setBounds(15, 32, 400, 30);
+		panelFecha.setBackground(COLOR_PANEL);
+		panelFormato.add(panelFecha);
+
+		lblHeaderFecha = new JLabel("<html>FECHA:</html>");
+		lblHeaderFecha.setOpaque(true);
+		lblHeaderFecha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderFecha.setBorder(RAISED_BORDER);
+		lblHeaderFecha.setBounds(5, 5, 100, panelFecha.getHeight() - 2 * 5);
+		panelFecha.add(lblHeaderFecha);
+
+		comboBoxMonth = new JComboBox<String>(MONTHS);
+		comboBoxMonth.setSelectedIndex(LocalDateTime.now().getMonthValue());
+		((JLabel) comboBoxMonth.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		comboBoxMonth.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateMonthDays(comboBoxMonth, comboBoxDay);
+			}
+		});
+		comboBoxMonth.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					comboBoxDay.requestFocus();
+				}
+			}
+		});
+		comboBoxMonth.setFocusable(true);
+		comboBoxMonth.setEnabled(true);
+		comboBoxMonth.setVisible(true);
+		comboBoxMonth.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBoxMonth.setBounds(115, 5, 102, 21);
+		panelFecha.add(comboBoxMonth);
+
+		comboBoxDay = new JComboBox<String>(dias);
+		comboBoxDay.setSelectedIndex(LocalDateTime.now().getDayOfMonth());
+		((JLabel) comboBoxDay.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		comboBoxDay.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getExtendedKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					comboBoxYear.requestFocus();
+				}
+			}
+		});
+		comboBoxDay.setFocusable(true);
+		comboBoxDay.setEnabled(true);
+		comboBoxDay.setVisible(true);
+		comboBoxDay.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBoxDay.setBounds(243, 5, 50, 21);
+		panelFecha.add(comboBoxDay);
+
+		comboBoxYear = new JComboBox<String>(AÑOS);
+		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
+//		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
+		((JLabel) comboBoxYear.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		comboBoxYear.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldNombre.requestFocus();
+				}
+			}
+		});
+		comboBoxYear.setFocusable(true);
+		comboBoxYear.setEnabled(true);
+		comboBoxYear.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		comboBoxYear.setBounds(314, 5, 76, 21);
+		panelFecha.add(comboBoxYear);
+
+		/*
+		 * PANEL NOMBRE
+		 */
+		panelNombre = new JPanel();
+		panelNombre.setLayout(null);
+//		panelNombre.setBounds(15, 103, 538, 30);
+		panelNombre.setVisible(true);
+		panelNombre.setBounds(15, 72, panelFecha.getWidth(), panelFecha.getHeight());
+		panelNombre.setBackground(COLOR_PANEL);
+		panelFormato.add(panelNombre);
+
+		lblHeaderNombre = new JLabel("<html>Nombre:</html>".toUpperCase());// 6 Spaces
+		lblHeaderNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderNombre.setBounds(5, 5, 100, panelNombre.getHeight() - 2 * 5);
+		lblHeaderNombre.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderNombre.setOpaque(true);
+		lblHeaderNombre.setBorder(RAISED_BORDER);
+		panelNombre.add(lblHeaderNombre);
+
+		textFieldNombre = new JTextField();
+		textFieldNombre.setColumns(10);
+		textFieldNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldID_NIT.requestFocus();
+				}
+			}
+		});
+//		textFieldNombre.setBounds((lblNombre.getWidth() + 5), 6, 350, 19);
+		textFieldNombre.setBounds((lblHeaderNombre.getWidth() + 5), 6, 350 - 100, 19);
+		textFieldNombre.setFocusable(true);
+		textFieldNombre.setEnabled(true);
+		panelNombre.add(textFieldNombre);
+
+		/*
+		 * PANEL ID_NIT
+		 */
+		panelID_NIT = new JPanel();
+		panelID_NIT.setLayout(null);
+		panelID_NIT.setVisible(true);
+		panelID_NIT.setBackground(COLOR_PANEL);
+//		panelID_NIT.setBounds(panelNombre.getX(), 143, panelNombre.getWidth(), 30);
+		panelID_NIT.setBounds(15, 112, panelFecha.getWidth(), panelFecha.getHeight());
+		panelFormato.add(panelID_NIT);
+
+		lblHeaderID_NIT = new JLabel("<html>ID / NIT:</html>");
+		lblHeaderID_NIT.setOpaque(true);
+		lblHeaderID_NIT.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderID_NIT.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderID_NIT.setBorder(RAISED_BORDER);
+		lblHeaderID_NIT.setBounds(5, 5, 100, panelID_NIT.getHeight() - 2 * 5);
+		panelID_NIT.add(lblHeaderID_NIT);
+
+		textFieldID_NIT = new JTextField();
+		textFieldID_NIT.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldDireccion.requestFocus();
+				}
+			}
+		});
+		textFieldID_NIT.setColumns(10);
+//		textFielID_NIT.setBounds(105, 6, 350, 19);
+		textFieldID_NIT.setBounds(105, 6, 350 - 100, 19);
+		textFieldID_NIT.setFocusable(true);
+		textFieldID_NIT.setEnabled(true);
+		panelID_NIT.add(textFieldID_NIT);
+
+		/*
+		 * PANEL DIRECCION
+		 */
+		panelDireccion = new JPanel();
+		panelDireccion.setLayout(null);
+		panelDireccion.setVisible(true);
+		panelDireccion.setBackground(new Color(202, 202, 202));
+		panelDireccion.setBounds(15, 152, 400, 30);
+		panelFormato.add(panelDireccion);
+
+		lblDireccion = new JLabel("<html>DIRECCION:</html>");
+		lblDireccion.setOpaque(true);
+		lblDireccion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblDireccion.setBorder(RAISED_BORDER);
+		lblDireccion.setBounds(5, 5, 100, 20);
+		panelDireccion.add(lblDireccion);
+
+		textFieldDireccion = new JTextField();
+		textFieldDireccion.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldProductos.requestFocus();
+				}
+			}
+		});
+		textFieldDireccion.setColumns(10);
+		textFieldDireccion.setBounds(105, 6, 250, 19);
+		textFieldDireccion.setFocusable(true);
+		textFieldDireccion.setEnabled(true);
+		panelDireccion.add(textFieldDireccion);
+
+		/*
+		 * PANEL OBJETOS
+		 */
+		panelObjetos = new JPanel();
+		panelObjetos.setBounds(panelFecha.getX(), 223, 542, 157);
+		panelObjetos.setBackground(COLOR_PANEL);
+		panelObjetos.setVisible(true);
+		panelFormato.add(panelObjetos);
+		panelObjetos.setLayout(null);
+
+		lblHeaderProductos = new JLabel("<html>PRODUCTO:</html>");
+		lblHeaderProductos.setOpaque(true);
+		lblHeaderProductos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderProductos.setBorder(RAISED_BORDER);
+		lblHeaderProductos.setBounds(5, 5, 100, 20);
+		panelObjetos.add(lblHeaderProductos);
+
+		textFieldProductos = new JTextField();
+		textFieldProductos.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					// cantProductos.getEditor().requestFocus();
+					cantProductos.setValue((int) 1);
+					textFieldValorUnidad.requestFocus();
+
+				}
+			}
+		});
+		textFieldProductos.setBounds(5, 25, 140, 20);
+		textFieldProductos.setFocusable(true);
+		textFieldProductos.setEnabled(true);
+		panelObjetos.add(textFieldProductos);
+
+		lblHeaderCantidadProductos = new JLabel("<html>CANTIDAD:</html>");
+		lblHeaderCantidadProductos.setOpaque(true);
+		lblHeaderCantidadProductos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderCantidadProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderCantidadProductos.setBorder(RAISED_BORDER);
+		lblHeaderCantidadProductos.setBounds(5, 51, 100, 20);
+		panelObjetos.add(lblHeaderCantidadProductos);
+
+		cantProductos = new JSpinner();
+		cantProductos.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				if (k.getKeyCode() == KeyEvent.VK_TAB) {
+					textFieldValorUnidad.requestFocus();
+				}
+			}
+		});
+		cantProductos.setBounds((lblHeaderCantidadProductos.getX() + lblHeaderCantidadProductos.getWidth() + 3),
+				lblHeaderCantidadProductos.getY(), 40, lblHeaderCantidadProductos.getHeight());
+		cantProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cantProductos.setValue((int) 1);
+		cantProductos.setFocusable(true);
+		cantProductos.setEnabled(true);
+		panelObjetos.add(cantProductos);
+
+		listaProductos = new JTable();
+		listaProductos.setEnabled(false);
+		listaProductos.setLayout(new FlowLayout());
+		listaProductos.setBounds(173, 9, 359, 62);
+		listaProductos.setModel(
+				new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+//		listaProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(SwingConstants.RIGHT));
+		// Manipular el alignment del texto de la tabla
+		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
+		textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
+		listaProductos.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+
+		DefaultTableCellRenderer textoTablaCentro = new DefaultTableCellRenderer();
+		textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
+		listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+		listaProductos.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+
+		scrollProductos = new JScrollPane(listaProductos);
+		scrollProductos.setBounds(190, 9, 342, 136);
+		panelObjetos.add(scrollProductos);
+
+		lblHeaderValorUnidad = new JLabel("<html>VALOR UNIDAD:</html>");
+		lblHeaderValorUnidad.setOpaque(true);
+		lblHeaderValorUnidad.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderValorUnidad.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderValorUnidad.setBorder(RAISED_BORDER);
+		lblHeaderValorUnidad.setBounds(5, 79, 100, 20);
+		panelObjetos.add(lblHeaderValorUnidad);
+
+		textFieldValorUnidad = new JTextField();
+		textFieldValorUnidad.setColumns(10);
+		textFieldValorUnidad.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+
+					// requestFocus of next Component
+				} else if (k.getKeyCode() == KeyEvent.VK_TAB) {
+					btnGenerarRecibo.requestFocus();
+					if (modificarValor.isSelected()) {
+						textFieldValorTotal.setFocusable(true);
+						textFieldValorTotal.requestFocus();
+					} else {
+						btnGenerarRecibo.requestFocus();
+					}
+				} else if (k.getKeyCode() == KeyEvent.VK_ENTER) {
+					// Valor valido
+					if (!textFieldValorUnidad.getText().matches(Num5.FORMATO_VALIDO)) {
+						lblValorConsola.setForeground(Color.red);
+						lblValorConsola.setText("<html>VALOR NO VALIDO</html>");
+						lblValorConsola.setVisible(true);
+
+					} else {
+						lblValorConsola.setForeground(Color.BLACK);
+
+						lblValorConsola.setVisible(false);
+						agregarProductos((String) textFieldProductos.getText(), (Integer) cantProductos.getValue(),
+								textFieldValorUnidad.getText());
+						// scrollProductos.remove(listaProductos);
+						listaProductos.setModel(new DefaultTableModel(datosProductos, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+
+						// organiza la orientacion del texto de la Tabla
+						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+						listaProductos.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+						listaProductos.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+						// textFieldProductos.requestFocus();
+						textFieldValorTotal.setText(sumarValorProductos());
+						lblValorPalabras.setText(new Num5(sumarValorProductos()).getNumeroString());
+
+						cantProductos.setValue((int) 1);
+						textFieldValorUnidad.setText("");
+						textFieldProductos.setText("");
+						textFieldProductos.requestFocus();
+
+					}
+
+				}
+			}
+		});
+		textFieldValorUnidad.setBounds(5, 98, 119, 19);
+		textFieldValorUnidad.setFocusable(true);
+		textFieldValorUnidad.setEnabled(true);
+		panelObjetos.add(textFieldValorUnidad);
+
+		lblValorConsola = new JLabel("");
+		lblValorConsola.setHorizontalAlignment(SwingConstants.LEFT);
+		lblValorConsola.setOpaque(false);
+		lblValorConsola.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblValorConsola.setBounds(5, 125, 119, 20);
+		panelObjetos.add(lblValorConsola);
+
+		JSeparator separatorObjetos = new JSeparator();
+		separatorObjetos.setOrientation(SwingConstants.VERTICAL);
+		separatorObjetos.setBounds(173, 5, 1, 140);
+		panelObjetos.add(separatorObjetos);
+
+		/*
+		 * PANEL VALOR
+		 */
+		panelValor = new JPanel();
+		panelValor.setLayout(null);
+		panelValor.setBounds(15, 424, 542, 58);
+		panelValor.setBackground(COLOR_PANEL);
+		panelFormato.add(panelValor);
+
+		lblHeaderValor = new JLabel("<html>VALOR:      ");
+		lblHeaderValor.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeaderValor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHeaderValor.setBounds(5, 5, 100, lblHeaderFecha.getHeight());
+		lblHeaderValor.setOpaque(true);
+		lblHeaderValor.setBorder(RAISED_BORDER);
+		panelValor.add(lblHeaderValor);
+
+		textFieldValorTotal = new JTextField();
+		textFieldValorTotal.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+
+					if (textFieldValorTotal.getText().matches(Num5.FORMATO_VALIDO)) {
+						lblValorPalabras.setForeground(Color.BLACK);
+						lblValorPalabras.setText(new Num5(textFieldValorTotal.getText()).getNumeroString());
+						btnGenerarRecibo.requestFocus();
+					} else {
+						lblValorPalabras.setForeground(Color.red);
+						lblValorPalabras.setText("INTRODUZCA UN VALOR VALIDO");
+						textFieldValorTotal.setText("");
+					}
+
+				}
+			}
+		});
+		textFieldValorTotal.setColumns(10);
+		textFieldValorTotal.setFocusable(false);
+		textFieldValorTotal.setVisible(true);
+		textFieldValorTotal.setEditable(false);
+		textFieldValorTotal.setBounds(115, 7, 126, 20);
+		panelValor.add(textFieldValorTotal);
+
+		lblValorPalabras = new JLabel("");
+		lblValorPalabras.setOpaque(false);
+		lblValorPalabras.setBounds(5, 32, 527, 20);
+		lblValorPalabras.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panelValor.add(lblValorPalabras);
+
+		modificarValor = new JCheckBox("<html>MODIFICAR EL VALOR</html>");
+		modificarValor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (modificarValor.isSelected()) {
+					textFieldValorTotal.setText("");
+					textFieldValorTotal.setFocusable(true);
+					textFieldValorTotal.setEditable(true);
+					textFieldValorTotal.requestFocus();
+				} else {
+					textFieldValorTotal.setEditable(false);
+					textFieldValorTotal.setFocusable(false);
+					textFieldValorTotal.setText(sumarValorProductos());
+				}
+
+			}
+		});
+		modificarValor.setFocusable(false);
+		modificarValor.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		modificarValor.setBounds(272, 6, 135, 21);
+		panelValor.add(modificarValor);
+
+		btnGenerarRecibo = new JButton("<html>GENERAR RECIBO</html>");
+		btnGenerarRecibo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB) {
+					textFieldNombre.requestFocus();
+				}
+				if (k.getKeyCode() == KeyEvent.VK_ENTER) {
+
+					if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
+							&& comboBoxYear.getSelectedIndex() != 0) {
+//						generar();
+					}
+
+				}
+			}
+		});
+		btnGenerarRecibo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
+						&& comboBoxYear.getSelectedIndex() != 0) {
+
+//					generar();
+
+				}
+			}
+		});
+		btnGenerarRecibo.setBounds(471, 513, 86, 40);
+		btnGenerarRecibo.setFocusable(true);
+		btnGenerarRecibo.setHorizontalAlignment(SwingConstants.CENTER);
+		btnGenerarRecibo.setVerticalAlignment(SwingConstants.CENTER);
+		btnGenerarRecibo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panelFormato.add(btnGenerarRecibo);
+	}
+	
 	
 
 }
