@@ -1504,6 +1504,7 @@ public class FormatoRecibo {
 
 	public String[] getInfoCliente() {
 		StringBuilder sb = new StringBuilder();
+		
 		String fecha;
 		String nombre;
 		String id;
@@ -1511,7 +1512,7 @@ public class FormatoRecibo {
 
 		sb.append(comboBoxDay.getSelectedItem().toString()).append(" / ");
 		sb.append(comboBoxMonth.getSelectedItem().toString()).append(" / ");
-		sb.append(comboBoxMonth.getSelectedIndex()).append(" / ");
+//		sb.append(comboBoxMonth.getSelectedIndex()).append(" / ");
 		sb.append(comboBoxYear.getSelectedItem().toString());
 		fecha = sb.toString();
 //		System.out.println(fecha);
