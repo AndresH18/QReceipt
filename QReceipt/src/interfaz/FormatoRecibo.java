@@ -51,7 +51,10 @@ public class FormatoRecibo {
 	static final String[] AÑOS = generarAños();
 
 	private String[][] datosProductos = new String[0][3];
-
+	/**
+	 * 
+	 * @return CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
+	 */
 	public String[][] getDatosProductos() {
 		return datosProductos.clone();
 	}
@@ -428,7 +431,7 @@ public class FormatoRecibo {
 		listaProductos.setEnabled(false);
 		listaProductos.setLayout(new FlowLayout());
 		listaProductos.setBounds(173, 9, 359, 62);
-		listaProductos.setModel(new DefaultTableModel(null, new String[] { "NOMBRE", "CANTIDAD", "VALOR UNITARIO" }));
+		listaProductos.setModel(new DefaultTableModel(null, new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
 //		listaProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(SwingConstants.RIGHT));
 		// Manipular el alignment del texto de la tabla
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();

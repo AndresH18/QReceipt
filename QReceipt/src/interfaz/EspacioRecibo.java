@@ -27,8 +27,9 @@ public class EspacioRecibo {
 	private String[][] datosProductos;
 
 	public void setDatosProductos(String[][] datosProductos) {
-		refrescarTabla(datosProductos.clone());
 		this.datosProductos = datosProductos.clone();
+		refrescarTabla(this.datosProductos.clone());
+		
 	}
  
 	static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
@@ -500,7 +501,8 @@ public class EspacioRecibo {
 
 	// FIXME: Replace JTable with a JLabel
 	public void refrescarTabla(String[][] datosProductosOrig) {
-		String[][] datosProductos = valordeProductos(datosProductosOrig).clone();
+//		String[][] datosProductos = valordeProductos(datosProductosOrig).clone();
+		String[][] datosProductos = datosProductosOrig;
 
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
 		textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -517,31 +519,31 @@ public class EspacioRecibo {
 		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
 	}
 
-	/**
-	 * 
-	 * @param datosProductos String[][] original {Nombre , Cantidad , ValorUnitario}
-	 * @return mat String[][] {Cantidad , Nombre , ValorTotalProducto}
-	 */
-	public String[][] valordeProductos(String[][] datosProductos) {
-		String[][] mat = datosProductos.clone();
-////		//Valor cant*valorUnitario
-		// WARNING: Tener en cuenta que se cambio el orden de la matriz
-		//FIXME se modifica el valor original 
-		//TODO: valor productos = cantidad*valorUni
-
-//		for (int i = 0; i < mat.length; i++) {
-//			int valUni = Integer.valueOf(mat[i][2]);
-//			mat[i][2] = String.valueOf(Integer.valueOf(mat[i][1]) * valUni);
-//		}
-
-//		//Intercambio columnas 0 1
-//		for (int i = 0; i < mat.length; i++) {
-//			String temp = mat[i][0];
-//			mat[i][0] = mat[i][1];
-//			mat[i][1] = temp;
-//		}
-		return mat;
-	}
+//	/**
+//	 * 
+//	 * @param datosProductos String[][] original {Nombre , Cantidad , ValorUnitario}
+//	 * @return mat String[][] {Cantidad , Nombre , ValorTotalProducto}
+//	 */
+//	private String[][] valordeProductos(String[][] datosProductos) {
+//		String[][] mat = datosProductos.clone();
+//////		//Valor cant*valorUnitario
+//		// WARNING: Tener en cuenta que se cambio el orden de la matriz
+//		//FIXME se modifica el valor original 
+//		//TODO: valor productos = cantidad*valorUni
+//
+////		for (int i = 0; i < mat.length; i++) {
+////			int valUni = Integer.valueOf(mat[i][2]);
+////			mat[i][2] = String.valueOf(Integer.valueOf(mat[i][1]) * valUni);
+////		}
+//
+////		//Intercambio columnas 0 1
+////		for (int i = 0; i < mat.length; i++) {
+////			String temp = mat[i][0];
+////			mat[i][0] = mat[i][1];
+////			mat[i][1] = temp;
+////		}
+//		return mat;
+//	}
 
 	private void actualizarDatosCliente() {
 		this.fecha.setText(this.fechaString);

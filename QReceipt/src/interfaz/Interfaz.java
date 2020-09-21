@@ -45,7 +45,7 @@ public class Interfaz {
 	// TODO: make Javadoc
 	// TODO: Implementar shift + tab para regresar en componentes
 
-	// 
+	//
 	/*
 	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes año
 	 * hora minuto /// precion y articulos String nombreCliente, telefonoCliente,
@@ -169,11 +169,15 @@ public class Interfaz {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("GENERAR");
 
-				igualarDatosProductos(formatoRecibo, espacioRecibo);
+//				igualarDatosProductos(formatoRecibo, espacioRecibo);
+				igualarDatosProductos();
 
-				entregarDatosCliente(formatoRecibo, espacioRecibo);
+//				entregarDatosCliente(formatoRecibo, espacioRecibo);
+				entregarDatosCliente();
 
 				controlVisibilidadFormato_Recibo();
+				
+//				imprimirNuevo();
 			}
 		});
 
@@ -237,6 +241,10 @@ public class Interfaz {
 			}
 		}
 	}
+	/*
+	 * TODO: hacer metodo que reciba la matriz y que luego podamos hacer lo de la
+	 * suma del valor unitario*la cantidad
+	 */
 
 	/**
 	 * Sends String[][] datosProductos From formatoRecibo to espacioRecibo
@@ -244,14 +252,50 @@ public class Interfaz {
 	 * @param formatoRecibo
 	 * @param espacioRecibo
 	 */
-	private void igualarDatosProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
-//	private void igualarDatosProductos() {
-		espacioRecibo.setDatosProductos(formatoRecibo.getDatosProductos().clone());
+//	private void igualarDatosProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
+	private void igualarDatosProductos() {
+//		espacioRecibo.setDatosProductos(formatoRecibo.getDatosProductos().clone());
+		espacioRecibo.setDatosProductos(valorUni_TotalProducto());
 	}
 
-	private void entregarDatosCliente(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
-//	private void entregarDatosCliente() {
+//	private void entregarDatosCliente(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
+	private void entregarDatosCliente() {
 		espacioRecibo.setDatosClientes(formatoRecibo.getInfoCliente());
+	}
+
+//	private String[][] sendProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
+	private String[][] valorUni_TotalProducto() {
+		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
+		// ====> CANTIDAD[0], NOMBRE[1], VALORPRODUCTO[2]{valorProducto*cantidad}
+		String[][] importados = formatoRecibo.getDatosProductos();
+		String[][] datos = new String[importados.length][importados[0].length];
+
+		for (int i = 0; i < importados.length; i++) {
+			for (int j = 0; j < importados[0].length; j++) {
+				if (j != importados[0].length - 1) {
+					datos[i][j] = new String(importados[i][j]);
+				} else {
+					double val = Integer.valueOf(importados[i][0])*Integer.valueOf(importados[i][2]);
+					datos[i][j] = new String(String.valueOf((int)val));
+				}
+			}
+		}
+		return datos;
+	}
+	
+	/**
+	 * Imprimir 
+	 */
+	private void imprimirNuevo() {
+//		private void imprimirNuevo(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
+//		String[][] a = sendProductos(formatoRecibo, espacioRecibo);
+		String[][] a = valorUni_TotalProducto();
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < a[0].length; j++) {
+				System.out.print(a[i][j] + "\t");
+			}
+			System.out.println();
+		}
 	}
 
 }
