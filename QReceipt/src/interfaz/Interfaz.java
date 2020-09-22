@@ -277,10 +277,6 @@ public class Interfaz {
 			}
 		}
 	}
-	/*
-	 * TODO: hacer metodo que reciba la matriz y que luego podamos hacer lo de la
-	 * suma del valor unitario*la cantidad
-	 */
 
 	/**
 	 * Sends String[][] datosProductos From formatoRecibo to espacioRecibo
