@@ -48,8 +48,8 @@ public class EspacioRecibo {
 	private JPanel panelRecibo;// panelGenerarRecibo
 
 	private JPanel header;
-	private JLabel lblEmpresaCliente;
-	private JLabel lblEmpresaClienteInfo;
+	private JLabel lblEmpresa;
+	private JLabel lblEmpresaInfo;
 	private JSeparator separator1;
 
 	private JPanel body;
@@ -156,19 +156,19 @@ public class EspacioRecibo {
 		header.setBackground(new Color(255, 255, 255));
 		panelRecibo.add(header);
 
-		lblEmpresaCliente = new JLabel("New label");
-		lblEmpresaCliente.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEmpresaCliente.setVerticalAlignment(SwingConstants.TOP);
-		lblEmpresaCliente.setFont(FUENTE_BOLD_12);
-		lblEmpresaCliente.setBounds(128, 5, 429, 20);
-		header.add(lblEmpresaCliente);
+		lblEmpresa = new JLabel("QReceipt");
+		lblEmpresa.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmpresa.setVerticalAlignment(SwingConstants.TOP);
+		lblEmpresa.setFont(FUENTE_BOLD_12);
+		lblEmpresa.setBounds(128, 5, 429, 20);
+		header.add(lblEmpresa);
 
-		lblEmpresaClienteInfo = new JLabel(COMPANY);
-		lblEmpresaClienteInfo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEmpresaClienteInfo.setVerticalAlignment(SwingConstants.TOP);
-		lblEmpresaClienteInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblEmpresaClienteInfo.setBounds(128, 23, 429, 69);
-		header.add(lblEmpresaClienteInfo);
+		lblEmpresaInfo = new JLabel(COMPANY);
+		lblEmpresaInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmpresaInfo.setVerticalAlignment(SwingConstants.TOP);
+		lblEmpresaInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEmpresaInfo.setBounds(128, 23, 429, 69);
+		header.add(lblEmpresaInfo);
 
 		lblLogo = new JLabel("logo");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -385,19 +385,19 @@ public class EspacioRecibo {
 		header.setBackground(new Color(255, 255, 255));
 		panelRecibo.add(header);
 
-		lblEmpresaCliente = new JLabel("<html>QReceipt</html>");
-		lblEmpresaCliente.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEmpresaCliente.setVerticalAlignment(SwingConstants.TOP);
-		lblEmpresaCliente.setFont(FUENTE_BOLD_12);
-		lblEmpresaCliente.setBounds(128, 5, 429, 20);
-		header.add(lblEmpresaCliente);
+		lblEmpresa = new JLabel("<html>QReceipt</html>");
+		lblEmpresa.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmpresa.setVerticalAlignment(SwingConstants.TOP);
+		lblEmpresa.setFont(FUENTE_BOLD_12);
+		lblEmpresa.setBounds(128, 5, 429, 20);
+		header.add(lblEmpresa);
 
-		lblEmpresaClienteInfo = new JLabel(COMPANY);
-		lblEmpresaClienteInfo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblEmpresaClienteInfo.setVerticalAlignment(SwingConstants.TOP);
-		lblEmpresaClienteInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblEmpresaClienteInfo.setBounds(128, 23, 218, 69);
-		header.add(lblEmpresaClienteInfo);
+		lblEmpresaInfo = new JLabel(COMPANY);
+		lblEmpresaInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEmpresaInfo.setVerticalAlignment(SwingConstants.TOP);
+		lblEmpresaInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEmpresaInfo.setBounds(128, 23, 218, 69);
+		header.add(lblEmpresaInfo);
 
 		lblLogo = new JLabel("logo");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);

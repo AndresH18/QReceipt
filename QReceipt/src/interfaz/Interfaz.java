@@ -373,7 +373,8 @@ public class Interfaz {
 			System.out.println();
 		}
 	}
-
+	
+	//TODO: buscar Remplazar opencv
 	/**
 	 * Sets the icon of the Frame/window
 	 * 
