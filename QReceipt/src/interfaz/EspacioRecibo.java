@@ -310,7 +310,7 @@ public class EspacioRecibo {
 //				
 //			}
 //		});
-		btnRegresar.setBounds(378, 501, 86, 40);
+		btnRegresar.setBounds(378, 506, 86, 40);
 		btnRegresar.setFocusable(false);
 		btnRegresar.setHorizontalAlignment(SwingConstants.CENTER);
 		btnRegresar.setVerticalAlignment(SwingConstants.CENTER);
@@ -331,7 +331,7 @@ public class EspacioRecibo {
 		btnTerminar.setHorizontalAlignment(SwingConstants.CENTER);
 		btnTerminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTerminar.setFocusable(false);
-		btnTerminar.setBounds(481, 501, 86, 40);
+		btnTerminar.setBounds(481, 506, 86, 40);
 		panelRecibo.add(btnTerminar);
 	}
 
@@ -539,7 +539,7 @@ public class EspacioRecibo {
 //				
 //			}
 //		});
-		btnRegresar.setBounds(378, 501, 86, 40);
+		btnRegresar.setBounds(378, 506, 86, 40);
 		btnRegresar.setFocusable(false);
 		btnRegresar.setHorizontalAlignment(SwingConstants.CENTER);
 		btnRegresar.setVerticalAlignment(SwingConstants.CENTER);
@@ -560,7 +560,7 @@ public class EspacioRecibo {
 		btnTerminar.setHorizontalAlignment(SwingConstants.CENTER);
 		btnTerminar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTerminar.setFocusable(false);
-		btnTerminar.setBounds(481, 501, 86, 40);
+		btnTerminar.setBounds(481, 506, 86, 40);
 		panelRecibo.add(btnTerminar);
 
 	}

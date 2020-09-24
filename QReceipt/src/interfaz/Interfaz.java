@@ -259,6 +259,8 @@ public class Interfaz {
 			}
 			espacioRecibo.getBtnRegresar().setVisible(true);
 			espacioRecibo.getBtnRegresar().setEnabled(true);
+			espacioRecibo.getBtnTerminar().setVisible(true);
+			espacioRecibo.getBtnTerminar().setEnabled(true);
 			panelRecibo.setVisible(true);
 			isVisibleFactura = true;
 		} else {
@@ -267,6 +269,8 @@ public class Interfaz {
 			isVisibleFactura = false;
 			espacioRecibo.getBtnRegresar().setVisible(false);
 			espacioRecibo.getBtnRegresar().setEnabled(false);
+			espacioRecibo.getBtnTerminar().setVisible(false);
+			espacioRecibo.getBtnTerminar().setEnabled(false);
 			for (JComponent componente : componentesformato) {
 				//no hacerle nada al JTable
 				if (!(componente instanceof JTable)) {
@@ -377,7 +381,7 @@ public class Interfaz {
 	 * @return
 	 */
 	private InputStream setWindowIcon() {
-		System.out.println("Window Icon: " + WINDOW_LOGO);
+		System.out.println("Window Icon:\t" + WINDOW_LOGO);
 
 		Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);
 		MatOfByte mByte = new MatOfByte();
@@ -393,7 +397,7 @@ public class Interfaz {
 //		System.out.println("Logo: " + LOGO_PATH);
 
 //		Mat m = Imgcodecs.imread(LOGO_PATH, Imgcodecs.IMREAD_UNCHANGED);
-		System.out.println("Logo: " + WINDOW_LOGO);
+		System.out.println("Logo:\t\t" + WINDOW_LOGO);
 		
 		Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);
 
