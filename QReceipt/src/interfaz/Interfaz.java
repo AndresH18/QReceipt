@@ -17,13 +17,14 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.core.Size;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
+// import org.opencv.core.Core;
+// import org.opencv.core.Mat;
+// import org.opencv.core.MatOfByte;
+// import org.opencv.core.Size;
+// import org.opencv.imgcodecs.Imgcodecs;
+// import org.opencv.imgproc.Imgproc;
 
+import codificar.Codificar;
 import numeros.Num5;
 
 import java.awt.event.KeyAdapter;
@@ -61,7 +62,7 @@ public class Interfaz {
 
 	//
 	/*
-	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes año
+	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes aï¿½o
 	 * hora minuto /// precion y articulos String nombreCliente, telefonoCliente,
 	 * idCliente, dirrecionCliente; int numFactura;// ++ // Object articulos;//
 	 * Valor, total, forma de pago
@@ -102,13 +103,13 @@ public class Interfaz {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		// System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Interfaz window = new Interfaz();
 					window.frame.setVisible(true);
-//					Pestaña1.textFieldNombre.requestFocus();
+//					Pestaï¿½a1.textFieldNombre.requestFocus();
 
 //					System.out.println(window.frame.getWidth()-(panel1.getX()+panel1.getWidth()));
 //					System.out.println(window.frame.getWidth()-panel1.getX()-24);
@@ -135,11 +136,7 @@ public class Interfaz {
 	private void initialize() {
 
 		frame = new JFrame();
-		try {
-			frame.setIconImage(ImageIO.read(setWindowIcon()));
-		} catch (IOException e) {
-			System.out.println("CATCH");
-		}
+		
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(this.getClass().getCanonicalName());
@@ -199,6 +196,8 @@ public class Interfaz {
 //				entregarDatosCliente(formatoRecibo, espacioRecibo);
 				entregarDatosCliente();
 
+				datosQR();
+
 				controlVisibilidadFormato_Recibo();
 
 //				imprimirNuevo();
@@ -212,7 +211,7 @@ public class Interfaz {
 		tab1.add(panelRecibo);
 
 		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
-		espacioRecibo.getLblLogo().setIcon(new ImageIcon(setLogo(espacioRecibo.getLblLogo())));
+		
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -231,12 +230,12 @@ public class Interfaz {
 		/*
 		 * TAB 1
 		 */
-//		new Pestaña1(frame, tab1, datosProductos);
+//		new Pestaï¿½a1(frame, tab1, datosProductos);
 
 		/*
 		 * TAB 2
 		 * 
-		 * TODO: aplicar un usuario y contraseña para poder leer el QR
+		 * TODO: aplicar un usuario y contraseï¿½a para poder leer el QR
 		 */
 		passwordField = new JPasswordField();
 		passwordField.setBounds(144, 421, 271, 19);
@@ -272,7 +271,7 @@ public class Interfaz {
 			espacioRecibo.getBtnTerminar().setVisible(false);
 			espacioRecibo.getBtnTerminar().setEnabled(false);
 			for (JComponent componente : componentesformato) {
-				//no hacerle nada al JTable
+				// no hacerle nada al JTable
 				if (!(componente instanceof JTable)) {
 					componente.setVisible(true);
 					componente.setFocusable(true);
@@ -325,6 +324,7 @@ public class Interfaz {
 		return datos;
 	}
 
+	
 	/**
 	 * Limpia los componentes del formato despues de imprimir
 	 */
@@ -339,24 +339,31 @@ public class Interfaz {
 	}
 
 	private void reseter(JComponent j) {
-		
+
 		if (j instanceof JTextField) {
 			((JTextField) j).setText("");
 		} else if (j instanceof JSpinner) {
 			((JSpinner) j).setValue(1);
-		}else if(j instanceof JTable) {
+		} else if (j instanceof JTable) {
 			DefaultTableCellRenderer textoTablaCentro = new DefaultTableCellRenderer();
 			textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
-			
+
 			DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
 			textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
-			
-			((JTable)j).setModel(new DefaultTableModel(new String[][] {{}, {},{}}, new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
-			((JTable)j).getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
-			((JTable)j).getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-			((JTable)j).getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
-		}
 
+			((JTable) j).setModel(new DefaultTableModel(new String[][] { {}, {}, {} },
+					new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
+			((JTable) j).getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+			((JTable) j).getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+			((JTable) j).getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+		}
+	}
+
+	private void datosQR() {
+		//FIXME: ""=> productos
+		String[] info = formatoRecibo.infoForQR("a");
+		String texto = new Codificar(info).getCoded();
+		System.out.println(texto);
 	}
 
 	/**
@@ -373,70 +380,6 @@ public class Interfaz {
 			System.out.println();
 		}
 	}
-	
-	//TODO: buscar Remplazar opencv
-	/**
-	 * Sets the icon of the Frame/window
-	 * 
-	 * @return
-	 */
-	private InputStream setWindowIcon() {
-		System.out.println("Window Icon:\t" + WINDOW_LOGO);
 
-		Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);
-		MatOfByte mByte = new MatOfByte();
-		Imgcodecs.imencode(".jpg", m, mByte);
-//		Imgcodecs.imencode(".jpeg", m, mByte);
-		byte[] byteArray = mByte.toArray();
-		InputStream inC = new ByteArrayInputStream(byteArray);
-
-		return inC;
-	}
-
-	private BufferedImage setLogo(JLabel label) {
-//		System.out.println("Logo: " + LOGO_PATH);
-
-//		Mat m = Imgcodecs.imread(LOGO_PATH, Imgcodecs.IMREAD_UNCHANGED);
-		System.out.println("Logo:\t\t" + WINDOW_LOGO);
-		
-		Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);
-
-		MatOfByte mByte = new MatOfByte();
-		Imgcodecs.imencode(".jpg", scaleImage(m, label), mByte);
-//		Imgcodecs.imencode(".jpeg", m, mByte);
-		byte[] byteArray = mByte.toArray();
-		InputStream inC = new ByteArrayInputStream(byteArray);
-		BufferedImage bf = null;
-
-		try {
-			bf = ImageIO.read(inC);
-		} catch (IOException e) {
-
-		}
-		return bf;
-	}
-
-	/**
-	 * Scales image to fit JLabel
-	 * 
-	 * @param mat
-	 * @param label
-	 * @return
-	 */
-	private Mat scaleImage(Mat mat, JLabel label) {
-		Mat scaled = new Mat();
-		double z;
-
-		if (mat.height() > mat.width()) {
-			z = ((double) label.getHeight()) / ((double) mat.height());
-		} else {
-			z = ((double) label.getWidth()) / ((double) mat.width());
-
-		}
-		// INTER_AREA is better for reducing size
-		Imgproc.resize(mat, scaled, new Size(), z, z, Imgproc.INTER_AREA);
-
-		return scaled;
-	}
 
 }

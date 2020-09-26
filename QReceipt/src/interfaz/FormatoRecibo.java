@@ -35,8 +35,8 @@ public class FormatoRecibo {
 	String nombre;
 	String id;
 	String direccion;
-
-
+	
+	
 	static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
 	 		"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
 	static final String[] DAYS31 = generarDias(31);
@@ -47,7 +47,7 @@ public class FormatoRecibo {
 
 	private static String[] dias = findActualMonthForDay();
 
-	static final String[] AÑOS = generarAños();
+	static final String[] YEARS = generarYears();
 
 	private String[][] datosProductos = new String[0][3];
 	/**
@@ -220,7 +220,7 @@ public class FormatoRecibo {
 		comboBoxDay.setBounds(243, 5, 50, 21);
 		panelFecha.add(comboBoxDay);
 
-		comboBoxYear = new JComboBox<String>(AÑOS);
+		comboBoxYear = new JComboBox<String>(YEARS);
 		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
 //		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
 		((JLabel) comboBoxYear.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -769,7 +769,7 @@ public class FormatoRecibo {
 		comboBoxDay.setBounds(243, 5, 50, 21);
 		panelFecha.add(comboBoxDay);
 
-		comboBoxYear = new JComboBox(AÑOS);
+		comboBoxYear = new JComboBox(YEARS);
 		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
 //		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
 		((JLabel) comboBoxYear.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -1207,7 +1207,7 @@ public class FormatoRecibo {
 	 * @return
 	 */
 	private static String[] generarDias(int cantDias) {
-		// FIXME: Condicional de año biziesto(no se como se escribe)
+		// FIXME: Condicional de aï¿½o biziesto(no se como se escribe)
 		String[] dias = new String[cantDias + 1];
 		dias[0] = "DIA";
 		for (int i = 1; i <= cantDias; i++) {
@@ -1225,29 +1225,29 @@ public class FormatoRecibo {
 	}
 
 	/**
-	 * Genera una lista con años a partir del año actual
+	 * Genera una lista con aï¿½os a partir del aï¿½o actual
 	 * 
 	 * @return
 	 */
-	private static String[] generarAños() {
+	private static String[] generarYears() {
 		LocalDateTime.now().getYear();
-		int añoMinPredeterminado = -10000;
+		int yearMinPredeterminado = -10000;
 		int con = 0;
-		String[] años = new String[LocalDateTime.now().getYear() - añoMinPredeterminado + 1];
-		años[0] = "AÑO";
-		for (int i = LocalDateTime.now().getYear(); i > añoMinPredeterminado; i--) {
-			años[++con] = String.valueOf(i);
+		String[] years = new String[LocalDateTime.now().getYear() - yearMinPredeterminado + 1];
+		years[0] = "Aï¿½O";
+		for (int i = LocalDateTime.now().getYear(); i > yearMinPredeterminado; i--) {
+			years[++con] = String.valueOf(i);
 		}
-//		System.out.println(años.length);
+//		System.out.println(aï¿½os.length);
 //		System.out.println("con:" + con);
 //		StringBuilder sb = new StringBuilder();
-//	       sb.append("Termino en prueba").append(LocalDateTime.now().getYear()-añoMinPredeterminado);
+//	       sb.append("Termino en prueba").append(LocalDateTime.now().getYear()-aï¿½oMinPredeterminado);
 //	       sb.toString();
 		/*
-		 * for (String año : años) { sb.append(año).append(" "); }
+		 * for (String aï¿½o : aï¿½os) { sb.append(aï¿½o).append(" "); }
 		 * System.out.println(sb.toString());
 		 */
-		return años;
+		return years;
 	}
 
 	/**
@@ -1257,9 +1257,9 @@ public class FormatoRecibo {
 	 */
 	private static String[] findActualMonthForDay() {
 
-		// Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
+		// Tienen 31 dï¿½as: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
 		// 12diciembre.
-		// Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre
+		// Tienen 30 dï¿½as: 4Abril, 6junio, 9septiembre y 11noviembre
 		switch (LocalDateTime.now().getMonthValue()) {
 		// 31
 		case 1:
@@ -1295,8 +1295,8 @@ public class FormatoRecibo {
 	private void updateMonthDays(JComboBox<String> boxMonth, JComboBox<String> boxDay) {
 		boxDay.removeAllItems();
 		/*
-		 * Tienen 31 días: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
-		 * 12diciembre. Tienen 30 días: 4Abril, 6junio, 9septiembre y 11noviembre.
+		 * Tienen 31 dï¿½as: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
+		 * 12diciembre. Tienen 30 dï¿½as: 4Abril, 6junio, 9septiembre y 11noviembre.
 		 */
 		switch (boxMonth.getSelectedIndex()) {
 		// 31
@@ -1519,8 +1519,8 @@ public class FormatoRecibo {
 		String id;
 		String direccion;
 
-		sb.append(comboBoxDay.getSelectedItem().toString()).append(" / ");
-		sb.append(comboBoxMonth.getSelectedItem().toString()).append(" / ");
+		sb.append(comboBoxDay.getSelectedItem().toString()).append("/");
+		sb.append(comboBoxMonth.getSelectedItem().toString()).append("/");
 //		sb.append(comboBoxMonth.getSelectedIndex()).append(" / ");
 		sb.append(comboBoxYear.getSelectedItem().toString());
 		fecha = sb.toString();
@@ -1540,7 +1540,33 @@ public class FormatoRecibo {
 		} else {
 			direccion = textFieldDireccion.getText();
 		}
-
+		//CUIDADO
+		this.fecha = fecha;
+		this.nombre = nombre;
+		this.id = id;
+		this.direccion = direccion;
+		
 		return new String[] { fecha, nombre, id, direccion };
+	}
+	//CUIDADO
+	public String[] infoForQR(String...productos) {
+		String[] temp = new String[ 4 + productos.length];
+		temp[0] = this.fecha;
+		temp[1] = this.nombre;
+		temp[2] = this.id;
+		temp[3] = this.direccion;
+
+		int count = 0;
+		for(int i = 4;i<temp.length; i++){
+			temp[i] = productos[count++];
+		}
+		for (String string : temp) {
+			System.out.print(string + "  ");
+		}
+		
+		return temp;
+	}
+	public FormatoRecibo(String a) {
+		super();
 	}
 }
