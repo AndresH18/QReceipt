@@ -67,6 +67,9 @@ public class EspacioRecibo {
 	private JLabel numFact;
 
 	private JLabel lblQR;
+	public JLabel getLblQR() {
+		return this.lblQR;
+	}
 
 	private JSeparator separator2;
 
@@ -247,7 +250,7 @@ public class EspacioRecibo {
 		lblQR = new JLabel("");
 		lblQR.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQR.setVerticalAlignment(SwingConstants.CENTER);
-		lblQR.setBounds(448, 11, 100, 100);
+		lblQR.setBounds(418, 5, 120, 120);
 		clienteInfo.add(lblQR);
 
 		numFact = new JLabel("");
@@ -476,7 +479,7 @@ public class EspacioRecibo {
 		lblQR = new JLabel("");
 		lblQR.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQR.setVerticalAlignment(SwingConstants.CENTER);
-		lblQR.setBounds(448, 11, 100, 100);
+		lblQR.setBounds(418, 5, 120, 120);
 		clienteInfo.add(lblQR);
 
 		numFact = new JLabel("");

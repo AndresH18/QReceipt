@@ -25,7 +25,9 @@ import javax.swing.table.DefaultTableModel;
 // import org.opencv.imgproc.Imgproc;
 
 import codificar.Codificar;
+import criptografia.Crypto;
 import numeros.Num5;
+import qr.QR_Writer3;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -36,6 +38,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
@@ -62,10 +66,10 @@ public class Interfaz {
 
 	//
 	/*
-	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes a�o
-	 * hora minuto /// precion y articulos String nombreCliente, telefonoCliente,
-	 * idCliente, dirrecionCliente; int numFactura;// ++ // Object articulos;//
-	 * Valor, total, forma de pago
+	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes
+	 * a�o hora minuto /// precion y articulos String nombreCliente,
+	 * telefonoCliente, idCliente, dirrecionCliente; int numFactura;// ++ // Object
+	 * articulos;// Valor, total, forma de pago
 	 * 
 	 * // infoNuestraEmpresa --> Enumeracion(DIRECCION, NOMBRE, TELEFONO, NIT....) }
 	 */
@@ -136,7 +140,7 @@ public class Interfaz {
 	private void initialize() {
 
 		frame = new JFrame();
-		
+
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(this.getClass().getCanonicalName());
@@ -211,7 +215,7 @@ public class Interfaz {
 		tab1.add(panelRecibo);
 
 		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
-		
+
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -324,7 +328,6 @@ public class Interfaz {
 		return datos;
 	}
 
-	
 	/**
 	 * Limpia los componentes del formato despues de imprimir
 	 */
@@ -360,14 +363,34 @@ public class Interfaz {
 	}
 
 	private void datosQR() {
-		//FIXME: ""=> productos
-		String[] info = formatoRecibo.infoForQR("a");
-		String texto = new Codificar(info).getCoded();
-		System.out.println(texto);
+		// FIXME: ""=> productos
+//		String[] info = formatoRecibo.infoForQR("a");
+//		String texto = new Codificar(info).getCoded();
+//		System.out.println(texto);
+		String[] info = new String[formatoRecibo.getInfoQR().length];
+		for (int i = 0; i < info.length; i++) {
+			info[i] = formatoRecibo.getInfoQR()[i];
+		}
+		//WARNING TODO: make global(final) SecretKey
+		String codi = (new Codificar(info).getCoded());
+//		Toolkit.getDefaultToolkit().beep();
+		System.out.println(this.getClass().getCanonicalName() + ".datosQR()");
+		System.out.println("codi:\t" + codi);
+		String hex1 = Crypto.stringToHex(codi);
+		System.out.println("hex1:\t" + hex1);
+		
+//		String encryp1 = new Crypto().
+		
+		genQR(hex1);
+	}
+	
+	private void genQR(String info) {
+		new QR_Writer3(espacioRecibo.getLblQR(), info);
 	}
 
 	/**
 	 * Imprimir para pruebas
+	 * FIXME: borrar
 	 */
 	private void imprimirPruebaDeMatrizNueva() {
 //		private void imprimirNuevo(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
@@ -380,6 +403,5 @@ public class Interfaz {
 			System.out.println();
 		}
 	}
-
 
 }

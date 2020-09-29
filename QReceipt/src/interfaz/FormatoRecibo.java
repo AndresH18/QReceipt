@@ -35,10 +35,9 @@ public class FormatoRecibo {
 	String nombre;
 	String id;
 	String direccion;
-	
-	
+
 	static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
-	 		"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
+			"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
 	static final String[] DAYS31 = generarDias(31);
 
 	static final String[] DAYS30 = generarDias(30);
@@ -50,21 +49,30 @@ public class FormatoRecibo {
 	static final String[] YEARS = generarYears();
 
 	private String[][] datosProductos = new String[0][3];
+
 	/**
 	 * @return CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
 	 */
 	public String[][] getDatosProductos() {
 		return datosProductos.clone();
 	}
+
 	public void setDatosProductos(String[][] datosProductos) {
 		this.datosProductos = datosProductos;
 	}
 
+	private String[] infoQR;
+
+	public String[] getInfoQR() {
+		String[] temp = new String[infoQR.length];
+		for (int i = 0; i < temp.length; i++) {
+			temp[i] = infoQR[i];
+		}
+		return temp;
+	}
+
 //	private String[][] datosProductos = { { "TV", "10002", "8888" }, { "computador", "333", "888" },
 //			{ "holla", "2", "100" } };
-
-	
-
 
 	static final Color COLOR_FRAME = new Color(217, 222, 222);
 	static final Color COLOR_PANEL = new Color(202, 202, 202);
@@ -1506,14 +1514,13 @@ public class FormatoRecibo {
 		componentes[10] = modificarValor;
 		componentes[11] = btnGenerarRecibo;
 		componentes[12] = listaProductos;
-		
 
 		return componentes;
 	}
 
 	public String[] getInfoCliente() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		String fecha;
 		String nombre;
 		String id;
@@ -1540,32 +1547,62 @@ public class FormatoRecibo {
 		} else {
 			direccion = textFieldDireccion.getText();
 		}
-		//CUIDADO
 		this.fecha = fecha;
 		this.nombre = nombre;
 		this.id = id;
 		this.direccion = direccion;
-		
+		// CUIDADO
+		infoForQR("");
+
 		return new String[] { fecha, nombre, id, direccion };
 	}
-	//CUIDADO
-	public String[] infoForQR(String...productos) {
-		String[] temp = new String[ 4 + productos.length];
-		temp[0] = this.fecha;
-		temp[1] = this.nombre;
-		temp[2] = this.id;
-		temp[3] = this.direccion;
 
-		int count = 0;
-		for(int i = 4;i<temp.length; i++){
-			temp[i] = productos[count++];
+	// CUIDADO
+	private void infoForQR(String... productos) {
+		if (!productos[0].equals("")) {
+			String[] temp = new String[4 + productos.length];
+			temp[0] = this.fecha;
+			temp[1] = this.nombre;
+			temp[2] = this.id;
+			temp[3] = this.direccion;
+
+			int count = 0;
+			for (int i = 4; i < temp.length; i++) {
+				temp[i] = productos[count++];
+			}
+
+			System.out.println(this.getClass().getCanonicalName() + ".infoForQR");
+
+			for (String string : temp) {
+				System.out.print(string + "  ");
+			}
+			System.out.println();
+			this.infoQR = null;
+			this.infoQR = new String[temp.length];
+			for (int i = 0; i < temp.length; i++) {
+				this.infoQR[i] = temp[i];
+			}
+		} else {
+			String[] temp = new String[4];
+			temp[0] = this.fecha;
+			temp[1] = this.nombre;
+			temp[2] = this.id;
+			temp[3] = this.direccion;
+			System.out.println(this.getClass().getCanonicalName() + ".infoForQR");
+
+			for (String string : temp) {
+				System.out.print(string + "  ");
+			}
+			System.out.println();
+			this.infoQR = null;
+			this.infoQR = new String[temp.length];
+			for (int i = 0; i < temp.length; i++) {
+				this.infoQR[i] = temp[i];
+			}
+
 		}
-		for (String string : temp) {
-			System.out.print(string + "  ");
-		}
-		
-		return temp;
 	}
+
 	public FormatoRecibo(String a) {
 		super();
 	}

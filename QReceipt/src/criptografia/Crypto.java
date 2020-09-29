@@ -21,65 +21,65 @@ import javax.crypto.spec.SecretKeySpec;
  *
  */
 public class Crypto {
-
-    public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-        SecretKey secretKey = makeKey();
-        // System.out.println("secretKey[" + "Algorithm: " + secretKey.getAlgorithm() +
-        // " Encoded: " + secretKey.getEncoded().toString() + " Formta: " +
-        // secretKey.getFormat());
-        // String texto = "hola";
-        // do {
-        //     texto = sc.nextLine();
-        //     System.out.println("texto: " + texto);
-
-        //     String codificado = encriptar(texto, secretKey);
-        //     System.out.println("codificado: " + codificado);
-
-        //     String decodificado = decriptar(codificado, secretKey);
-        //     System.out.println("decodificado: " + decodificado);
-        // } while (true);
-        
-            //Texto
-        String texto = sc.nextLine();
-        System.out.println("Texto:\t\t" + texto);
-            //texto a formtato hexadecimal
-        String s1 = stringToHex(texto);
-        System.out.println("s1:\t\t" + s1);
-            //texto ehcadecimal a encriptado
-        String s2 = encriptar(s1, secretKey);
-        System.out.println("s2:\t\t" + s2);
-            //texto hexadecimal encriptado a hexadecimal (si, otra vez)
-        String s3 = stringToHex(s2);
-        System.out.println("s3:\t\t" + s3);
-
-        System.out.println("======================");
-            //hex a String
-        String ss1 = hexToString(s3);
-        System.out.println("ss1:\t\t" + ss1);
-
-        System.out.println((ss1.equals(s2))? true:false);
-            //desencriptar String
-        String ss2 = decriptar(ss1, secretKey);
-        System.out.println("ss2:\t\t" + ss2);
-
-        System.out.println((ss2.equals(s1))? true:false);
-            //hex a String 
-        String finall = hexToString(ss2);
-        System.out.println("final:\t\t" + finall);
-
-        System.out.println((finall.equals(texto))? true:false);
-        
-        
-        sc.close();
-    }
+	
+//    public static void main(String[] args) throws Exception {
+//        Scanner sc = new Scanner(System.in);
+//        SecretKey secretKey = makeKey();
+//        // System.out.println("secretKey[" + "Algorithm: " + secretKey.getAlgorithm() +
+//        // " Encoded: " + secretKey.getEncoded().toString() + " Formta: " +
+//        // secretKey.getFormat());
+//        // String texto = "hola";
+//        // do {
+//        //     texto = sc.nextLine();
+//        //     System.out.println("texto: " + texto);
+//
+//        //     String codificado = encriptar(texto, secretKey);
+//        //     System.out.println("codificado: " + codificado);
+//
+//        //     String decodificado = decriptar(codificado, secretKey);
+//        //     System.out.println("decodificado: " + decodificado);
+//        // } while (true);
+//        
+//            //Texto
+//        String texto = sc.nextLine();
+//        System.out.println("Texto:\t\t" + texto);
+//            //texto a formtato hexadecimal
+//        String s1 = stringToHex(texto);
+//        System.out.println("s1:\t\t" + s1);
+//            //texto ehcadecimal a encriptado
+//        String s2 = encriptar(s1, secretKey);
+//        System.out.println("s2:\t\t" + s2);
+//            //texto hexadecimal encriptado a hexadecimal (si, otra vez)
+//        String s3 = stringToHex(s2);
+//        System.out.println("s3:\t\t" + s3);
+//
+//        System.out.println("======================");
+//            //hex a String
+//        String ss1 = hexToString(s3);
+//        System.out.println("ss1:\t\t" + ss1);
+//
+//        System.out.println((ss1.equals(s2))? true:false);
+//            //desencriptar String
+//        String ss2 = decriptar(ss1, secretKey);
+//        System.out.println("ss2:\t\t" + ss2);
+//
+//        System.out.println((ss2.equals(s1))? true:false);
+//            //hex a String 
+//        String finall = hexToString(ss2);
+//        System.out.println("final:\t\t" + finall);
+//
+//        System.out.println((finall.equals(texto))? true:false);
+//        
+//        
+//        sc.close();
+//    }
     /**
      * <b>Genera una llave Simetrica para encriptar/desencriptar</b>
      * @return
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
      */
-    public static SecretKey makeKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public SecretKey makeKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         //TODO: decidir una llave, tiene que tener 128 bits => esto es 16 Bytes
         final String keyString = "thisisa128bitkey";
         SecretKey secretKey;
@@ -107,7 +107,7 @@ public class Crypto {
      * @throws BadPaddingException
      * @throws UnsupportedEncodingException
      */
-    public static String encriptar(String texto, SecretKey secretKey)
+    public String encriptar(String texto, SecretKey secretKey)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException,
             BadPaddingException, UnsupportedEncodingException {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
@@ -129,7 +129,7 @@ public class Crypto {
      * @throws IllegalBlockSizeException
      * @throws BadPaddingException
      */
-    public static String decriptar(String encrypted, SecretKey secretKey) throws NoSuchAlgorithmException,
+    public String decriptar(String encrypted, SecretKey secretKey) throws NoSuchAlgorithmException,
             NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 
