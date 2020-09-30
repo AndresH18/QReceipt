@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -21,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 public class EspacioRecibo {
-
 
 	static final String COMPANY = "<html>Direccion: Cra 38# 6D Z sur 30<br>NIT: 112.358.132-1B<br>Telefono: (-57) 300336 9209<br>E-mail: qreceipt@receipt.qr</html>";
 	static final String ROOT_PATH = System.getProperty("user.dir");
@@ -67,6 +64,7 @@ public class EspacioRecibo {
 	private JLabel numFact;
 
 	private JLabel lblQR;
+
 	public JLabel getLblQR() {
 		return this.lblQR;
 	}
@@ -143,7 +141,7 @@ public class EspacioRecibo {
 		this.nombreString = nombre;
 		this.idString = id;
 		this.direccionString = direccion;
-		
+
 		initialize();
 //		start();
 

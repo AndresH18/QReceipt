@@ -2,7 +2,6 @@ package interfaz;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,49 +10,38 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-// import org.opencv.core.Core;
-// import org.opencv.core.Mat;
-// import org.opencv.core.MatOfByte;
-// import org.opencv.core.Size;
-// import org.opencv.imgcodecs.Imgcodecs;
-// import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import codificar.Codificar;
 import criptografia.Crypto;
-import numeros.Num5;
 import qr.QR_Writer3;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.awt.Font;
-import java.awt.Toolkit;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JToggleButton;
-import javax.swing.JCheckBox;
-import javax.swing.JInternalFrame;
-import javax.swing.JDesktopPane;
 
 /*
  * **https://htmlcolors.com/google-color-picker
@@ -67,7 +55,7 @@ public class Interfaz {
 	//
 	/*
 	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes
-	 * a�o hora minuto /// precion y articulos String nombreCliente,
+	 * year, hora, minuto /// precion y articulos String nombreCliente,
 	 * telefonoCliente, idCliente, dirrecionCliente; int numFactura;// ++ // Object
 	 * articulos;// Valor, total, forma de pago
 	 * 
@@ -107,17 +95,12 @@ public class Interfaz {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		// System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Interfaz window = new Interfaz();
 					window.frame.setVisible(true);
-//					Pesta�a1.textFieldNombre.requestFocus();
-
-//					System.out.println(window.frame.getWidth()-(panel1.getX()+panel1.getWidth()));
-//					System.out.println(window.frame.getWidth()-panel1.getX()-24);
-//					System.out.println(lblNombre.getHeight());
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -140,7 +123,11 @@ public class Interfaz {
 	private void initialize() {
 
 		frame = new JFrame();
-
+		try {	
+			frame.setIconImage(ImageIO.read(setWindowIcon()));	
+		} catch (IOException e) {	
+			System.out.println("CATCH");	
+		}
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(this.getClass().getCanonicalName());
@@ -215,7 +202,9 @@ public class Interfaz {
 		tab1.add(panelRecibo);
 
 		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
-
+		
+		espacioRecibo.getLblLogo().setIcon(new ImageIcon(setLogo(espacioRecibo.getLblLogo())));
+		
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -234,7 +223,6 @@ public class Interfaz {
 		/*
 		 * TAB 1
 		 */
-//		new Pesta�a1(frame, tab1, datosProductos);
 
 		/*
 		 * TAB 2
@@ -371,26 +359,25 @@ public class Interfaz {
 		for (int i = 0; i < info.length; i++) {
 			info[i] = formatoRecibo.getInfoQR()[i];
 		}
-		//WARNING TODO: make global(final) SecretKey
+		// WARNING TODO: make global(final) SecretKey
 		String codi = (new Codificar(info).getCoded());
 //		Toolkit.getDefaultToolkit().beep();
 		System.out.println(this.getClass().getCanonicalName() + ".datosQR()");
 		System.out.println("codi:\t" + codi);
 		String hex1 = Crypto.stringToHex(codi);
 		System.out.println("hex1:\t" + hex1);
-		
+
 //		String encryp1 = new Crypto().
-		
+
 		genQR(hex1);
 	}
-	
+
 	private void genQR(String info) {
 		new QR_Writer3(espacioRecibo.getLblQR(), info);
 	}
 
 	/**
-	 * Imprimir para pruebas
-	 * FIXME: borrar
+	 * Imprimir para pruebas FIXME: borrar
 	 */
 	private void imprimirPruebaDeMatrizNueva() {
 //		private void imprimirNuevo(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
@@ -403,5 +390,70 @@ public class Interfaz {
 			System.out.println();
 		}
 	}
+	//TODO: buscar Remplazar opencv	
+		/**	
+		 * Sets the icon of the Frame/window	
+		 * 	
+		 * @return	
+		 */	
+		private InputStream setWindowIcon() {	
+			System.out.println("Window Icon:\t" + WINDOW_LOGO);	
+
+			Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);	
+			MatOfByte mByte = new MatOfByte();	
+			Imgcodecs.imencode(".jpg", m, mByte);	
+//			Imgcodecs.imencode(".jpeg", m, mByte);	
+			byte[] byteArray = mByte.toArray();	
+			InputStream inC = new ByteArrayInputStream(byteArray);	
+
+			return inC;	
+		}	
+
+
+		private BufferedImage setLogo(JLabel label) {	
+//			System.out.println("Logo: " + LOGO_PATH);	
+
+//			Mat m = Imgcodecs.imread(LOGO_PATH, Imgcodecs.IMREAD_UNCHANGED);	
+			System.out.println("Logo:\t\t" + WINDOW_LOGO);	
+
+			Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);	
+
+			MatOfByte mByte = new MatOfByte();	
+			Imgcodecs.imencode(".jpg", scaleImage(m, label), mByte);	
+//			Imgcodecs.imencode(".jpeg", m, mByte);	
+			byte[] byteArray = mByte.toArray();	
+			InputStream inC = new ByteArrayInputStream(byteArray);	
+			BufferedImage bf = null;	
+
+			try {	
+				bf = ImageIO.read(inC);	
+			} catch (IOException e) {	
+
+			}	
+			return bf;	
+		}	
+
+		/**	
+		 * Scales image to fit JLabel	
+		 * 	
+		 * @param mat	
+		 * @param label	
+		 * @return	
+		 */	
+		private Mat scaleImage(Mat mat, JLabel label) {	
+			Mat scaled = new Mat();	
+			double z;	
+
+			if (mat.height() > mat.width()) {	
+				z = ((double) label.getHeight()) / ((double) mat.height());	
+			} else {	
+				z = ((double) label.getWidth()) / ((double) mat.width());	
+
+			}	
+			// INTER_AREA is better for reducing size	
+			Imgproc.resize(mat, scaled, new Size(), z, z, Imgproc.INTER_AREA);	
+
+			return scaled;	
+		}
 
 }
