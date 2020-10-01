@@ -30,9 +30,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -123,11 +125,8 @@ public class Interfaz {
 	private void initialize() {
 
 		frame = new JFrame();
-		try {	
-			frame.setIconImage(ImageIO.read(setWindowIcon()));	
-		} catch (IOException e) {	
-			System.out.println("CATCH");	
-		}
+//		frame.setIconImage(ImageIO.read(setWindowIcon()));
+		frame.setIconImage(readLogoWindow());
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(this.getClass().getCanonicalName());
@@ -202,9 +201,10 @@ public class Interfaz {
 		tab1.add(panelRecibo);
 
 		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
-		
-		espacioRecibo.getLblLogo().setIcon(new ImageIcon(setLogo(espacioRecibo.getLblLogo())));
-		
+
+//		espacioRecibo.getLblLogo().setIcon(new ImageIcon(setLogo(espacioRecibo.getLblLogo())));
+		espacioRecibo.getLblLogo().setIcon(new ImageIcon(readLogo()));
+
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -390,70 +390,95 @@ public class Interfaz {
 			System.out.println();
 		}
 	}
-	//TODO: buscar Remplazar opencv	
-		/**	
-		 * Sets the icon of the Frame/window	
-		 * 	
-		 * @return	
-		 */	
-		private InputStream setWindowIcon() {	
-			System.out.println("Window Icon:\t" + WINDOW_LOGO);	
 
-			Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);	
-			MatOfByte mByte = new MatOfByte();	
-			Imgcodecs.imencode(".jpg", m, mByte);	
-//			Imgcodecs.imencode(".jpeg", m, mByte);	
-			byte[] byteArray = mByte.toArray();	
-			InputStream inC = new ByteArrayInputStream(byteArray);	
+	
+	
+	private BufferedImage readLogoWindow() {
+		System.out.println("Window Icon:\t" + WINDOW_LOGO);
+//			File file = new File(WINDOW_LOGO);
+		BufferedImage buf = null;
+		try {
+			buf = ImageIO.read(new File(WINDOW_LOGO));
+		} catch (IOException e) {
 
-			return inC;	
-		}	
-
-
-		private BufferedImage setLogo(JLabel label) {	
-//			System.out.println("Logo: " + LOGO_PATH);	
-
-//			Mat m = Imgcodecs.imread(LOGO_PATH, Imgcodecs.IMREAD_UNCHANGED);	
-			System.out.println("Logo:\t\t" + WINDOW_LOGO);	
-
-			Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);	
-
-			MatOfByte mByte = new MatOfByte();	
-			Imgcodecs.imencode(".jpg", scaleImage(m, label), mByte);	
-//			Imgcodecs.imencode(".jpeg", m, mByte);	
-			byte[] byteArray = mByte.toArray();	
-			InputStream inC = new ByteArrayInputStream(byteArray);	
-			BufferedImage bf = null;	
-
-			try {	
-				bf = ImageIO.read(inC);	
-			} catch (IOException e) {	
-
-			}	
-			return bf;	
-		}	
-
-		/**	
-		 * Scales image to fit JLabel	
-		 * 	
-		 * @param mat	
-		 * @param label	
-		 * @return	
-		 */	
-		private Mat scaleImage(Mat mat, JLabel label) {	
-			Mat scaled = new Mat();	
-			double z;	
-
-			if (mat.height() > mat.width()) {	
-				z = ((double) label.getHeight()) / ((double) mat.height());	
-			} else {	
-				z = ((double) label.getWidth()) / ((double) mat.width());	
-
-			}	
-			// INTER_AREA is better for reducing size	
-			Imgproc.resize(mat, scaled, new Size(), z, z, Imgproc.INTER_AREA);	
-
-			return scaled;	
 		}
+		return buf;
+	}
+
+	private BufferedImage readLogo() {
+		File file = new File(WINDOW_LOGO);
+//			BufferedImage buf1 = null;
+		BufferedImage buf1 = readLogoWindow();
+		Image thumbnail = buf1.getScaledInstance(espacioRecibo.getLblLogo().getWidth()-5, -1, Image.SCALE_SMOOTH);
+		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
+				BufferedImage.TYPE_INT_RGB);
+		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
+		
+		return buf2;
+	}
+	
+
+//	private BufferedImage setLogo(JLabel label) {
+////			System.out.println("Logo: " + LOGO_PATH);	
+//
+////			Mat m = Imgcodecs.imread(LOGO_PATH, Imgcodecs.IMREAD_UNCHANGED);	
+//		System.out.println("Logo:\t\t" + WINDOW_LOGO);
+//
+//		Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);
+//
+//		MatOfByte mByte = new MatOfByte();
+//		Imgcodecs.imencode(".jpg", scaleImage(m, label), mByte);
+////			Imgcodecs.imencode(".jpeg", m, mByte);	
+//		byte[] byteArray = mByte.toArray();
+//		InputStream inC = new ByteArrayInputStream(byteArray);
+//		BufferedImage bf = null;
+//
+//		try {
+//			bf = ImageIO.read(inC);
+//		} catch (IOException e) {
+//
+//		}
+//		return bf;
+//	}
+//
+//	/**
+//	 * Scales image to fit JLabel
+//	 * 
+//	 * @param mat
+//	 * @param label
+//	 * @return
+//	 */
+//	private Mat scaleImage(Mat mat, JLabel label) {
+//		Mat scaled = new Mat();
+//		double z;
+//
+//		if (mat.height() > mat.width()) {
+//			z = ((double) label.getHeight()) / ((double) mat.height());
+//		} else {
+//			z = ((double) label.getWidth()) / ((double) mat.width());
+//
+//		}
+//		// INTER_AREA is better for reducing size
+//		Imgproc.resize(mat, scaled, new Size(), z, z, Imgproc.INTER_AREA);
+//
+//		return scaled;
+//	}
+//	/**
+//	 * Sets the icon of the Frame/window
+//	 * 
+//	 * @return
+//	 */
+//		private InputStream setWindowIcon() {	
+//			System.out.println("Window Icon:\t" + WINDOW_LOGO);	
+//
+//			Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);	
+//			MatOfByte mByte = new MatOfByte();	
+//			Imgcodecs.imencode(".jpg", m, mByte);	
+////			Imgcodecs.imencode(".jpeg", m, mByte);	
+//			byte[] byteArray = mByte.toArray();	
+//			InputStream inC = new ByteArrayInputStream(byteArray);	
+//
+//			return inC;	
+//		}
 
 }
