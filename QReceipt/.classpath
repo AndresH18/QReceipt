@@ -5,7 +5,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV 4_4_0"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/andre/Documents/Librerias de programacion/xzing/banner-1.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/andre/Documents/Librerias de programacion/xzing/commons-collections4-4.1.jar"/>
