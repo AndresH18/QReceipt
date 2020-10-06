@@ -1,9 +1,9 @@
 package qr;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,9 +25,11 @@ public class QR_Writer3 {
 	static final String IMAGE_FORMAT2 = "png";
 
 	private String info;
+	private JLabel label;
 
 	public QR_Writer3(JLabel label, String info) {
 		this.info = info;
+		this.label = label;
 		label.setIcon(new ImageIcon(genQR()));
 		
 	}
@@ -59,6 +61,15 @@ public class QR_Writer3 {
 				image.setRGB(x, y, ((grayValue == 0) ? 0 : 0xFFFFFF));
 			}
 		}
+		
+		Image thumbnail = image.getScaledInstance(label.getWidth() - 5, -1, Image.SCALE_SMOOTH);
+		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
+				BufferedImage.TYPE_INT_RGB);
+		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
+		
+		
+		
+		
 		try {
 			save(0, image);
 		} catch (IOException e) {
@@ -67,7 +78,7 @@ public class QR_Writer3 {
 		return image;
 	}
 
-	public void makeQR(JLabel label) {
+	private void makeQR(JLabel label) {
 		BitMatrix matrix;
 		Writer wr = new QRCodeWriter();
 

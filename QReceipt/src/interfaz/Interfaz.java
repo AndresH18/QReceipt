@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -29,10 +28,9 @@ import qr.QR_Writer3;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.awt.Font;
 import java.awt.Image;
 
@@ -366,6 +364,8 @@ public class Interfaz {
 		System.out.println("codi:\t" + codi);
 		String hex1 = Crypto.stringToHex(codi);
 		System.out.println("hex1:\t" + hex1);
+		
+		//TODO encriptar
 
 //		String encryp1 = new Crypto().
 
@@ -379,6 +379,30 @@ public class Interfaz {
 	/**
 	 * Imprimir para pruebas FIXME: borrar
 	 */
+
+	private BufferedImage readLogoWindow() {
+		System.out.println("Window Icon:\t" + WINDOW_LOGO);
+//			File file = new File(WINDOW_LOGO);
+		BufferedImage buf = null;
+		try {
+			buf = ImageIO.read(new File(WINDOW_LOGO));
+		} catch (IOException e) {
+
+		}
+		return buf;
+	}
+	private BufferedImage readLogo() {
+		File file = new File(WINDOW_LOGO);
+//			BufferedImage buf1 = null;
+		BufferedImage buf1 = readLogoWindow();
+		Image thumbnail = buf1.getScaledInstance(espacioRecibo.getLblLogo().getWidth() - 5, -1, Image.SCALE_SMOOTH);
+		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
+				BufferedImage.TYPE_INT_RGB);
+		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
+
+		return buf2;
+	}
+
 	private void imprimirPruebaDeMatrizNueva() {
 //		private void imprimirNuevo(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
 //		String[][] a = sendProductos(formatoRecibo, espacioRecibo);
@@ -391,31 +415,6 @@ public class Interfaz {
 		}
 	}
 
-	
-	
-	private BufferedImage readLogoWindow() {
-		System.out.println("Window Icon:\t" + WINDOW_LOGO);
-//			File file = new File(WINDOW_LOGO);
-		BufferedImage buf = null;
-		try {
-			buf = ImageIO.read(new File(WINDOW_LOGO));
-		} catch (IOException e) {
-
-		}
-		return buf;
-	}
-
-	private BufferedImage readLogo() {
-		File file = new File(WINDOW_LOGO);
-//			BufferedImage buf1 = null;
-		BufferedImage buf1 = readLogoWindow();
-		Image thumbnail = buf1.getScaledInstance(espacioRecibo.getLblLogo().getWidth()-5, -1, Image.SCALE_SMOOTH);
-		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
-				BufferedImage.TYPE_INT_RGB);
-		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
-		
-		return buf2;
-	}
 	
 
 //	private BufferedImage setLogo(JLabel label) {
