@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 import codificar.Codificar;
 import criptografia.Crypto;
+import login.UserLogin;
 import qr.QR_Writer3;
 
 import java.awt.event.KeyAdapter;
@@ -150,6 +153,18 @@ public class Interfaz {
 
 			}
 		});
+		tabs.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(tabs.getSelectedIndex() == 1) {
+					//CONTINUAR
+					System.out.println("tabs.getSelectedIndex() == 1 ");
+					new UserLogin(frame, tabs);
+				}
+				
+			}
+			
+		});
 		frame.getContentPane().setLayout(null);
 		tabs.setBounds(0, 0, 583, 604);
 		frame.getContentPane().add(tabs);
@@ -215,6 +230,9 @@ public class Interfaz {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("IMPRIMIR RECIBO");
 				reset();
+				//WARNING
+				tabs.setSelectedIndex(1);
+				
 			}
 		});
 
