@@ -6,7 +6,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Scanner;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -21,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
  *
  */
 public class Crypto {
-	
+
 //    public static void main(String[] args) throws Exception {
 //        Scanner sc = new Scanner(System.in);
 //        SecretKey secretKey = makeKey();
@@ -73,97 +72,105 @@ public class Crypto {
 //        
 //        sc.close();
 //    }
-    /**
-     * <b>Genera una llave Simetrica para encriptar/desencriptar</b>
-     * @return
-     * @throws UnsupportedEncodingException
-     * @throws NoSuchAlgorithmException
-     */
-    public SecretKey makeKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        //TODO: decidir una llave, tiene que tener 128 bits => esto es 16 Bytes
-        final String keyString = "thisisa128bitkey";
-        SecretKey secretKey;
-        byte[] key;
+	/**
+	 * <b>Genera una llave Simetrica para encriptar/desencriptar</b>
+	 * 
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws NoSuchAlgorithmException
+	 */
+	public SecretKey makeKey() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		// TODO: decidir una llave, tiene que tener 128 bits => esto es 16 Bytes
+		final String keyString = "thisisa128bitkey";
+		SecretKey secretKey;
+		byte[] key;
 
-        MessageDigest sha = null;
+		MessageDigest sha = null;
 
-        key = keyString.getBytes("UTF-8");
-        sha = MessageDigest.getInstance("SHA-1");
-        key = sha.digest(key);
-        key = Arrays.copyOf(key, 16);
-        secretKey = new SecretKeySpec(key, "AES");
+		key = keyString.getBytes("UTF-8");
+		sha = MessageDigest.getInstance("SHA-1");
+		key = sha.digest(key);
+		key = Arrays.copyOf(key, 16);
+		secretKey = new SecretKeySpec(key, "AES");
 
-        return secretKey;
-    }
-    /**
-     * <b>Encriptar</b>
-     * @param texto
-     * @param secretKey
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws UnsupportedEncodingException
-     */
-    public String encriptar(String texto, SecretKey secretKey)
-            throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException,
-            BadPaddingException, UnsupportedEncodingException {
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+		return secretKey;
+	}
 
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+	/**
+	 * <b>Encriptar</b>
+	 * 
+	 * @param texto
+	 * @param secretKey
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 * @throws InvalidKeyException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 * @throws UnsupportedEncodingException
+	 */
+	public String encriptar(String texto, SecretKey secretKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
+			InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
+		Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 
-        String encrypted = Base64.getEncoder().encodeToString(cipher.doFinal(texto.getBytes("UTF-8")));
+		cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-        return encrypted;
-    }
-    /**
-     * <b>Desencripta</b>
-     * @param encrypted
-     * @param secretKey
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     */
-    public String decriptar(String encrypted, SecretKey secretKey) throws NoSuchAlgorithmException,
-            NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+		String encrypted = Base64.getEncoder().encodeToString(cipher.doFinal(texto.getBytes("UTF-8")));
 
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+		return encrypted;
+	}
 
-        byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encrypted));
-        return new String(decrypted);
-    }
-    /**
-     * Convierte un <b>String</b> a formato <b>Hexadecimal</b>
-     * @param texto
-     * @return
-     */
-    public static String stringToHex(String texto) {
-        StringBuilder sb = new StringBuilder();
-        char[] cr = texto.toCharArray();
-        for (char c : cr) {
-            sb.append((String) Integer.toHexString(c));
-        }
-        return sb.toString();
-    }
-    /**
-     * Convierte una <b>String en formato Hexadecimal</b> a una <b>String normal</b>
-     * @param hex
-     * @return
-     */
-    public static String hexToString(String hex) {
-        String result = new String();
-        char[] charArray = hex.toCharArray();
-        for (int i = 0; i < charArray.length; i += 2) {
-            String st = "" + charArray[i] + "" + charArray[i + 1];
-            char ch = (char) Integer.parseInt(st, 16);
-            result += ch;
-        }
-        return result;
-    }
+	/**
+	 * <b>Desencripta</b>
+	 * 
+	 * @param encrypted
+	 * @param secretKey
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchPaddingException
+	 * @throws InvalidKeyException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 */
+	public String decriptar(String encrypted, SecretKey secretKey) throws NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+		Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+
+		cipher.init(Cipher.DECRYPT_MODE, secretKey);
+
+		byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encrypted));
+		return new String(decrypted);
+	}
+
+	/**
+	 * Convierte un <b>String</b> a formato <b>Hexadecimal</b>
+	 * 
+	 * @param texto
+	 * @return
+	 */
+	public static String stringToHex(String texto) {
+		StringBuilder sb = new StringBuilder();
+		char[] cr = texto.toCharArray();
+		for (char c : cr) {
+			sb.append((String) Integer.toHexString(c));
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Convierte una <b>String en formato Hexadecimal</b> a una <b>String normal</b>
+	 * 
+	 * @param hex
+	 * @return
+	 */
+	public static String hexToString(String hex) {
+		String result = new String();
+		char[] charArray = hex.toCharArray();
+		for (int i = 0; i < charArray.length; i += 2) {
+			String st = "" + charArray[i] + "" + charArray[i + 1];
+			char ch = (char) Integer.parseInt(st, 16);
+			result += ch;
+		}
+		return result;
+	}
 }
