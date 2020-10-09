@@ -128,13 +128,13 @@ public class QR_Writer3 {
 		BufferedImage bufIm = b;
 		
 		File file = new File(System.getProperty("user.dir") + "\\DOCS\\Prueba de crear.png");
-		System.out.println("FILE:\t\t" + System.getProperty("user.dir") + "\\DOCS\\");
+		System.out.println("SAVING......");
+		System.out.println("FILE:\t" + System.getProperty("user.dir") + "\\DOCS\\");
 		FileOutputStream outputStream = new FileOutputStream(file);
 		
 		ImageIO.write(bufIm, IMAGE_FORMAT2, outputStream);
 		
 		outputStream.close();
-		System.out.println("LOOOO");
 		
 	}
 
