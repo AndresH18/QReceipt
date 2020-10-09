@@ -1071,6 +1071,7 @@ public class FormatoRecibo {
 			}
 
 			System.out.println(this.getClass().getCanonicalName() + ".infoForQR");
+			System.out.println();
 
 			for (String string : temp) {
 				System.out.print(string + "  ");
@@ -1088,6 +1089,7 @@ public class FormatoRecibo {
 			temp[2] = this.id;
 			temp[3] = this.direccion;
 			System.out.println(this.getClass().getCanonicalName() + ".infoForQR");
+			System.out.println();
 
 			for (String string : temp) {
 				System.out.print(string + "  ");

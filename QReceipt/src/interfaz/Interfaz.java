@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.crypto.SecretKey;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -90,8 +91,6 @@ public class Interfaz {
 	private JPanel tab1;
 	private JPanel tab2;
 
-	private JPasswordField passwordField;
-
 	// FIXME: Delete Commented Lines
 
 	/**
@@ -118,6 +117,7 @@ public class Interfaz {
 	public Interfaz() {
 		initialize();
 
+		setLogos();
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class Interfaz {
 
 		frame = new JFrame();
 //		frame.setIconImage(ImageIO.read(setWindowIcon()));
-		frame.setIconImage(readLogoWindow());
+//		frame.setIconImage(readLogoWindow());
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(this.getClass().getCanonicalName());
@@ -156,14 +156,17 @@ public class Interfaz {
 		tabs.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				if(tabs.getSelectedIndex() == 1) {
-					//CONTINUAR
-					System.out.println("tabs.getSelectedIndex() == 1 ");
+				System.out.println("tabs.getSelectedIndex() == " + tabs.getSelectedIndex());
+				if (tabs.getSelectedIndex() == 1) {
+					// CONTINUAR
+					System.out.println("tabs.getSelectedIndex() == " + tabs.getSelectedIndex());
 					new UserLogin(frame, tabs);
+				}else if (tabs.getSelectedIndex() == 0) {
+					
 				}
-				
+
 			}
-			
+
 		});
 		frame.getContentPane().setLayout(null);
 		tabs.setBounds(0, 0, 583, 604);
@@ -216,7 +219,7 @@ public class Interfaz {
 		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
 
 //		espacioRecibo.getLblLogo().setIcon(new ImageIcon(setLogo(espacioRecibo.getLblLogo())));
-		espacioRecibo.getLblLogo().setIcon(new ImageIcon(readLogo()));
+//		espacioRecibo.getLblLogo().setIcon(new ImageIcon(readLogo()));
 
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
@@ -230,9 +233,15 @@ public class Interfaz {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("IMPRIMIR RECIBO");
 				reset();
-				//WARNING
-				tabs.setSelectedIndex(1);
-				
+
+//				JFrame f = new JFrame();
+//				f.setBounds(100,100,200,200);
+//				f.setVisible(true);
+//				f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				f.setAlwaysOnTop(true);
+//				frame.setAlwaysOnTop(false);
+//				frame.setVisible(true);
+
 			}
 		});
 
@@ -243,11 +252,7 @@ public class Interfaz {
 		/*
 		 * TAB 2
 		 * 
-		 * TODO: aplicar un usuario y contrase�a para poder leer el QR
 		 */
-		passwordField = new JPasswordField();
-		passwordField.setBounds(144, 421, 271, 19);
-		tab2.add(passwordField);
 
 	}
 
@@ -297,6 +302,7 @@ public class Interfaz {
 	 */
 //	private void igualarDatosProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
 	private void igualarDatosProductos() {
+		System.out.println("igualarDatosProductos()");
 //		espacioRecibo.setDatosProductos(formatoRecibo.getDatosProductos().clone());
 
 		espacioRecibo.setDatosProductos(valorUni_TotalProducto());
@@ -304,11 +310,13 @@ public class Interfaz {
 
 //	private void entregarDatosCliente(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
 	private void entregarDatosCliente() {
+		System.out.println("entregarDatosCliente()");
 		espacioRecibo.setDatosClientes(formatoRecibo.getInfoCliente());
 	}
 
 //	private String[][] sendProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
 	private String[][] valorUni_TotalProducto() {
+		System.out.println("valorUni_TotalProducto()");
 		// Evita problemas si no se ha puesto informacion
 		if (formatoRecibo.getDatosProductos().length == 0) {
 			return new String[][] { { "", "", "" } };
@@ -336,7 +344,8 @@ public class Interfaz {
 	 * Limpia los componentes del formato despues de imprimir
 	 */
 	private void reset() {
-		System.out.println("RESET");
+		System.out.println("reset()");
+		System.out.println();
 		JComponent[] componentesformato = formatoRecibo.getComponents();
 		for (JComponent jComponent : componentesformato) {
 			reseter(jComponent);
@@ -346,6 +355,8 @@ public class Interfaz {
 	}
 
 	private void reseter(JComponent j) {
+		System.out.println("resetear()");
+		System.out.println();
 
 		if (j instanceof JTextField) {
 			((JTextField) j).setText("");
@@ -382,8 +393,9 @@ public class Interfaz {
 		System.out.println("codi:\t" + codi);
 		String hex1 = Crypto.stringToHex(codi);
 		System.out.println("hex1:\t" + hex1);
-		
-		//TODO encriptar
+		System.out.println();
+
+		// TODO encriptar
 
 //		String encryp1 = new Crypto().
 
@@ -394,31 +406,49 @@ public class Interfaz {
 		new QR_Writer3(espacioRecibo.getLblQR(), info);
 	}
 
-	/**
-	 * Imprimir para pruebas FIXME: borrar
-	 */
+//	private BufferedImage readLogoWindow() {
+//		System.out.println("Window Icon:\t" + WINDOW_LOGO);
+//		System.out.println();
+////			File file = new File(WINDOW_LOGO);
+//		BufferedImage buf = null;
+//		try {
+//			buf = ImageIO.read(new File(WINDOW_LOGO));
+//		} catch (IOException e) {
+//
+//		}
+//		return buf;
+//	}
+//
+//	private BufferedImage readLogo() {
+//		File file = new File(WINDOW_LOGO);
+////			BufferedImage buf1 = null;
+//		BufferedImage buf1 = readLogoWindow();
+//		Image thumbnail = buf1.getScaledInstance(espacioRecibo.getLblLogo().getWidth() - 5, -1, Image.SCALE_SMOOTH);
+//		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
+//				BufferedImage.TYPE_INT_RGB);
+//		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
+//
+//		return buf2;
+//	}
 
-	private BufferedImage readLogoWindow() {
+	private void setLogos() {
 		System.out.println("Window Icon:\t" + WINDOW_LOGO);
-//			File file = new File(WINDOW_LOGO);
-		BufferedImage buf = null;
+		System.out.println();
+
+		BufferedImage buf1 = null;
 		try {
-			buf = ImageIO.read(new File(WINDOW_LOGO));
+			buf1 = ImageIO.read(new File(WINDOW_LOGO));
 		} catch (IOException e) {
 
 		}
-		return buf;
-	}
-	private BufferedImage readLogo() {
-		File file = new File(WINDOW_LOGO);
-//			BufferedImage buf1 = null;
-		BufferedImage buf1 = readLogoWindow();
+		frame.setIconImage(buf1);
+
 		Image thumbnail = buf1.getScaledInstance(espacioRecibo.getLblLogo().getWidth() - 5, -1, Image.SCALE_SMOOTH);
 		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
 				BufferedImage.TYPE_INT_RGB);
 		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
 
-		return buf2;
+		espacioRecibo.getLblLogo().setIcon(new ImageIcon(buf2));
 	}
 
 	private void imprimirPruebaDeMatrizNueva() {
@@ -432,8 +462,6 @@ public class Interfaz {
 			System.out.println();
 		}
 	}
-
-	
 
 //	private BufferedImage setLogo(JLabel label) {
 ////			System.out.println("Logo: " + LOGO_PATH);	

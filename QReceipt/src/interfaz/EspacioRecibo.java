@@ -171,7 +171,7 @@ public class EspacioRecibo {
 		lblEmpresaInfo.setBounds(128, 23, 429, 69);
 		header.add(lblEmpresaInfo);
 
-		lblLogo = new JLabel("logo");
+		lblLogo = new JLabel("");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogo.setBounds(0, 0, 90, 90);
 		header.add(lblLogo);
