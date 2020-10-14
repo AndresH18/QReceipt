@@ -30,6 +30,15 @@ public class QR_Writer {
 		label.setIcon(new ImageIcon(genQR()));
 	}
 	
+	public QR_Writer() {
+		
+	}
+	public void genQR(JLabel label, String info) {
+		this.info = info;
+		this.label = label;
+		label.setIcon(new ImageIcon(genQR()));		
+	}
+	
 	private BufferedImage genQR() {
 		BitMatrix matrix;
 		Writer wr = new QRCodeWriter();

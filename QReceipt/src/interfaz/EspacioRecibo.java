@@ -248,7 +248,7 @@ public class EspacioRecibo {
 		lblQR = new JLabel("");
 		lblQR.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQR.setVerticalAlignment(SwingConstants.CENTER);
-		lblQR.setBounds(418, 5, 120, 120);
+		lblQR.setBounds(418, 2, clienteInfo.getHeight()-3, clienteInfo.getHeight()-3);
 		clienteInfo.add(lblQR);
 
 		numFact = new JLabel("");

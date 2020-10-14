@@ -33,6 +33,7 @@ import codificar.Codificar;
 import criptografia.Crypto;
 import login.UserLogin;
 import qr.QR_Writer;
+import qr.QR_Writer;
 import sqlt2.SQLITE;
 
 /*
@@ -60,6 +61,8 @@ public class Interfaz {
 	private boolean isVisibleFactura = false;
 
 	private UserLogin userLogin;
+	private QR_Writer qr;
+	
 	private EspacioRecibo espacioRecibo;
 	private FormatoRecibo formatoRecibo;
 
@@ -97,6 +100,7 @@ public class Interfaz {
 		setLogos();
 		
 		userLogin = new UserLogin(frame, tabs);
+		qr = new QR_Writer();
 
 	}
 
@@ -244,7 +248,8 @@ public class Interfaz {
 //		String encryp1 = new Crypto().
 
 //		genQR(hex1);
-		new QR_Writer(espacioRecibo.getLblQR(), hex1);
+//		new QR_Writer(espacioRecibo.getLblQR(), hex1);
+		qr.genQR(espacioRecibo.getLblQR(), hex1);
 
 	}
 
