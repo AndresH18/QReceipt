@@ -20,9 +20,9 @@ import sqlt2.SQLITE;
 public class UserLogin {
 
 	private SQLITE db = new SQLITE();
-
+	
 	private boolean logged = false;
-
+	
 	private JFrame frame;
 	private JTabbedPane tabs;
 	private JPasswordField passwordField;
