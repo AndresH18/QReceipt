@@ -119,7 +119,8 @@ public class SQLITE {
 //			e.printStackTrace(System.err);
 				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
 			}
-			System.out.println("ERROR AL INSERTAR");
+//			System.out.println("ERROR AL INSERTAR");
+			System.err.println("ERROR AL INSERTAR");
 		}
 
 		return false;
@@ -319,6 +320,8 @@ public class SQLITE {
 		// agregar y ---verificar(USER, PASSWORD)
 		Scanner sc = new Scanner(System.in);
 		SQLITE s = new SQLITE();
+		
+		s.mostartDataBaseCompleta();
 
 //		System.out.println("insertar usuario y contrase" + (char) 241 + "a");
 //
@@ -328,13 +331,13 @@ public class SQLITE {
 //		s.insertar("andress", "pass");
 //		s.insertar("USER", "PASS");
 //		System.out.println();
-		s.mostartDataBaseCompleta();
-		System.out.println();
-		s.mostarBaseParcial();
-		System.out.println("=============");
-		for (String a : s.getAdmin()) {
-			System.out.println(a);
-		}
+//		s.mostartDataBaseCompleta();
+//		System.out.println();
+//		s.mostarBaseParcial();
+//		System.out.println("=============");
+//		for (String a : s.getAdmin()) {
+//			System.out.println(a);
+//		}
 
 		sc.close();
 

@@ -20,9 +20,9 @@ import sqlt2.SQLITE;
 public class UserLogin {
 
 	private SQLITE db = new SQLITE();
-	
+
 	private boolean logged = false;
-	
+
 	private JFrame frame;
 	private JTabbedPane tabs;
 	private JPasswordField passwordField;
@@ -37,7 +37,7 @@ public class UserLogin {
 		this.frame = frame;
 		this.tabs = tabs;
 
-		loginProtocol();
+		loginStarter();
 	}
 
 	private UserLogin(JFrame frame, JTabbedPane tabs, SQLITE db, boolean logged) {
@@ -46,7 +46,7 @@ public class UserLogin {
 		this.frame = frame;
 		this.tabs = tabs;
 
-		loginProtocol();
+		loginStarter();
 	}
 
 	public UserLogin(JFrame frame, JTabbedPane tabs, boolean logged) {
@@ -56,15 +56,16 @@ public class UserLogin {
 
 //		loginProtocol();
 	}
+
 	public UserLogin(JFrame frame, JTabbedPane tabs) {
 		this.frame = frame;
 		this.tabs = tabs;
-		
+
 	}
 
 	public void start() {
-		if(!logged) {
-			loginProtocol();
+		if (!logged) {
+			loginStarter();
 		}
 	}
 
@@ -79,7 +80,7 @@ public class UserLogin {
 //			new Lector(frame, tabs);
 //		}
 //	}
-	private void loginProtocol() {
+	private void loginStarter() {
 		System.out.println("loginProtocol");
 		int op = JOptionPane.showConfirmDialog(frame, "PARA CONTINUAR, PORFAVOR INICIE SESION", "",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -90,13 +91,20 @@ public class UserLogin {
 			tabs.setSelectedIndex(0);
 		} else {
 			// LoginScreen
-			int loginOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "Login", JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.WARNING_MESSAGE, null, new String[] { "Continuar", "Cancelar", "Crear Usuario" }, 0);
-			usersLogin(loginOpt);
+			loginScreen();
+//			int loginOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "Login", JOptionPane.YES_NO_CANCEL_OPTION,
+//					JOptionPane.WARNING_MESSAGE, null, new String[] { "Continuar", "Cancelar", "Crear Usuario" }, 0);
+//			usersLoginVerify(loginOpt);
 		}
 	}
+	
+	private void loginScreen() {
+		int loginOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "Login", JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, new String[] { "Continuar", "Cancelar", "Crear Usuario" }, 0);
+		usersLoginVerify(loginOpt);
+	}
 
-	private void usersLogin(int a) {
+	private void usersLoginVerify(int a) {
 		System.out.println("loginerOptioner");
 		if (a == 0) {
 			// Continuar
@@ -126,12 +134,12 @@ public class UserLogin {
 //			} else if (adminOpt == JOptionPane.OK_OPTION) {
 //				autenticarAdmin(usernameField.getText(), passwordField.getPassword());
 //			}
-			adminLogin();
+			adminLoginVerify();
 
 		}
 	}
 
-	private void adminLogin() {
+	private void adminLoginVerify() {
 		System.out.println("adminLogin");
 
 		int adminOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "ADMIN LOGIN", JOptionPane.WARNING_MESSAGE,
@@ -175,12 +183,14 @@ public class UserLogin {
 		String user = new String(username);
 		password = null;
 		username = null;
-		usernameField.setText("");
-		passwordField.setText("");
+//		usernameField.setText("");
+//		passwordField.setText("");
+
 //		if (ADMIN[0].equals(user) && ADMIN[1].equals(pass)) {
-		if(db.getAdmin()[0].equals(user) && db.getAdmin()[1].equals(pass)) {
+		if (db.getAdmin()[0].equals(user) && db.getAdmin()[1].equals(pass)) {
 			System.out.println("Admin autenticado".toUpperCase());
 			boolean bool = true;
+			//Agregar usuario
 			do {
 				int a = JOptionPane.showOptionDialog(frame, loginPanel(), "AGREGAR USUARIO",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
@@ -194,8 +204,21 @@ public class UserLogin {
 					System.err.println(db.getClass().toString() + " SAYS:");
 					// invertimos para manejar el ciclo
 					bool = !db.insertar(usernameField.getText(), new String(passwordField.getPassword()));
+					System.out.println(usernameField.getText() + "::::" + new String(passwordField.getPassword()));
+
+					if (bool) {
+						int eee = JOptionPane.showConfirmDialog(frame, "NO SE ACEPTA EL USUARIO, INTENTE OTRO",
+								"AGREGAR USUARIO", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+						
+						if(eee == JOptionPane.CANCEL_OPTION || eee == JOptionPane.CLOSED_OPTION) {
+							bool = false;
+							tabs.setSelectedIndex(0);
+						}
+					}
 				}
 			} while (bool);
+			// se agrego usuario
+			loginScreen();
 			// TODO CONTINUAR:
 
 		} else {
