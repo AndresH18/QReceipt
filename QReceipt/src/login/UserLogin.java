@@ -15,24 +15,72 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import sqlt2.SQLITE;
+
 public class UserLogin {
 
+	private SQLITE db = new SQLITE();
+	
+	private boolean logged = false;
+	
 	private JFrame frame;
 	private JTabbedPane tabs;
 	private JPasswordField passwordField;
 	private JTextField usernameField;
 
-	private String[][] listaUsers = { { "Usuario", "Contrase" + ((char) 241) + "a" } };
-	private static final String[] ADMIN = { "AdminUser", "AdminPassword" };
+//	private String[][] listaUsers = { { "Usuario", "Contrase" + ((char) 241) + "a" } };
+//	private String[][] listaUsers = db.getDatos();
+	private static final String[] ADMIN = { "Admin", "Admin" };
 
-	public UserLogin(JFrame frame, JTabbedPane tabs) {
+	private UserLogin(JFrame frame, JTabbedPane tabs, SQLITE db) {
+		this.db = db;
 		this.frame = frame;
 		this.tabs = tabs;
 
 		loginProtocol();
 	}
 
+	private UserLogin(JFrame frame, JTabbedPane tabs, SQLITE db, boolean logged) {
+		this.logged = logged;
+		this.db = db;
+		this.frame = frame;
+		this.tabs = tabs;
+
+		loginProtocol();
+	}
+
+	public UserLogin(JFrame frame, JTabbedPane tabs, boolean logged) {
+		this.logged = logged;
+		this.frame = frame;
+		this.tabs = tabs;
+
+//		loginProtocol();
+	}
+	public UserLogin(JFrame frame, JTabbedPane tabs) {
+		this.frame = frame;
+		this.tabs = tabs;
+		
+	}
+
+	public void start() {
+		if(!logged) {
+			loginProtocol();
+		}
+	}
+
+//	public UserLogin(JFrame frame, JTabbedPane tabs, boolean sign) {
+//		if(!sign) {
+//			Interfaz.setSign(true);
+//			this.frame = frame;
+//			this.tabs = tabs;
+//	
+//			loginProtocol();
+//		}else {
+//			new Lector(frame, tabs);
+//		}
+//	}
 	private void loginProtocol() {
+		System.out.println("loginProtocol");
 		int op = JOptionPane.showConfirmDialog(frame, "PARA CONTINUAR, PORFAVOR INICIE SESION", "",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
@@ -44,7 +92,116 @@ public class UserLogin {
 			// LoginScreen
 			int loginOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "Login", JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE, null, new String[] { "Continuar", "Cancelar", "Crear Usuario" }, 0);
-			loginerOptioner(loginOpt);
+			usersLogin(loginOpt);
+		}
+	}
+
+	private void usersLogin(int a) {
+		System.out.println("loginerOptioner");
+		if (a == 0) {
+			// Continuar
+			if (autenticarUsuario(usernameField.getText(), passwordField.getPassword())) {
+				JOptionPane.showMessageDialog(frame, "BIENVENIDO", "", JOptionPane.PLAIN_MESSAGE);
+
+//				new Lector(frame, tabs);
+			} else {
+				Toolkit.getDefaultToolkit().beep();
+				JOptionPane.showMessageDialog(frame, "NO SE RECONOCE AL USUARIO", "", JOptionPane.ERROR_MESSAGE);
+
+				tabs.setSelectedIndex(0);
+
+			}
+		} else if (a == 1 || a == JOptionPane.CLOSED_OPTION) {
+			Toolkit.getDefaultToolkit().beep();
+			JOptionPane.showMessageDialog(frame, "EL LECTOR QR SOLO ES PARA PERSONAL AUTORIZADO");
+
+			tabs.setSelectedIndex(0);
+		} else if (a == 2) {
+
+//			int adminOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "ADMIN LOGIN", JOptionPane.WARNING_MESSAGE,
+//					JOptionPane.OK_CANCEL_OPTION, null, null, 0);
+//			
+//			if (adminOpt == JOptionPane.CANCEL_OPTION || adminOpt == JOptionPane.CLOSED_OPTION) {
+//				tabs.setSelectedIndex(1);
+//			} else if (adminOpt == JOptionPane.OK_OPTION) {
+//				autenticarAdmin(usernameField.getText(), passwordField.getPassword());
+//			}
+			adminLogin();
+
+		}
+	}
+
+	private void adminLogin() {
+		System.out.println("adminLogin");
+
+		int adminOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "ADMIN LOGIN", JOptionPane.WARNING_MESSAGE,
+				JOptionPane.OK_CANCEL_OPTION, null, new String[] { "OK", "CANCEL" }, 0);
+
+		if (adminOpt == JOptionPane.CANCEL_OPTION || adminOpt == JOptionPane.CLOSED_OPTION || adminOpt == 1) {
+			Toolkit.getDefaultToolkit().beep();
+			tabs.setSelectedIndex(0);
+		} else if (adminOpt == JOptionPane.OK_OPTION) {
+			autenticarAdmin(usernameField.getText(), passwordField.getPassword());
+		}
+
+	}
+
+	private boolean autenticarUsuario(String username, char[] password) {
+		System.out.println("autenticarUsuario");
+
+		String pass = new String(password);
+		String user = new String(username);
+		password = null;
+		username = null;
+		usernameField.setText("");
+		passwordField.setText("");
+
+		String[][] listaUsers = db.getDatos();
+
+		for (int i = 0; i < listaUsers.length; i++) {
+			if (listaUsers[i][0].equals(user) && listaUsers[i][1].equals(pass)) {
+				logged = true;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void autenticarAdmin(String username, char[] password) {
+		System.out.println("autenticarAdmin");
+
+		String pass = new String(password);
+		String user = new String(username);
+		password = null;
+		username = null;
+		usernameField.setText("");
+		passwordField.setText("");
+		if (ADMIN[0].equals(user) && ADMIN[1].equals(pass)) {
+			System.out.println("Admin autenticado".toUpperCase());
+			boolean bool = true;
+			do {
+				int a = JOptionPane.showOptionDialog(frame, loginPanel(), "AGREGAR USUARIO",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+						new String[] { "OK", "CANCEL" }, 0);
+
+				if (a == JOptionPane.CANCEL_OPTION || a == JOptionPane.CLOSED_OPTION || a == 1) {
+					bool = false;
+					Toolkit.getDefaultToolkit().beep();
+					tabs.setSelectedIndex(0);
+				} else if (a == JOptionPane.OK_OPTION) {
+					System.err.println(db.getClass().toString() + " SAYS:");
+					// invertimos para manejar el ciclo
+					bool = !db.insertar2(usernameField.getText(), new String(passwordField.getPassword()));
+				}
+			} while (bool);
+			// TODO CONTINUAR:
+
+		} else {
+			Toolkit.getDefaultToolkit().beep();
+			JOptionPane.showMessageDialog(frame, "ERROR, NO SE RECONOCE AL ADMINISTRADOR", "ADMIN LOGIN",
+					JOptionPane.ERROR_MESSAGE);
+			tabs.setSelectedIndex(0);
 		}
 	}
 
@@ -75,62 +232,6 @@ public class UserLogin {
 		controls.add(passwordField);
 		panel.add(controls, BorderLayout.CENTER);
 		return panel;
-	}
-
-	private void loginerOptioner(int a) {
-		if (a == 0) {
-			// COntinuar
-			if (autenticarUsuario(usernameField.getText(), passwordField.getPassword())) {
-
-			}
-		} else if (a == 1 || a == JOptionPane.CLOSED_OPTION) {
-			JOptionPane.showMessageDialog(frame, "EL LECTOR QR SOLO ES PARA PERSONAL AUTORIZADO");
-
-			tabs.setSelectedIndex(0);
-		} else if (a == 2) {
-			int adminOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "ADMIN LOGIN", JOptionPane.WARNING_MESSAGE,
-					JOptionPane.OK_CANCEL_OPTION, null, null, 0);
-			if (adminOpt == JOptionPane.CANCEL_OPTION || adminOpt == JOptionPane.CLOSED_OPTION) {
-				tabs.setSelectedIndex(1);
-			} else if (adminOpt == JOptionPane.OK_CANCEL_OPTION) {
-				autenticarAdmin(usernameField.getText(), passwordField.getPassword());
-			}
-
-		}
-	}
-
-	private boolean autenticarUsuario(String username, char[] password) {
-		String pass = new String(password);
-		String user = new String(username);
-		password = null;
-		username = null;
-		usernameField.setText("");
-		passwordField.setText("");
-
-		for (int i = 0; i < listaUsers.length; i++) {
-			if (listaUsers[i][0].equals(user) && listaUsers[i][1].equals(pass)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private void autenticarAdmin(String username, char[] password) {
-		String pass = new String(password);
-		String user = new String(username);
-		password = null;
-		username = null;
-		usernameField.setText("");
-		passwordField.setText("");
-		if (ADMIN[0].equals(user) && ADMIN[1].equals(pass)) {
-			// TODO FUNCIONES DE ADMIN
-		} else {
-			Toolkit.getDefaultToolkit().beep();
-			JOptionPane.showMessageDialog(frame, "ERROR, NO SE RECONOCE AL ADMINISTRADOR", "ADMIN LOGIN",
-					JOptionPane.ERROR_MESSAGE);
-			tabs.setSelectedIndex(0);
-		}
 	}
 
 }

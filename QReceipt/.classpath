@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="C:/Users/andre/Documents/Librerias de programacion/xzing/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/andre/Documents/Librerias de programacion/xzing/text-ui-0.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/andre/Documents/Librerias de programacion/xzing/zxing-1.0.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Documents/Librerias de programacion/sqlite/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

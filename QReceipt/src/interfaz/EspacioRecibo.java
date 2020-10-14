@@ -11,18 +11,18 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
 
 public class EspacioRecibo {
 
-	static final String COMPANY = "<html>Direccion: Cra 38# 6D Z sur 30<br>NIT: 112.358.132-1B<br>Telefono: (-57) 300336 9209<br>E-mail: qreceipt@receipt.qr</html>";
-	static final String ROOT_PATH = System.getProperty("user.dir");
-	static final String LOGO_PATH = ROOT_PATH + "\\DOCS\\QReceipt_logo.jpeg";
+	private static final String COMPANY = "<html>Direccion: Cra 38# 6D Z sur 30<br>NIT: 112.358.132-1B<br>Telefono: (-57) 300336 9209<br>E-mail: qreceipt@receipt.qr</html>";
+	private static final String ROOT_PATH = System.getProperty("user.dir");
+	private static final String LOGO_PATH = ROOT_PATH + "\\DOCS\\QReceipt_logo.jpeg";
 
 //	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
 	private String[][] datosProductos;
@@ -33,8 +33,8 @@ public class EspacioRecibo {
 
 	}
 
-	static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
-	static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
+	private static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
+	private static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
 
 	private String fechaString;
 	private String nombreString;
@@ -96,21 +96,21 @@ public class EspacioRecibo {
 		this.panelRecibo = panelRecibo;
 
 		initialize();
+
+		startActionListeners();
+
 	}
 
 	public EspacioRecibo(JFrame frame, JPanel panelRecibo, String[][] datosProductos) {
 		this.frame = frame;
 		this.panelRecibo = panelRecibo;
 		this.datosProductos = datosProductos.clone();
+
 		initialize();
+
+		startActionListeners();
 	}
 
-	/**
-	 * 
-	 * @param frame
-	 * @param panel
-	 * @param datos
-	 */
 	public EspacioRecibo(JFrame frame, JPanel panel, String... datos) {
 		// orden datos: fecha, nombre, id, direccion;
 		this.frame = frame;
@@ -121,7 +121,8 @@ public class EspacioRecibo {
 		this.direccionString = datos[3];
 
 		initialize();
-//		start();
+
+		startActionListeners();
 	}
 
 	/**
@@ -143,12 +144,11 @@ public class EspacioRecibo {
 		this.direccionString = direccion;
 
 		initialize();
-//		start();
+
+		startActionListeners();
 
 	}
 
-	// TODO: Pasar lo que esta en interfaz para aca. Adicionar los las variables a
-	// los JLabels
 	private void initialize() {
 
 		header = new JPanel();
@@ -273,29 +273,11 @@ public class EspacioRecibo {
 		body.add(scrollPane);
 
 		btnRegresar = new JButton("<html>REGRESAR</html>");
-		btnRegresar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-			}
-		});
 		btnRegresar.setBounds(378, 506, 86, 40);
 		btnRegresar.setFocusable(false);
 		btnRegresar.setHorizontalAlignment(SwingConstants.CENTER);
 		btnRegresar.setVerticalAlignment(SwingConstants.CENTER);
 		btnRegresar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnRegresar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-			}
-		});
 		panelRecibo.add(btnRegresar);
 
 		btnTerminar = new JButton("<html>IMPRIMIR</html>");
@@ -307,11 +289,58 @@ public class EspacioRecibo {
 		panelRecibo.add(btnTerminar);
 	}
 
-	/*
-	 * /** PARA PREUBAS INTERNAS
-	 */
-	private EspacioRecibo() {
-		pruebasInternas();
+	private void startActionListeners() {
+		btnRegresar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+			}
+		});
+		btnRegresar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+			}
+		});
+
+	}
+
+	public void refrescarTabla(String[][] datosProductosOrig) {
+		String[][] datosProductos = datosProductosOrig.clone();
+
+		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
+		textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
+//		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+
+		DefaultTableCellRenderer textoTablaCentro = new DefaultTableCellRenderer();
+		textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
+//		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+//		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+		tabla.setModel(new DefaultTableModel(datosProductos.clone(), new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));
+
+		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+	}
+	private void actualizarDatosCliente() {
+		this.fecha.setText(this.fechaString);
+		this.nombre.setText(this.nombreString);
+		this.id.setText(this.idString);
+		this.direccion.setText(this.direccionString);
+	}
+	public void setDatosCliente(String[] infoCliente) {
+		//infoCliente => {fecha, nombre, id, direccion}
+		this.fechaString = infoCliente[0];
+		this.nombreString = infoCliente[1];
+		this.idString = infoCliente[2];
+		this.direccionString = infoCliente[3];
+		actualizarDatosCliente();
 	}
 
 	public static void main(String[] args) {
@@ -325,6 +354,10 @@ public class EspacioRecibo {
 				}
 			}
 		});
+	}
+
+	private EspacioRecibo() {
+		pruebasInternas();
 	}
 
 	private void pruebasInternas() {
@@ -351,68 +384,6 @@ public class EspacioRecibo {
 		 * DESDE AQUI SE COPIA
 		 * 
 		 */
-
 	}
 
-	// FIXME: Replace JTable with a JLabel
-	public void refrescarTabla(String[][] datosProductosOrig) {
-//		String[][] datosProductos = valordeProductos(datosProductosOrig).clone();
-		String[][] datosProductos = datosProductosOrig;
-
-		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
-		textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
-//		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
-
-		DefaultTableCellRenderer textoTablaCentro = new DefaultTableCellRenderer();
-		textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
-//		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
-//		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-		tabla.setModel(new DefaultTableModel(datosProductos.clone(), new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));
-
-		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
-		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
-	}
-
-//	/**
-//	 * 
-//	 * @param datosProductos String[][] original {Nombre , Cantidad , ValorUnitario}
-//	 * @return mat String[][] {Cantidad , Nombre , ValorTotalProducto}
-//	 */
-//	private String[][] valordeProductos(String[][] datosProductos) {
-//		String[][] mat = datosProductos.clone();
-//////		//Valor cant*valorUnitario
-//		// WARNING: Tener en cuenta que se cambio el orden de la matriz
-//		//FIXME se modifica el valor original 
-//		//TODO: valor productos = cantidad*valorUni
-//
-////		for (int i = 0; i < mat.length; i++) {
-////			int valUni = Integer.valueOf(mat[i][2]);
-////			mat[i][2] = String.valueOf(Integer.valueOf(mat[i][1]) * valUni);
-////		}
-//
-////		//Intercambio columnas 0 1
-////		for (int i = 0; i < mat.length; i++) {
-////			String temp = mat[i][0];
-////			mat[i][0] = mat[i][1];
-////			mat[i][1] = temp;
-////		}
-//		return mat;
-//	}
-
-	private void actualizarDatosCliente() {
-		this.fecha.setText(this.fechaString);
-		this.nombre.setText(this.nombreString);
-		this.id.setText(this.idString);
-		this.direccion.setText(this.direccionString);
-	}
-
-	public void setDatosClientes(String[] infoCliente) {
-//		infoCliente => {fecha, nombre, id, direccion}
-		this.fechaString = infoCliente[0];
-		this.nombreString = infoCliente[1];
-		this.idString = infoCliente[2];
-		this.direccionString = infoCliente[3];
-		actualizarDatosCliente();
-	}
 }

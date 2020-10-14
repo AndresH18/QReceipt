@@ -1,6 +1,6 @@
 package codificar;
 
-public class Decodificar extends ManejoInformacion_new {
+public class Decodificar implements ManejoInformacion_new {
 	// TODO: USAR LA LIBRERIA PARA LEER EL QR
 
 	private String codedInfo;
@@ -24,14 +24,14 @@ public class Decodificar extends ManejoInformacion_new {
 	}
 
 	@Override
-	protected String infoKey() {
+	public String infoKey() {
 		String l = codedInfo.substring(0, 3);
 		// return numInfo.substring(0, 3);
 		return l;
 	}
 
 	@Override
-	protected void translate() {
+	public void translate() {
 
 		int count = 3;
 		String[] cos = new String[keyInt];

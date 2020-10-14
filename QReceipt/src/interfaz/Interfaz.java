@@ -2,14 +2,26 @@ package interfaz;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.crypto.SecretKey;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -17,35 +29,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-//import org.opencv.core.Core;
-//import org.opencv.core.Mat;
-//import org.opencv.core.MatOfByte;
-//import org.opencv.core.Size;
-//import org.opencv.imgcodecs.Imgcodecs;
-//import org.opencv.imgproc.Imgproc;
-
 import codificar.Codificar;
 import criptografia.Crypto;
 import login.UserLogin;
-import qr.QR_Writer3;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JComponent;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
-import javax.swing.JSpinner;
+import qr.QR_Writer;
+import sqlt2.SQLITE;
 
 /*
  * **https://htmlcolors.com/google-color-picker
@@ -53,51 +41,40 @@ import javax.swing.JSpinner;
  * **https://stackoverflow.com/questions/37396939/jcombobox-customize-vertical-scrollbar
  */
 public class Interfaz {
-	// TODO: make Javadoc
-	// TODO: Implementar shift + tab para regresar en componentes
 
-	//
-	/*
-	 * private void variables() { // infoEmpresaCLiente --> Date date;// dia mes
-	 * year, hora, minuto /// precion y articulos String nombreCliente,
-	 * telefonoCliente, idCliente, dirrecionCliente; int numFactura;// ++ // Object
-	 * articulos;// Valor, total, forma de pago
-	 * 
-	 * // infoNuestraEmpresa --> Enumeracion(DIRECCION, NOMBRE, TELEFONO, NIT....) }
-	 */
+	private static final String ROOT_PATH = System.getProperty("user.dir");
+	private static final String LOGO_PATH = ROOT_PATH + "\\DOCS\\QReceipt_logo.jpeg";
+	private static final String WINDOW_LOGO = ROOT_PATH + "\\DOCS\\QReceipt_WindowLogo.jpg";
 
-	static final String ROOT_PATH = System.getProperty("user.dir");
-	static final String LOGO_PATH = ROOT_PATH + "\\DOCS\\QReceipt_logo.jpeg";
-	static final String WINDOW_LOGO = ROOT_PATH + "\\DOCS\\QReceipt_WindowLogo.jpg";
+	private static final int SEPARACION_FRAME = 24;
+	private static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
+	private static final Color COLOR_FRAME = new Color(217, 222, 222);
 
-	static final int SEPARACION_FRAME = 24;
-	static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
-	static final Color COLOR_FRAME = new Color(217, 222, 222);
-//	static final Color COLOR_FRAME = new Color(250, 252, 201);
+	private static final Color COLOR_PANEL = new Color(202, 202, 202);
 
-	static final Color COLOR_PANEL = new Color(202, 202, 202);
+	private static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
+	private static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
 
-	static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
-	static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
+	private static boolean logg = false;
 
 	private boolean isVisibleFactura = false;
 
+	private UserLogin userLogin;
 	private EspacioRecibo espacioRecibo;
 	private FormatoRecibo formatoRecibo;
+
 	private JFrame frame;
 	private JPanel panelFormato;
 	private JPanel panelRecibo;
+
+	private JTabbedPane tabs;
 	// TABS
 	private JPanel tab1;
 	private JPanel tab2;
 
-	// FIXME: Delete Commented Lines
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		
+		System.out.println(ROOT_PATH);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -111,64 +88,31 @@ public class Interfaz {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public Interfaz() {
+		
 		initialize();
 
+		startActionListeners();
+
 		setLogos();
+		
+		userLogin = new UserLogin(frame, tabs);
+
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 
 		frame = new JFrame();
-//		frame.setIconImage(ImageIO.read(setWindowIcon()));
-//		frame.setIconImage(readLogoWindow());
 		frame.setBounds(100, 100, 587, 632);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(this.getClass().getCanonicalName());
 		frame.setBackground(new Color(0, 0, 0));
 		frame.setResizable(false);
 		frame.setAlwaysOnTop(true);
-		frame.getContentPane().setBackground(COLOR_FRAME);// 90, 218, 250
-//		frame.getContentPane().setLayout(null);
-
-		JTabbedPane tabs = new JTabbedPane();
-		tabs.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-//				if(e.getKeyCode()==e.)
-//				System.out.println("ExtendedkeyCode = " + k.getExtendedKeyCode());//ctrl = 17
-//				System.out.println("KeyCode = " + k.getKeyCode());//ctrl = 17
-				// ctrl + w ==> close window
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					//
-					System.exit(0);
-				}
-
-			}
-		});
-		tabs.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				System.out.println("tabs.getSelectedIndex() == " + tabs.getSelectedIndex());
-				if (tabs.getSelectedIndex() == 1) {
-					// CONTINUAR
-					System.out.println("tabs.getSelectedIndex() == " + tabs.getSelectedIndex());
-					new UserLogin(frame, tabs);
-				}else if (tabs.getSelectedIndex() == 0) {
-					
-				}
-
-			}
-
-		});
 		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setBackground(COLOR_FRAME);// 90, 218, 250
+
+		tabs = new JTabbedPane();
 		tabs.setBounds(0, 0, 583, 604);
 		frame.getContentPane().add(tabs);
 
@@ -191,24 +135,7 @@ public class Interfaz {
 		tab1.add(panelFormato);
 
 		formatoRecibo = new FormatoRecibo(frame, panelFormato);
-		formatoRecibo.getBtnGenerarRecibo().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("GENERAR");
 
-//				igualarDatosProductos(formatoRecibo, espacioRecibo);
-				igualarDatosProductos();
-
-//				entregarDatosCliente(formatoRecibo, espacioRecibo);
-				entregarDatosCliente();
-
-				datosQR();
-
-				controlVisibilidadFormato_Recibo();
-
-//				imprimirNuevo();
-			}
-		});
 		panelRecibo = new JPanel();
 		panelRecibo.setLayout(null);
 		panelRecibo.setVisible(false);
@@ -218,14 +145,49 @@ public class Interfaz {
 
 		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
 
-//		espacioRecibo.getLblLogo().setIcon(new ImageIcon(setLogo(espacioRecibo.getLblLogo())));
-//		espacioRecibo.getLblLogo().setIcon(new ImageIcon(readLogo()));
+	}
 
+	private void startActionListeners() {
+		tabs.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+			}
+		});
+		tabs.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				System.out.println("tabs.getSelectedIndex() == " + tabs.getSelectedIndex());
+				if (tabs.getSelectedIndex() == 1) {
+					// CONTINUAR
+//					userLogin = new UserLogin2(frame, tabs,logg);
+					userLogin.start();
+					
+				} else if (tabs.getSelectedIndex() == 0) {
+
+				}
+			}
+		});
+		formatoRecibo.getBtnGenerarRecibo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("GENERAR");
+
+				procesoGenQR();
+
+				controlVisibilidadFormatoRecibo();
+
+			}
+		});
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("DESGENERAR");
-				controlVisibilidadFormato_Recibo();
+				controlVisibilidadFormatoRecibo();
 			}
 		});
 		espacioRecibo.getBtnTerminar().addActionListener(new ActionListener() {
@@ -245,78 +207,49 @@ public class Interfaz {
 			}
 		});
 
-		/*
-		 * TAB 1
-		 */
-
-		/*
-		 * TAB 2
-		 * 
-		 */
-
 	}
 
-	private void controlVisibilidadFormato_Recibo() {
-//	private void controlVisibilidadFormato_Recibo(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
-		JComponent[] componentesformato = formatoRecibo.getComponents();
-		//
-		if (!isVisibleFactura) {
-			// formato ->invisible, recibo -> visible
-			for (JComponent componente : componentesformato) {
-				if (!(componente instanceof JTable)) {
-					componente.setVisible(false);
-					componente.setFocusable(false);
-					componente.setEnabled(false);
-				}
-			}
-			espacioRecibo.getBtnRegresar().setVisible(true);
-			espacioRecibo.getBtnRegresar().setEnabled(true);
-			espacioRecibo.getBtnTerminar().setVisible(true);
-			espacioRecibo.getBtnTerminar().setEnabled(true);
-			panelRecibo.setVisible(true);
-			isVisibleFactura = true;
-		} else {
-			// recibo -> invisiblre, formato -> visible
-			panelFormato.setVisible(true);
-			isVisibleFactura = false;
-			espacioRecibo.getBtnRegresar().setVisible(false);
-			espacioRecibo.getBtnRegresar().setEnabled(false);
-			espacioRecibo.getBtnTerminar().setVisible(false);
-			espacioRecibo.getBtnTerminar().setEnabled(false);
-			for (JComponent componente : componentesformato) {
-				// no hacerle nada al JTable
-				if (!(componente instanceof JTable)) {
-					componente.setVisible(true);
-					componente.setFocusable(true);
-					componente.setEnabled(true);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Sends String[][] datosProductos From formatoRecibo to espacioRecibo
-	 * 
-	 * @param formatoRecibo
-	 * @param espacioRecibo
-	 */
-//	private void igualarDatosProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
-	private void igualarDatosProductos() {
-		System.out.println("igualarDatosProductos()");
-//		espacioRecibo.setDatosProductos(formatoRecibo.getDatosProductos().clone());
+	private void procesoGenQR() {
+//		igualarDatosProductos();
+		System.out.println(this.getClass().getCanonicalName() + " igualarDatosProductos()");
 
 		espacioRecibo.setDatosProductos(valorUni_TotalProducto());
+
+//		entregarDatosCliente();
+		System.out.println(this.getClass().getCanonicalName() + " entregarDatosCliente()");
+		espacioRecibo.setDatosCliente(formatoRecibo.getInfoCliente());
+
+//		datosQR();
+		datosQR();
 	}
 
-//	private void entregarDatosCliente(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
-	private void entregarDatosCliente() {
-		System.out.println("entregarDatosCliente()");
-		espacioRecibo.setDatosClientes(formatoRecibo.getInfoCliente());
+	private void datosQR() {
+
+		String[] info = new String[formatoRecibo.getInfoQR().length];
+		for (int i = 0; i < info.length; i++) {
+			info[i] = formatoRecibo.getInfoQR()[i];
+		}
+		// WARNING TODO: make global(final) SecretKey
+		String codi = (new Codificar(info).getCoded());
+//		Toolkit.getDefaultToolkit().beep();
+		System.out.println(this.getClass().getCanonicalName() + ".datosQR()");
+
+		System.out.println("codi:\t" + codi);
+		String hex1 = Crypto.stringToHex(codi);
+		System.out.println("hex1:\t" + hex1);
+		System.out.println();
+
+		// TODO encriptar
+
+//		String encryp1 = new Crypto().
+
+//		genQR(hex1);
+		new QR_Writer(espacioRecibo.getLblQR(), hex1);
+
 	}
 
-//	private String[][] sendProductos(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
 	private String[][] valorUni_TotalProducto() {
-		System.out.println("valorUni_TotalProducto()");
+		System.out.println(this.getClass().getCanonicalName() + " valorUni_TotalProducto()");
 		// Evita problemas si no se ha puesto informacion
 		if (formatoRecibo.getDatosProductos().length == 0) {
 			return new String[][] { { "", "", "" } };
@@ -340,24 +273,21 @@ public class Interfaz {
 		return datos;
 	}
 
-	/**
-	 * Limpia los componentes del formato despues de imprimir
-	 */
 	private void reset() {
-		System.out.println("reset()");
+		System.out.println(this.getClass().getCanonicalName() + " reset()");
 		System.out.println();
-		JComponent[] componentesformato = formatoRecibo.getComponents();
-		for (JComponent jComponent : componentesformato) {
+
+		JComponent[] componenteFormatos = formatoRecibo.getComponents();
+		for (JComponent jComponent : componenteFormatos) {
 			reseter(jComponent);
 		}
+		// CUIDADO CHECK IF NESESARY
 		formatoRecibo.setDatosProductos(null);
 		formatoRecibo.setDatosProductos(new String[0][3]);
+
 	}
 
 	private void reseter(JComponent j) {
-		System.out.println("resetear()");
-		System.out.println();
-
 		if (j instanceof JTextField) {
 			((JTextField) j).setText("");
 		} else if (j instanceof JSpinner) {
@@ -377,59 +307,48 @@ public class Interfaz {
 		}
 	}
 
-	private void datosQR() {
-		// FIXME: ""=> productos
-//		String[] info = formatoRecibo.infoForQR("a");
-//		String texto = new Codificar(info).getCoded();
-//		System.out.println(texto);
-		String[] info = new String[formatoRecibo.getInfoQR().length];
-		for (int i = 0; i < info.length; i++) {
-			info[i] = formatoRecibo.getInfoQR()[i];
+	private void controlVisibilidadFormatoRecibo() {
+		JComponent[] componentesformato = formatoRecibo.getComponents();
+		//
+		if (!isVisibleFactura) {
+
+			isVisibleFactura = true;
+
+			// formato ->invisible, recibo -> visible
+			for (JComponent componente : componentesformato) {
+				if (!(componente instanceof JTable)) {
+					componente.setVisible(false);
+					componente.setFocusable(false);
+					componente.setEnabled(false);
+				}
+			}
+			espacioRecibo.getBtnRegresar().setVisible(true);
+			espacioRecibo.getBtnRegresar().setEnabled(true);
+			espacioRecibo.getBtnTerminar().setVisible(true);
+			espacioRecibo.getBtnTerminar().setEnabled(true);
+			panelRecibo.setVisible(true);
+
+		} else {
+
+			isVisibleFactura = false;
+
+			// recibo -> invisiblre, formato -> visible
+			panelFormato.setVisible(true);
+
+			espacioRecibo.getBtnRegresar().setVisible(false);
+			espacioRecibo.getBtnRegresar().setEnabled(false);
+			espacioRecibo.getBtnTerminar().setVisible(false);
+			espacioRecibo.getBtnTerminar().setEnabled(false);
+			for (JComponent componente : componentesformato) {
+				// no hacerle nada al JTable
+				if (!(componente instanceof JTable)) {
+					componente.setVisible(true);
+					componente.setFocusable(true);
+					componente.setEnabled(true);
+				}
+			}
 		}
-		// WARNING TODO: make global(final) SecretKey
-		String codi = (new Codificar(info).getCoded());
-//		Toolkit.getDefaultToolkit().beep();
-		System.out.println(this.getClass().getCanonicalName() + ".datosQR()");
-		System.out.println("codi:\t" + codi);
-		String hex1 = Crypto.stringToHex(codi);
-		System.out.println("hex1:\t" + hex1);
-		System.out.println();
-
-		// TODO encriptar
-
-//		String encryp1 = new Crypto().
-
-		genQR(hex1);
 	}
-
-	private void genQR(String info) {
-		new QR_Writer3(espacioRecibo.getLblQR(), info);
-	}
-
-//	private BufferedImage readLogoWindow() {
-//		System.out.println("Window Icon:\t" + WINDOW_LOGO);
-//		System.out.println();
-////			File file = new File(WINDOW_LOGO);
-//		BufferedImage buf = null;
-//		try {
-//			buf = ImageIO.read(new File(WINDOW_LOGO));
-//		} catch (IOException e) {
-//
-//		}
-//		return buf;
-//	}
-//
-//	private BufferedImage readLogo() {
-//		File file = new File(WINDOW_LOGO);
-////			BufferedImage buf1 = null;
-//		BufferedImage buf1 = readLogoWindow();
-//		Image thumbnail = buf1.getScaledInstance(espacioRecibo.getLblLogo().getWidth() - 5, -1, Image.SCALE_SMOOTH);
-//		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
-//				BufferedImage.TYPE_INT_RGB);
-//		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
-//
-//		return buf2;
-//	}
 
 	private void setLogos() {
 		System.out.println("Window Icon:\t" + WINDOW_LOGO);
@@ -449,81 +368,6 @@ public class Interfaz {
 		buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
 
 		espacioRecibo.getLblLogo().setIcon(new ImageIcon(buf2));
+
 	}
-
-	private void imprimirPruebaDeMatrizNueva() {
-//		private void imprimirNuevo(FormatoRecibo formatoRecibo, EspacioRecibo espacioRecibo) {
-//		String[][] a = sendProductos(formatoRecibo, espacioRecibo);
-		String[][] a = valorUni_TotalProducto();
-		for (int i = 0; i < a.length; i++) {
-			for (int j = 0; j < a[0].length; j++) {
-				System.out.print(a[i][j] + "\t");
-			}
-			System.out.println();
-		}
-	}
-
-//	private BufferedImage setLogo(JLabel label) {
-////			System.out.println("Logo: " + LOGO_PATH);	
-//
-////			Mat m = Imgcodecs.imread(LOGO_PATH, Imgcodecs.IMREAD_UNCHANGED);	
-//		System.out.println("Logo:\t\t" + WINDOW_LOGO);
-//
-//		Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);
-//
-//		MatOfByte mByte = new MatOfByte();
-//		Imgcodecs.imencode(".jpg", scaleImage(m, label), mByte);
-////			Imgcodecs.imencode(".jpeg", m, mByte);	
-//		byte[] byteArray = mByte.toArray();
-//		InputStream inC = new ByteArrayInputStream(byteArray);
-//		BufferedImage bf = null;
-//
-//		try {
-//			bf = ImageIO.read(inC);
-//		} catch (IOException e) {
-//
-//		}
-//		return bf;
-//	}
-//
-//	/**
-//	 * Scales image to fit JLabel
-//	 * 
-//	 * @param mat
-//	 * @param label
-//	 * @return
-//	 */
-//	private Mat scaleImage(Mat mat, JLabel label) {
-//		Mat scaled = new Mat();
-//		double z;
-//
-//		if (mat.height() > mat.width()) {
-//			z = ((double) label.getHeight()) / ((double) mat.height());
-//		} else {
-//			z = ((double) label.getWidth()) / ((double) mat.width());
-//
-//		}
-//		// INTER_AREA is better for reducing size
-//		Imgproc.resize(mat, scaled, new Size(), z, z, Imgproc.INTER_AREA);
-//
-//		return scaled;
-//	}
-//	/**
-//	 * Sets the icon of the Frame/window
-//	 * 
-//	 * @return
-//	 */
-//		private InputStream setWindowIcon() {	
-//			System.out.println("Window Icon:\t" + WINDOW_LOGO);	
-//
-//			Mat m = Imgcodecs.imread(WINDOW_LOGO, Imgcodecs.IMREAD_UNCHANGED);	
-//			MatOfByte mByte = new MatOfByte();	
-//			Imgcodecs.imencode(".jpg", m, mByte);	
-////			Imgcodecs.imencode(".jpeg", m, mByte);	
-//			byte[] byteArray = mByte.toArray();	
-//			InputStream inC = new ByteArrayInputStream(byteArray);	
-//
-//			return inC;	
-//		}
-
 }

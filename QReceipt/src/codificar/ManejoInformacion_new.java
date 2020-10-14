@@ -1,12 +1,12 @@
 package codificar;
 
-public abstract class ManejoInformacion_new {
+public interface ManejoInformacion_new {
 
-    public ManejoInformacion_new(){
-        super();
-    }
+	String FORMATO_VALIDO = "[0-9]+";
+
     //TODO: make Javadoc
-    //FIXME: (return or void) 
-    protected abstract String infoKey();
-    protected abstract void translate();
+    
+    String infoKey();
+    
+    void translate();
 }

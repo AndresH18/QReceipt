@@ -28,25 +28,26 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import numeros.Num5;
+import numeros.Num6;
 
 public class FormatoRecibo {
-	String fecha;
-	String nombre;
-	String id;
-	String direccion;
+	
+	private String fecha;
+	private String nombre;
+	private String id;
+	private String direccion;
 
-	static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO",
-			"SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
-	static final String[] DAYS31 = generarDias(31);
+	private static final String[] MONTHS = { "MES", "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO",
+			"AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE" };
+	private static final String[] DAYS31 = generarDias(31);
 
-	static final String[] DAYS30 = generarDias(30);
+	private static final String[] DAYS30 = generarDias(30);
 
-	static final String[] DAYS29 = generarDias(29);
+	private static final String[] DAYS29 = generarDias(29);
 
 	private static String[] dias = findActualMonthForDay();
 
-	static final String[] YEARS = generarYears();
+	private static final String[] YEARS = generarYears();
 
 	private String[][] datosProductos = new String[0][3];
 
@@ -74,10 +75,10 @@ public class FormatoRecibo {
 //	private String[][] datosProductos = { { "TV", "10002", "8888" }, { "computador", "333", "888" },
 //			{ "holla", "2", "100" } };
 
-	static final Color COLOR_FRAME = new Color(217, 222, 222);
-	static final Color COLOR_PANEL = new Color(202, 202, 202);
-	static final int SEPARACION_FRAME = 24;
-	static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
+	private static final Color COLOR_FRAME = new Color(217, 222, 222);
+	private static final Color COLOR_PANEL = new Color(202, 202, 202);
+	private static final int SEPARACION_FRAME = 24;
+	private static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
 
 	private JFrame frame;
 	private JPanel panelFormato;
@@ -144,16 +145,14 @@ public class FormatoRecibo {
 	}
 
 	public FormatoRecibo(JFrame frame, JPanel panelFormato) {
-
 		this.frame = frame;
 		this.panelFormato = panelFormato;
 
 		initialize();
-		textFieldNombre.requestFocus();
+		startActionListeners();
 	}
 
 	private void initialize() {
-
 		/*
 		 * PANEL FECHA
 		 * 
@@ -179,24 +178,6 @@ public class FormatoRecibo {
 		comboBoxMonth = new JComboBox<String>(MONTHS);
 		comboBoxMonth.setSelectedIndex(LocalDateTime.now().getMonthValue());
 		((JLabel) comboBoxMonth.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-		comboBoxMonth.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				updateMonthDays(comboBoxMonth, comboBoxDay);
-			}
-		});
-		comboBoxMonth.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-				// requestFocus of next Component
-				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					comboBoxDay.requestFocus();
-				}
-			}
-		});
 		comboBoxMonth.setFocusable(true);
 		comboBoxMonth.setEnabled(true);
 		comboBoxMonth.setVisible(true);
@@ -207,20 +188,6 @@ public class FormatoRecibo {
 		comboBoxDay = new JComboBox<String>(dias);
 		comboBoxDay.setSelectedIndex(LocalDateTime.now().getDayOfMonth());
 		((JLabel) comboBoxDay.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-		comboBoxDay.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-
-					System.exit(0);
-				}
-				// requestFocus of next Component
-				if (k.getExtendedKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					comboBoxYear.requestFocus();
-				}
-			}
-		});
 		comboBoxDay.setFocusable(true);
 		comboBoxDay.setEnabled(true);
 		comboBoxDay.setVisible(true);
@@ -230,21 +197,7 @@ public class FormatoRecibo {
 
 		comboBoxYear = new JComboBox<String>(YEARS);
 		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
-//		comboBoxYear.setSelectedItem(String.valueOf(LocalDateTime.now().getYear()));
 		((JLabel) comboBoxYear.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-		comboBoxYear.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-				// requestFocus of next Component
-				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldNombre.requestFocus();
-				}
-			}
-		});
 		comboBoxYear.setFocusable(true);
 		comboBoxYear.setEnabled(true);
 		comboBoxYear.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -256,13 +209,12 @@ public class FormatoRecibo {
 		 */
 		panelNombre = new JPanel();
 		panelNombre.setLayout(null);
-//		panelNombre.setBounds(15, 103, 538, 30);
 		panelNombre.setVisible(true);
 		panelNombre.setBounds(15, 72, panelFecha.getWidth(), panelFecha.getHeight());
 		panelNombre.setBackground(COLOR_PANEL);
 		panelFormato.add(panelNombre);
 
-		lblHeaderNombre = new JLabel("<html>Nombre:</html>".toUpperCase());// 6 Spaces
+		lblHeaderNombre = new JLabel("<html>Nombre:</html>".toUpperCase());
 		lblHeaderNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblHeaderNombre.setBounds(5, 5, 100, panelNombre.getHeight() - 2 * 5);
 		lblHeaderNombre.setHorizontalAlignment(SwingConstants.CENTER);
@@ -272,21 +224,6 @@ public class FormatoRecibo {
 
 		textFieldNombre = new JTextField();
 		textFieldNombre.setColumns(10);
-		textFieldNombre.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-
-					System.exit(0);
-				}
-				// requestFocus of next Component
-				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldID_NIT.requestFocus();
-				}
-			}
-		});
-//		textFieldNombre.setBounds((lblNombre.getWidth() + 5), 6, 350, 19);
 		textFieldNombre.setBounds((lblHeaderNombre.getWidth() + 5), 6, 350 - 100, 19);
 		textFieldNombre.setFocusable(true);
 		textFieldNombre.setEnabled(true);
@@ -299,7 +236,6 @@ public class FormatoRecibo {
 		panelID_NIT.setLayout(null);
 		panelID_NIT.setVisible(true);
 		panelID_NIT.setBackground(COLOR_PANEL);
-//		panelID_NIT.setBounds(panelNombre.getX(), 143, panelNombre.getWidth(), 30);
 		panelID_NIT.setBounds(15, 112, panelFecha.getWidth(), panelFecha.getHeight());
 		panelFormato.add(panelID_NIT);
 
@@ -312,22 +248,7 @@ public class FormatoRecibo {
 		panelID_NIT.add(lblHeaderID_NIT);
 
 		textFieldID_NIT = new JTextField();
-		textFieldID_NIT.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-
-					System.exit(0);
-				}
-				// requestFocus of next Component
-				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldDireccion.requestFocus();
-				}
-			}
-		});
 		textFieldID_NIT.setColumns(10);
-//		textFielID_NIT.setBounds(105, 6, 350, 19);
 		textFieldID_NIT.setBounds(105, 6, 350 - 100, 19);
 		textFieldID_NIT.setFocusable(true);
 		textFieldID_NIT.setEnabled(true);
@@ -352,25 +273,11 @@ public class FormatoRecibo {
 		panelDireccion.add(lblDireccion);
 
 		textFieldDireccion = new JTextField();
-		textFieldDireccion.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-				// requestFocus of next Component
-				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					textFieldProductos.requestFocus();
-				}
-			}
-		});
 		textFieldDireccion.setColumns(10);
 		textFieldDireccion.setBounds(105, 6, 250, 19);
 		textFieldDireccion.setFocusable(true);
 		textFieldDireccion.setEnabled(true);
 		panelDireccion.add(textFieldDireccion);
-
 		/*
 		 * PANEL OBJETOS
 		 */
@@ -390,21 +297,6 @@ public class FormatoRecibo {
 		panelObjetos.add(lblHeaderProductos);
 
 		textFieldProductos = new JTextField();
-		textFieldProductos.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-					// cantProductos.getEditor().requestFocus();
-					cantProductos.setValue((int) 1);
-					textFieldValorUnidad.requestFocus();
-
-				}
-			}
-		});
 		textFieldProductos.setBounds(5, 25, 140, 20);
 		textFieldProductos.setFocusable(true);
 		textFieldProductos.setEnabled(true);
@@ -419,18 +311,6 @@ public class FormatoRecibo {
 		panelObjetos.add(lblHeaderCantidadProductos);
 
 		cantProductos = new JSpinner();
-		cantProductos.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-				if (k.getKeyCode() == KeyEvent.VK_TAB) {
-					textFieldValorUnidad.requestFocus();
-				}
-			}
-		});
 		cantProductos.setBounds((lblHeaderCantidadProductos.getX() + lblHeaderCantidadProductos.getWidth() + 3),
 				lblHeaderCantidadProductos.getY(), 40, lblHeaderCantidadProductos.getHeight());
 		cantProductos.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -444,6 +324,7 @@ public class FormatoRecibo {
 		listaProductos.setLayout(new FlowLayout());
 		listaProductos.setBounds(173, 9, 359, 62);
 		listaProductos.setModel(new DefaultTableModel(null, new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
+
 //		listaProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer().setHorizontalAlignment(SwingConstants.RIGHT));
 		// Manipular el alignment del texto de la tabla
 		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
@@ -469,57 +350,6 @@ public class FormatoRecibo {
 
 		textFieldValorUnidad = new JTextField();
 		textFieldValorUnidad.setColumns(10);
-		textFieldValorUnidad.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-
-					// requestFocus of next Component
-				} else if (k.getKeyCode() == KeyEvent.VK_TAB) {
-					btnGenerarRecibo.requestFocus();
-					if (modificarValor.isSelected()) {
-						textFieldValorTotal.setFocusable(true);
-						textFieldValorTotal.requestFocus();
-					} else {
-						btnGenerarRecibo.requestFocus();
-					}
-				} else if (k.getKeyCode() == KeyEvent.VK_ENTER) {
-					// Valor valido
-					if (!textFieldValorUnidad.getText().matches(Num5.FORMATO_VALIDO)) {
-						lblValorConsola.setForeground(Color.red);
-						lblValorConsola.setText("<html>VALOR NO VALIDO</html>");
-						lblValorConsola.setVisible(true);
-
-					} else {
-						lblValorConsola.setForeground(Color.BLACK);
-
-						lblValorConsola.setVisible(false);
-						agregarProductos((String) textFieldProductos.getText(), (Integer) cantProductos.getValue(),
-								textFieldValorUnidad.getText());
-						// scrollProductos.remove(listaProductos);
-						listaProductos.setModel(new DefaultTableModel(datosProductos,
-								new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
-
-						// organiza la orientacion del texto de la Tabla
-						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
-						listaProductos.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-						listaProductos.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
-						// textFieldProductos.requestFocus();
-						textFieldValorTotal.setText(sumarValorProductos());
-						lblValorPalabras.setText(new Num5(sumarValorProductos()).getNumeroString());
-
-						cantProductos.setValue((int) 1);
-						textFieldValorUnidad.setText("");
-						textFieldProductos.setText("");
-						textFieldProductos.requestFocus();
-
-					}
-
-				}
-			}
-		});
 		textFieldValorUnidad.setBounds(5, 98, 119, 19);
 		textFieldValorUnidad.setFocusable(true);
 		textFieldValorUnidad.setEnabled(true);
@@ -536,7 +366,6 @@ public class FormatoRecibo {
 		separatorObjetos.setOrientation(SwingConstants.VERTICAL);
 		separatorObjetos.setBounds(173, 5, 1, 140);
 		panelObjetos.add(separatorObjetos);
-
 		/*
 		 * PANEL VALOR
 		 */
@@ -555,30 +384,6 @@ public class FormatoRecibo {
 		panelValor.add(lblHeaderValor);
 
 		textFieldValorTotal = new JTextField();
-		textFieldValorTotal.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-
-					System.exit(0);
-				}
-				// requestFocus of next Component
-				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
-
-					if (textFieldValorTotal.getText().matches(Num5.FORMATO_VALIDO)) {
-						lblValorPalabras.setForeground(Color.BLACK);
-						lblValorPalabras.setText(new Num5(textFieldValorTotal.getText()).getNumeroString());
-						btnGenerarRecibo.requestFocus();
-					} else {
-						lblValorPalabras.setForeground(Color.red);
-						lblValorPalabras.setText("INTRODUZCA UN VALOR VALIDO");
-						textFieldValorTotal.setText("");
-					}
-
-				}
-			}
-		});
 		textFieldValorTotal.setColumns(10);
 		textFieldValorTotal.setFocusable(false);
 		textFieldValorTotal.setVisible(true);
@@ -593,6 +398,227 @@ public class FormatoRecibo {
 		panelValor.add(lblValorPalabras);
 
 		modificarValor = new JCheckBox("<html>MODIFICAR EL VALOR</html>");
+		modificarValor.setFocusable(false);
+		modificarValor.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		modificarValor.setBounds(272, 6, 135, 21);
+		panelValor.add(modificarValor);
+
+		btnGenerarRecibo = new JButton("<html>GENERAR RECIBO</html>");
+		btnGenerarRecibo.setBounds(471, 513, 86, 40);
+		btnGenerarRecibo.setFocusable(true);
+		btnGenerarRecibo.setHorizontalAlignment(SwingConstants.CENTER);
+		btnGenerarRecibo.setVerticalAlignment(SwingConstants.CENTER);
+		btnGenerarRecibo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panelFormato.add(btnGenerarRecibo);
+
+	}
+
+	private void startActionListeners() {
+		// PANEL FECHA
+		comboBoxMonth.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateMonthDays(comboBoxMonth, comboBoxDay);
+			}
+		});
+
+		comboBoxMonth.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					comboBoxDay.requestFocus();
+				}
+			}
+		});
+		comboBoxDay.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getExtendedKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					comboBoxYear.requestFocus();
+				}
+			}
+		});
+		comboBoxYear.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldNombre.requestFocus();
+				}
+			}
+		});
+		// PANEL NOMBRE
+		textFieldNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldID_NIT.requestFocus();
+				}
+			}
+		});
+		// PANEL ID_NIT
+		textFieldID_NIT.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldDireccion.requestFocus();
+				}
+			}
+		});
+		// PANEL DIRECCION
+		textFieldDireccion.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					textFieldProductos.requestFocus();
+				}
+			}
+		});
+		// PANEL OBJETOS
+		textFieldProductos.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+					// cantProductos.getEditor().requestFocus();
+					cantProductos.setValue((int) 1);
+					textFieldValorUnidad.requestFocus();
+
+				}
+			}
+		});
+		cantProductos.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+				}
+				if (k.getKeyCode() == KeyEvent.VK_TAB) {
+					textFieldValorUnidad.requestFocus();
+				}
+			}
+		});
+		textFieldValorUnidad.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+					System.exit(0);
+
+					// requestFocus of next Component
+				} else if (k.getKeyCode() == KeyEvent.VK_TAB) {
+					btnGenerarRecibo.requestFocus();
+					if (modificarValor.isSelected()) {
+						textFieldValorTotal.setFocusable(true);
+						textFieldValorTotal.requestFocus();
+					} else {
+						btnGenerarRecibo.requestFocus();
+					}
+				} else if (k.getKeyCode() == KeyEvent.VK_ENTER) {
+					// Valor valido
+					if (!textFieldValorUnidad.getText().matches(Num6.FORMATO_VALIDO)) {
+						lblValorConsola.setForeground(Color.red);
+						lblValorConsola.setText("<html>VALOR NO VALIDO</html>");
+						lblValorConsola.setVisible(true);
+
+					} else {
+						// Manipular el alignment del texto de la tabla
+						DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
+						textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
+						listaProductos.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+
+						DefaultTableCellRenderer textoTablaCentro = new DefaultTableCellRenderer();
+						textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
+						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+						listaProductos.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+
+						lblValorConsola.setForeground(Color.BLACK);
+
+						lblValorConsola.setVisible(false);
+						agregarProductos((String) textFieldProductos.getText(), (Integer) cantProductos.getValue(),
+								textFieldValorUnidad.getText());
+						// scrollProductos.remove(listaProductos);
+						listaProductos.setModel(new DefaultTableModel(datosProductos,
+								new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
+
+						// organiza la orientacion del texto de la Tabla
+						listaProductos.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
+						listaProductos.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
+						listaProductos.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
+						// textFieldProductos.requestFocus();
+						textFieldValorTotal.setText(sumarValorProductos());
+						lblValorPalabras.setText(new Num6(sumarValorProductos()).getNumeroString());
+
+						cantProductos.setValue((int) 1);
+						textFieldValorUnidad.setText("");
+						textFieldProductos.setText("");
+						textFieldProductos.requestFocus();
+
+					}
+
+				}
+			}
+		});
+		// PANEL VALOR
+		textFieldValorTotal.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent k) {
+				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
+					frame.dispose();
+
+					System.exit(0);
+				}
+				// requestFocus of next Component
+				if (k.getKeyCode() == KeyEvent.VK_TAB || k.getKeyCode() == KeyEvent.VK_ENTER) {
+
+					if (textFieldValorTotal.getText().matches(Num6.FORMATO_VALIDO)) {
+						lblValorPalabras.setForeground(Color.BLACK);
+						lblValorPalabras.setText(new Num6(textFieldValorTotal.getText()).getNumeroString());
+						btnGenerarRecibo.requestFocus();
+					} else {
+						lblValorPalabras.setForeground(Color.red);
+						lblValorPalabras.setText("INTRODUZCA UN VALOR VALIDO");
+						textFieldValorTotal.setText("");
+					}
+
+				}
+			}
+		});
 		modificarValor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -609,12 +635,6 @@ public class FormatoRecibo {
 
 			}
 		});
-		modificarValor.setFocusable(false);
-		modificarValor.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		modificarValor.setBounds(272, 6, 135, 21);
-		panelValor.add(modificarValor);
-
-		btnGenerarRecibo = new JButton("<html>GENERAR RECIBO</html>");
 		btnGenerarRecibo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent k) {
@@ -631,7 +651,6 @@ public class FormatoRecibo {
 
 					if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
 							&& comboBoxYear.getSelectedIndex() != 0) {
-//						generar();
 					}
 
 				}
@@ -644,68 +663,10 @@ public class FormatoRecibo {
 				if (comboBoxMonth.getSelectedIndex() != 0 && comboBoxDay.getSelectedIndex() != 0
 						&& comboBoxYear.getSelectedIndex() != 0) {
 
-//					generar();
-
-				}
-			}
-		});
-		btnGenerarRecibo.setBounds(471, 513, 86, 40);
-		btnGenerarRecibo.setFocusable(true);
-		btnGenerarRecibo.setHorizontalAlignment(SwingConstants.CENTER);
-		btnGenerarRecibo.setVerticalAlignment(SwingConstants.CENTER);
-		btnGenerarRecibo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		panelFormato.add(btnGenerarRecibo);
-
-	}
-
-	/*
-	 * PARA PRUEBAS INTERNAS
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FormatoRecibo window = new FormatoRecibo();
-					window.frame.setVisible(true);
-
-				} catch (Exception e) {
-					// TODO: handle exception
 				}
 			}
 		});
 	}
-
-	private FormatoRecibo() {
-		pruebasInternas();
-	}
-
-	private void pruebasInternas() {
-
-		frame = new JFrame();
-		frame.setBounds(100, 100, 587, 632);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle(this.getClass().getCanonicalName());
-		frame.setBackground(new Color(0, 0, 0));
-		frame.setResizable(false);
-		frame.setAlwaysOnTop(true);
-		frame.getContentPane().setBackground(COLOR_FRAME);
-
-		JPanel panelFormato = new JPanel();
-		panelFormato.setLayout(null);
-		panelFormato.setVisible(true);
-		panelFormato.setBackground(new Color(255, 255, 255));
-		panelFormato.setBounds(0, 0, 578, 577);
-		frame.getContentPane().add(panelFormato);
-
-		/**
-		 * 
-		 * DESDE AQUI SE COPIA
-		 * 
-		 */
-
-	}
-
-	//
 
 	/**
 	 * Genera una lista de Dias(int) a partir de la cantidad de dias de dias por mes
@@ -714,9 +675,9 @@ public class FormatoRecibo {
 	 * @return
 	 */
 	private static String[] generarDias(int cantDias) {
-		// FIXME: Condicional de a�o biziesto(no se como se escribe)
 		String[] dias = new String[cantDias + 1];
 		dias[0] = "DIA";
+
 		for (int i = 1; i <= cantDias; i++) {
 			if (i < 10) {
 				dias[i] = "0" + String.valueOf(i);
@@ -724,36 +685,22 @@ public class FormatoRecibo {
 				dias[i] = String.valueOf(i);
 			}
 		}
-//		for (String a : dias) {
-//			System.out.println(a);
-//		}
 		return dias;
-
 	}
 
 	/**
-	 * Genera una lista con a�os a partir del a�o actual
+	 * Genera una lista con Years a partir del year actual
 	 * 
 	 * @return
 	 */
 	private static String[] generarYears() {
-		LocalDateTime.now().getYear();
-		int yearMinPredeterminado = -10000;
+		int yearMinPredeterminado = 1980;
 		int con = 0;
 		String[] years = new String[LocalDateTime.now().getYear() - yearMinPredeterminado + 1];
-		years[0] = "A�O";
+		years[0] = "A" + (char) 209 + "O";
 		for (int i = LocalDateTime.now().getYear(); i > yearMinPredeterminado; i--) {
 			years[++con] = String.valueOf(i);
 		}
-//		System.out.println(a�os.length);
-//		System.out.println("con:" + con);
-//		StringBuilder sb = new StringBuilder();
-//	       sb.append("Termino en prueba").append(LocalDateTime.now().getYear()-a�oMinPredeterminado);
-//	       sb.toString();
-		/*
-		 * for (String a�o : a�os) { sb.append(a�o).append(" "); }
-		 * System.out.println(sb.toString());
-		 */
 		return years;
 	}
 
@@ -763,10 +710,9 @@ public class FormatoRecibo {
 	 * @return
 	 */
 	private static String[] findActualMonthForDay() {
-
-		// Tienen 31 d�as: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
+		// Tienen 31 dias: 1Enero, 3marzo, 5mayo, 7julio, 8agosto, 10octubre y
 		// 12diciembre.
-		// Tienen 30 d�as: 4Abril, 6junio, 9septiembre y 11noviembre
+		// Tienen 30 dias: 4Abril, 6junio, 9septiembre y 11noviembre
 		switch (LocalDateTime.now().getMonthValue()) {
 		// 31
 		case 1:
@@ -791,6 +737,60 @@ public class FormatoRecibo {
 		default:
 			return null;
 		}
+	}
+
+	private String sumarValorProductos() {
+		String[][] temporal = this.datosProductos.clone();
+		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
+		int total = 0;
+		// int i = 0;
+		for (int i = 0; i < temporal.length; i++) {
+//			[i][0] cantidad , [i][2] valorUnidad
+			total += (Integer.valueOf(temporal[i][0]) * Integer.valueOf(temporal[i][2]));
+		}
+
+		return String.valueOf(total);
+	}
+
+	/**
+	 * Agregar productos a la lista de productos
+	 * 
+	 * @param nombreProducto
+	 * @param cantidadProducto
+	 * @param valorProducto
+	 */
+	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProductoUni) {
+		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
+		String[][] matTemporal = this.datosProductos.clone();
+
+		String nombre = nombreProducto.toUpperCase();
+		String cantidad = String.valueOf(cantidadProducto);
+		String valoruUni = valorProductoUni;
+
+		int columnas = 3;// matrizTemporal[0].lentgth
+		int filas = (matTemporal.length + 1);
+
+		this.datosProductos = null;
+		this.datosProductos = new String[filas][columnas];
+
+		// [i][0]
+		for (int i = 0; i < matTemporal.length; i++) {
+			this.datosProductos[i][0] = matTemporal[i][0];
+		}
+		this.datosProductos[matTemporal.length][0] = cantidad;
+
+		// [i][1]
+		for (int i = 0; i < matTemporal.length; i++) {
+			this.datosProductos[i][1] = matTemporal[i][1];
+		}
+		this.datosProductos[matTemporal.length][1] = nombre;
+
+		// [i][2]
+		for (int i = 0; i < matTemporal.length; i++) {
+			this.datosProductos[i][2] = matTemporal[i][2];
+		}
+		this.datosProductos[matTemporal.length][2] = valoruUni;
+
 	}
 
 	/**
@@ -858,144 +858,6 @@ public class FormatoRecibo {
 			boxDay.addItem("DIA");
 			break;
 		}
-	}
-
-//	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProducto) {
-//		
-//		// fila zero
-//		// Nombre | Cantidad | valorUnidad | valorSemiTotal
-//		String[][] matrizTemporal = datosProductos.clone();
-//
-//		String nombre = nombreProducto.toUpperCase();
-//		String cantidad = String.valueOf(cantidadProducto);
-//		String valor = valorProducto;
-//
-//		int columnas = datosProductos[0].length;
-//		int filas = datosProductos.length;
-//
-//		datosProductos = null;
-//		datosProductos = new String[filas + 1][columnas];
-//		// llenar columna 0
-//		for (int i = 0; i < filas; i++) {
-////			datosProductos[i][0] = new String(matrizTemporal[i][0]);
-//			datosProductos[i][0] = matrizTemporal[i][0];
-//		}
-//		datosProductos[filas][0] = nombre;
-//
-//		// llenar columna 1
-//		for (int i = 0; i < filas; i++) {
-//			datosProductos[i][1] = matrizTemporal[i][1];
-//		}
-//		datosProductos[filas][1] = cantidad;
-//
-//		// llenar columna 2
-//		for (int i = 0; i < filas; i++) {
-//			datosProductos[i][2] = matrizTemporal[i][2];
-//		}
-//		datosProductos[filas][2] = valor;
-//
-//	}
-
-//	private void agregarProduct(String nombreProducto, int cantidadProducto, String valorProductoUni) {
-//		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
-//		String[][] matrizTemporal = datosProductos.clone();
-//
-//		String nombre = nombreProducto.toUpperCase();
-//		String cantidad = String.valueOf(cantidadProducto);
-//		String valoruUni = valorProductoUni;
-//
-//		int columnas = datosProductos[0].length;// 3
-//		int filas = datosProductos.length;// 1
-////					datosProductos.length+1;//1 + 1//2
-//
-//		datosProductos = null;
-//		datosProductos = new String[filas + 1][columnas];// [2][3] -1/// [2][3]
-//
-//		for (int i = 0; i < filas; i++) {
-////			datosProductos[i][0] = new String(matrizTemporal[i][0]);
-//			datosProductos[i][0] = matrizTemporal[i][0];
-//		}
-//		datosProductos[filas][0] = cantidad;
-//
-//		// llenar columna 1
-//		for (int i = 0; i < filas; i++) {
-//			datosProductos[i][1] = matrizTemporal[i][1];
-//		}
-//		datosProductos[filas][1] = nombre;
-//
-//		// llenar columna 2
-//		for (int i = 0; i < filas; i++) {
-//			datosProductos[i][2] = matrizTemporal[i][2];
-//		}
-//		datosProductos[filas][2] = valoruUni;
-//	}
-
-	/**
-	 * Agregar productos a la lista de productos
-	 * 
-	 * @param nombreProducto
-	 * @param cantidadProducto
-	 * @param valorProducto
-	 */
-	private void agregarProductos(String nombreProducto, int cantidadProducto, String valorProductoUni) {
-		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
-		String[][] matTemporal = this.datosProductos.clone();
-
-		String nombre = nombreProducto.toUpperCase();
-		String cantidad = String.valueOf(cantidadProducto);
-		String valoruUni = valorProductoUni;
-
-		int columnas = 3;// matrizTemporal[0].lentgth
-		int filas = (matTemporal.length + 1);
-
-		this.datosProductos = null;
-		this.datosProductos = new String[filas][columnas];
-
-		// [i][0]
-		for (int i = 0; i < matTemporal.length; i++) {
-			this.datosProductos[i][0] = matTemporal[i][0];
-		}
-		this.datosProductos[matTemporal.length][0] = cantidad;
-
-		// [i][1]
-		for (int i = 0; i < matTemporal.length; i++) {
-			this.datosProductos[i][1] = matTemporal[i][1];
-		}
-		this.datosProductos[matTemporal.length][1] = nombre;
-
-		// [i][2]
-		for (int i = 0; i < matTemporal.length; i++) {
-			this.datosProductos[i][2] = matTemporal[i][2];
-		}
-		this.datosProductos[matTemporal.length][2] = valoruUni;
-
-	}
-
-//	private String sumarValorProductos() {
-//		String[][] temporal = datosProductos.clone();
-//		int total = 0;
-//		//
-//		// Tener en cuenta cantidad{columna 1} y valorUnidad{columna 2} [formtato desde
-//		// 0 hasta n]
-//		
-//		for (int i = 1; i < temporal.length; i++) {
-//			total += (Integer.valueOf(temporal[i][1]) * Integer.valueOf(temporal[i][2]));
-//		}
-//
-//		return String.valueOf(total);
-//	}
-
-	private String sumarValorProductos() {
-		String[][] temporal = this.datosProductos.clone();
-		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
-		int total = 0;
-		// int i = 0;
-		for (int i = 0; i < temporal.length; i++) {
-//			[i][0] cantidad , [i][2] valorUnidad
-			total += (Integer.valueOf(temporal[i][0]) * Integer.valueOf(temporal[i][2]));
-		}
-
-		return String.valueOf(total);
 	}
 
 	public JComponent[] getComponents() {
@@ -1104,7 +966,48 @@ public class FormatoRecibo {
 		}
 	}
 
-	public FormatoRecibo(String a) {
-		super();
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FormatoRecibo window = new FormatoRecibo();
+					window.frame.setVisible(true);
+
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		});
 	}
+
+	private FormatoRecibo() {
+		pruebasInternas();
+	}
+
+	private void pruebasInternas() {
+
+		frame = new JFrame();
+		frame.setBounds(100, 100, 587, 632);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle(this.getClass().getCanonicalName());
+		frame.setBackground(new Color(0, 0, 0));
+		frame.setResizable(false);
+		frame.setAlwaysOnTop(true);
+		frame.getContentPane().setBackground(COLOR_FRAME);
+
+		JPanel panelFormato = new JPanel();
+		panelFormato.setLayout(null);
+		panelFormato.setVisible(true);
+		panelFormato.setBackground(new Color(255, 255, 255));
+		panelFormato.setBounds(0, 0, 578, 577);
+		frame.getContentPane().add(panelFormato);
+
+		/**
+		 * 
+		 * DESDE AQUI SE COPIA
+		 * 
+		 */
+
+	}
+
 }

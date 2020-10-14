@@ -1,9 +1,8 @@
 package codificar;
 
 import java.util.Random;
-import numeros.Num5;
 
-public class Codificar extends ManejoInformacion_new {
+public class Codificar implements ManejoInformacion_new {
 
 	private char keyChar;
 	// private String keyString;
@@ -27,13 +26,13 @@ public class Codificar extends ManejoInformacion_new {
 	}
 
 	@Override
-	protected String infoKey() {
+	public String infoKey() {
 		String temp = keyChar + String.valueOf(info.length) + keyChar;
 		return temp;
 	}
 
 	@Override
-	protected void translate() {
+	public void translate() {
 		// ENCODE
 		String coded = infoKey();
 		for (String temp : info) {
@@ -55,7 +54,7 @@ public class Codificar extends ManejoInformacion_new {
 		 */
 		do {
 			i = r.nextInt(94) + 33;
-			if (Character.toString(i).matches(Num5.FORMATO_VALIDO) || i == 96 || i == 39 || i == 34 || charInInfo(i)) {
+			if (Character.toString(i).matches(FORMATO_VALIDO) || i == 96 || i == 39 || i == 34 || charInInfo(i)) {
 				// System.out.println("caracter presente, repetir aleatorio".toUpperCase());
 				continue;
 			} else {
