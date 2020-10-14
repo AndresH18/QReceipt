@@ -29,7 +29,7 @@ public class UserLogin {
 	private JTextField usernameField;
 
 //	private String[][] listaUsers = { { "Usuario", "Contrase" + ((char) 241) + "a" } };
-//	private String[][] listaUsers = db.getDatos();
+//	private String[][] listaUsers = db.getDatosUsers();
 	private static final String[] ADMIN = { "Admin", "Admin" };
 
 	private UserLogin(JFrame frame, JTabbedPane tabs, SQLITE db) {
@@ -156,8 +156,8 @@ public class UserLogin {
 		usernameField.setText("");
 		passwordField.setText("");
 
+//		String[][] listaUsers = db.getDatosUsers();
 		String[][] listaUsers = db.getDatos();
-
 		for (int i = 0; i < listaUsers.length; i++) {
 			if (listaUsers[i][0].equals(user) && listaUsers[i][1].equals(pass)) {
 				logged = true;
@@ -177,7 +177,8 @@ public class UserLogin {
 		username = null;
 		usernameField.setText("");
 		passwordField.setText("");
-		if (ADMIN[0].equals(user) && ADMIN[1].equals(pass)) {
+//		if (ADMIN[0].equals(user) && ADMIN[1].equals(pass)) {
+		if(db.getAdmin()[0].equals(user) && db.getAdmin()[1].equals(pass)) {
 			System.out.println("Admin autenticado".toUpperCase());
 			boolean bool = true;
 			do {
@@ -192,7 +193,7 @@ public class UserLogin {
 				} else if (a == JOptionPane.OK_OPTION) {
 					System.err.println(db.getClass().toString() + " SAYS:");
 					// invertimos para manejar el ciclo
-					bool = !db.insertar2(usernameField.getText(), new String(passwordField.getPassword()));
+					bool = !db.insertar(usernameField.getText(), new String(passwordField.getPassword()));
 				}
 			} while (bool);
 			// TODO CONTINUAR:

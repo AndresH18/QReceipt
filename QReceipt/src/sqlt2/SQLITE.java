@@ -11,11 +11,16 @@ public class SQLITE {
 //	private boolean idCheck;
 
 	public SQLITE() {
-//		if((!new File("LoginDatabase.db").exists())){
-//			crear();
-//			insertar("Admin", "Admin");
-//		}
-		crear();
+		// Si no existe el la base de datos, entonces la crea y le agrega este usuario
+		// de admin
+		if ((!new File("LoginDatabase.db").exists())) {
+			System.out.println("NO EXISTIA");
+			crear();
+			insertar2("Admin", "Admin");
+		} else {
+
+			crear();
+		}
 	}
 
 	private void crear() {
@@ -37,6 +42,88 @@ public class SQLITE {
 			System.err.println("Crear: " + e.getClass().getName() + ": " + e.getMessage() + "\n");
 		}
 //		}
+	}
+
+	private void insertar2(String USER, String PASS) {
+
+//		if (!(new File("LoginDatabase.db").exists())) {
+//
+//		crear();
+//		}
+		if (!buscarUser(USER)) {
+			String user = "\'" + USER + "\'";
+			String pass = "\'" + PASS + "\'";
+			try {
+
+				Class.forName("org.sqlite.JDBC");
+				c = DriverManager.getConnection("jdbc:sqlite:LoginDatabase.db");
+				c.setAutoCommit(false);
+
+				String sql = "INSERT INTO LOGIN (USER,PASS) " + "VALUES (" + user + "," + pass + ");";
+				stmt = c.createStatement();
+
+				stmt.executeUpdate(sql);
+
+				stmt.close();
+				c.commit();
+				c.close();
+				System.out.println("INSERTAR EXITOSO");
+			} catch (ClassNotFoundException e) {
+//				e.printStackTrace(System.err);
+				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
+			} catch (SQLException e) {
+//			e.printStackTrace(System.err);
+				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
+			}
+		}
+
+	}
+
+	/**
+	 * @param USER
+	 * @param PASS
+	 * @return true, si se pudo insertar el usuario y contraseña(por lo tanto no
+	 *         existia el usuario antes)
+	 */
+	public boolean insertar(String USER, String PASS) {
+
+//		if (!(new File("LoginDatabase.db").exists())) {
+//
+//		crear();
+//		}
+		if (!buscarUser(USER)) {
+			String user = "\'" + USER + "\'";
+			String pass = "\'" + PASS + "\'";
+			try {
+
+				Class.forName("org.sqlite.JDBC");
+				c = DriverManager.getConnection("jdbc:sqlite:LoginDatabase.db");
+				c.setAutoCommit(false);
+
+				String sql = "INSERT INTO LOGIN (USER,PASS) " + "VALUES (" + user + "," + pass + ");";
+				stmt = c.createStatement();
+
+				stmt.executeUpdate(sql);
+
+				stmt.close();
+				c.commit();
+				c.close();
+				System.out.println("INSERTAR EXITOSO");
+
+				return true;
+
+			} catch (ClassNotFoundException e) {
+//				e.printStackTrace(System.err);
+				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
+			} catch (SQLException e) {
+//			e.printStackTrace(System.err);
+				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
+			}
+			System.out.println("ERROR AL INSERTAR");
+		}
+
+		return false;
+
 	}
 
 	public String[][] getDatos() {
@@ -88,12 +175,14 @@ public class SQLITE {
 		}
 		return null;
 	}
+
 	/**
 	 * <strong>TODAVIA NO IMPLEMENTADO<strong><br>
 	 * BUSCAR USUARIOS OMITIENDO EL DEL ADMIN, EL CUAL SERIA EL PRIMERO
+	 * 
 	 * @return
 	 */
-	private String[][] getDatos2() {
+	private String[][] getDatosUsers() {
 
 //		if (!(new File("LoginDatabase.db").exists())) {
 //		crear();
@@ -109,16 +198,20 @@ public class SQLITE {
 			stmt = c.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM LOGIN;");
-			rs.getString("user");
-			rs.getString("pass");
-
+			// control para evitar que aparezca admin
+			boolean a = false;
 			while (rs.next()) {
+
 				String user = rs.getString("user");
 				String pass = rs.getString("pass");
-
-				sb.append(user).append(",").append(pass).append(",");
+				if (a) {
+					sb.append(user).append(",").append(pass).append(",");
+				}
+				a = true;
 			}
+			
 			rs.clearWarnings();
+			rs.close();
 			stmt.close();
 			c.close();
 
@@ -146,85 +239,41 @@ public class SQLITE {
 		return null;
 	}
 
-	public void insertar(String USER, String PASS) {
+	public String[] getAdmin() {
+		StringBuilder sb = new StringBuilder();
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:LoginDatabase.db");
+			c.setAutoCommit(false);
 
-//		if (!(new File("LoginDatabase.db").exists())) {
-//
-//		crear();
-//		}
-		if (!buscarUser(USER)) {
-			String user = "\'" + USER + "\'";
-			String pass = "\'" + PASS + "\'";
-			try {
+			stmt = c.createStatement();
 
-				Class.forName("org.sqlite.JDBC");
-				c = DriverManager.getConnection("jdbc:sqlite:LoginDatabase.db");
-				c.setAutoCommit(false);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM LOGIN;");
+			// control para evitar que aparezca admin
+			if (rs.next()) {
 
-				String sql = "INSERT INTO LOGIN (USER,PASS) " + "VALUES (" + user + "," + pass + ");";
-				stmt = c.createStatement();
+				String user = rs.getString("user");
+				String pass = rs.getString("pass");
 
-				stmt.executeUpdate(sql);
+				sb.append(user).append(",").append(pass).append(",");
 
-				stmt.close();
-				c.commit();
-				c.close();
-				System.out.println("INSERTAR EXITOSO");
-			} catch (ClassNotFoundException e) {
-//				e.printStackTrace(System.err);
-				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
-			} catch (SQLException e) {
-//			e.printStackTrace(System.err);
-				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
 			}
+			rs.clearWarnings();
+			stmt.close();
+			c.close();
+
+//			String[] s1 = sb.toString().split(",");
+			return sb.toString().split(",");
+
+		} catch (ClassNotFoundException e) {
+//			e.printStackTrace(System.err);
+			System.err.println("GetDatos: " + e.getClass().getName() + ": " + e.getMessage());
+		} catch (SQLException e) {
+//			e.printStackTrace(System.err);
+			System.err.println("GetDatos: " + e.getClass().getName() + ": " + e.getMessage());
 		}
 
-	}
-	
-	/**
-	 * @param USER
-	 * @param PASS
-	 * @return true, si se pudo insertar el usuario y contraseña(por lo tanto no existia el usuario antes)
-	 */
-	public boolean insertar2(String USER, String PASS) {
-		
-//		if (!(new File("LoginDatabase.db").exists())) {
-//
-//		crear();
-//		}
-		if (!buscarUser(USER)) {
-			String user = "\'" + USER + "\'";
-			String pass = "\'" + PASS + "\'";
-			try {
-
-				Class.forName("org.sqlite.JDBC");
-				c = DriverManager.getConnection("jdbc:sqlite:LoginDatabase.db");
-				c.setAutoCommit(false);
-
-				String sql = "INSERT INTO LOGIN (USER,PASS) " + "VALUES (" + user + "," + pass + ");";
-				stmt = c.createStatement();
-
-				stmt.executeUpdate(sql);
-
-				stmt.close();
-				c.commit();
-				c.close();
-				System.out.println("INSERTAR EXITOSO");
-				
-				return true;
-				
-			} catch (ClassNotFoundException e) {
-//				e.printStackTrace(System.err);
-				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
-			} catch (SQLException e) {
-//			e.printStackTrace(System.err);
-				System.err.println("Insertar: " + e.getClass().getName() + ": " + e.getMessage());
-			}
-			System.out.println("ERROR AL INSERTAR");
-		}
-		
-		return false;
-
+		return null;
 	}
 
 	/**
@@ -244,9 +293,20 @@ public class SQLITE {
 		return false;
 	}
 
-	private void mostartDataBase() {
-
+	private void mostartDataBaseCompleta() {
+		System.out.println("BASE DE DATOS COMPLETA");
 		String[][] s = getDatos();
+		if (s != null) {
+			for (int i = 0; i < s.length; i++) {
+				System.out.println(s[i][0] + "::::" + s[i][1]);
+
+			}
+		}
+	}
+
+	private void mostarBaseParcial() {
+		System.out.println("BASE DE DATOS PARCIAL");
+		String[][] s = getDatosUsers();
 		if (s != null) {
 			for (int i = 0; i < s.length; i++) {
 				System.out.println(s[i][0] + "::::" + s[i][1]);
@@ -266,9 +326,15 @@ public class SQLITE {
 //		s.insertar(" sssdsdd", "jkjdksjdk");
 //		s.insertar("kjksjdkljfhldh", "jdkjdfjhd hjkdhf");
 //		s.insertar("andress", "pass");
+//		s.insertar("USER", "PASS");
+//		System.out.println();
+		s.mostartDataBaseCompleta();
 		System.out.println();
-		System.out.println("BASE DE DATOS");
-		s.mostartDataBase();
+		s.mostarBaseParcial();
+		System.out.println("=============");
+		for (String a : s.getAdmin()) {
+			System.out.println(a);
+		}
 
 		sc.close();
 

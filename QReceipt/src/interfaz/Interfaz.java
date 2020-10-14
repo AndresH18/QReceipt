@@ -30,7 +30,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import codificar.Codificar;
-import criptografia.Crypto;
+import crypto.Crypto;
+import login.UserLogin;
 import login.UserLogin;
 import qr.QR_Writer;
 import qr.QR_Writer;
@@ -60,6 +61,7 @@ public class Interfaz {
 
 	private boolean isVisibleFactura = false;
 
+//	private UserLogin userLogin;
 	private UserLogin userLogin;
 	private QR_Writer qr;
 	
@@ -99,6 +101,7 @@ public class Interfaz {
 
 		setLogos();
 		
+//		userLogin = new UserLogin(frame, tabs);
 		userLogin = new UserLogin(frame, tabs);
 		qr = new QR_Writer();
 

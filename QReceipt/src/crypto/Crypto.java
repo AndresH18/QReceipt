@@ -1,4 +1,4 @@
-package criptografia;
+package crypto;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
