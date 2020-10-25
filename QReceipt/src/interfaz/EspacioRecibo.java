@@ -91,7 +91,7 @@ public class EspacioRecibo {
 		return btnRegresar;
 	}
 
-	public EspacioRecibo(JFrame frame, JPanel panelRecibo) {
+	private EspacioRecibo(JFrame frame, JPanel panelRecibo) {
 		this.frame = frame;
 		this.panelRecibo = panelRecibo;
 
@@ -111,7 +111,7 @@ public class EspacioRecibo {
 		startActionListeners();
 	}
 
-	public EspacioRecibo(JFrame frame, JPanel panel, String... datos) {
+	private EspacioRecibo(JFrame frame, JPanel panel, String... datos) {
 		// orden datos: fecha, nombre, id, direccion;
 		this.frame = frame;
 		this.panelRecibo = panel;
@@ -134,7 +134,7 @@ public class EspacioRecibo {
 	 * @param id
 	 * @param direccion
 	 */
-	public EspacioRecibo(JFrame frame, JPanel panel, String fecha, String nombre, String id, String direccion) {
+	private EspacioRecibo(JFrame frame, JPanel panel, String fecha, String nombre, String id, String direccion) {
 		// orden datos: fecha, nombre, id, direccion;
 		this.frame = frame;
 		this.panelRecibo = panel;
@@ -248,7 +248,7 @@ public class EspacioRecibo {
 		lblQR = new JLabel("");
 		lblQR.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQR.setVerticalAlignment(SwingConstants.CENTER);
-		lblQR.setBounds(418, 2, clienteInfo.getHeight()-3, clienteInfo.getHeight()-3);
+		lblQR.setBounds(418, 2, clienteInfo.getHeight() - 3, clienteInfo.getHeight() - 3);
 		clienteInfo.add(lblQR);
 
 		numFact = new JLabel("");
@@ -328,14 +328,16 @@ public class EspacioRecibo {
 		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
 		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
 	}
+
 	private void actualizarDatosCliente() {
 		this.fecha.setText(this.fechaString);
 		this.nombre.setText(this.nombreString);
 		this.id.setText(this.idString);
 		this.direccion.setText(this.direccionString);
 	}
+
 	public void setDatosCliente(String[] infoCliente) {
-		//infoCliente => {fecha, nombre, id, direccion}
+		// infoCliente => {fecha, nombre, id, direccion}
 		this.fechaString = infoCliente[0];
 		this.nombreString = infoCliente[1];
 		this.idString = infoCliente[2];

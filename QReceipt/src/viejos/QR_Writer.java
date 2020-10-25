@@ -1,4 +1,4 @@
-package qr;
+package viejos;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

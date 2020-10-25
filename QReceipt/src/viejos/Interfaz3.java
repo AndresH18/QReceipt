@@ -1,4 +1,4 @@
-package interfaz;
+package viejos;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -34,14 +34,15 @@ import javax.swing.table.DefaultTableModel;
 import codificar.Codificar;
 import crypto.Crypto;
 import login.UserLogin;
-import qr.QR_Implementation;
+//import qr.QR_Writer;
+import interfaz.*;
 
 /*
  * **https://htmlcolors.com/google-color-picker
  * **https://docs.oracle.com/javase/tutorial/uiswing/components/border.html
  * **https://stackoverflow.com/questions/37396939/jcombobox-customize-vertical-scrollbar
  */
-public class Interfaz {
+public class Interfaz3 {
 
 	private static final String ROOT_PATH = System.getProperty("user.dir");
 	private static final String LOGO_PATH = ROOT_PATH + "\\DOCS\\QReceipt_logo.jpeg";
@@ -59,15 +60,13 @@ public class Interfaz {
 	private static boolean logg = false;
 
 	private boolean isVisibleFactura = false;
-	
-	private String hex1;
 
 //	private UserLogin userLogin;
 	private UserLogin userLogin;
-	private QR_Implementation qr;
+	private QR_Writer qr;
 
-	private EspacioRecibo espacioRecibo;
-	private FormatoRecibo formatoRecibo;
+	private interfaz.EspacioRecibo espacioRecibo;
+	private interfaz.FormatoRecibo formatoRecibo;
 	private EspacioLectura espacioLectura;
 
 	private JFrame frame;
@@ -87,7 +86,7 @@ public class Interfaz {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Interfaz window = new Interfaz();
+					Interfaz3 window = new Interfaz3();
 					window.frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -97,7 +96,7 @@ public class Interfaz {
 		});
 	}
 
-	public Interfaz() {
+	public Interfaz3() {
 
 		initialize();
 
@@ -107,7 +106,7 @@ public class Interfaz {
 
 //		userLogin = new UserLogin(frame, tabs);
 		userLogin = new UserLogin(frame, tabs);
-		qr = new QR_Implementation();
+		qr = new QR_Writer();
 
 	}
 
@@ -140,7 +139,7 @@ public class Interfaz {
 		panelFormato.setBounds(0, 0, frame.getWidth(), frame.getHeight());
 		tab1.add(panelFormato);
 
-		formatoRecibo = new FormatoRecibo(frame, panelFormato);
+		formatoRecibo = new interfaz.FormatoRecibo(frame, panelFormato);
 
 		panelRecibo = new JPanel();
 		panelRecibo.setLayout(null);
@@ -149,7 +148,7 @@ public class Interfaz {
 		panelRecibo.setBounds(0, 0, frame.getWidth(), frame.getHeight());
 		tab1.add(panelRecibo);
 
-		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
+		espacioRecibo = new interfaz.EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
 
 		tab2 = new JPanel();
 		tab2.setBackground(COLOR_FRAME);
@@ -220,7 +219,6 @@ public class Interfaz {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("IMPRIMIR RECIBO");
-				qr.save(qr.write(espacioRecibo.getLblQR(), hex1));
 				reset();
 
 //				JFrame f = new JFrame();
@@ -262,7 +260,7 @@ public class Interfaz {
 		System.out.println(this.getClass().getCanonicalName() + ".datosQR()");
 
 		System.out.println("codi:\t" + codi);
-		hex1 = Crypto.stringToHex(codi);
+		String hex1 = Crypto.stringToHex(codi);
 		System.out.println("hex1:\t" + hex1);
 		System.out.println();
 
@@ -273,9 +271,7 @@ public class Interfaz {
 //		genQR(hex1);
 //		new QR_Writer(espacioRecibo.getLblQR(), hex1);
 
-//		qr.genQR(espacioRecibo.getLblQR(), hex1);
-		
-		espacioRecibo.getLblQR().setIcon(new ImageIcon(qr.write(espacioRecibo.getLblQR(), hex1)));
+		qr.genQR(espacioRecibo.getLblQR(), hex1);
 
 	}
 

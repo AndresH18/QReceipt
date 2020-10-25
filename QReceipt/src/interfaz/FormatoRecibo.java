@@ -156,9 +156,6 @@ public class FormatoRecibo {
 		/*
 		 * PANEL FECHA
 		 * 
-		 * FIXME: use JDatePicker
-		 * https://www.codejava.net/java-se/swing/how-to-use-jdatepicker-to-display-
-		 * calendar-component
 		 */
 		panelFecha = new JPanel();
 		panelFecha.setLayout(null);
