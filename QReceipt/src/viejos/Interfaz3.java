@@ -242,7 +242,7 @@ public class Interfaz3 {
 
 //		entregarDatosCliente();
 		System.out.println(this.getClass().getCanonicalName() + " entregarDatosCliente()");
-		espacioRecibo.setDatosCliente(formatoRecibo.getInfoCliente());
+//		espacioRecibo.setDatosCliente(formatoRecibo.getInfoCliente());
 
 //		datosQR();
 		datosQR();

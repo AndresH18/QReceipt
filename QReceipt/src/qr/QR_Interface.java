@@ -9,6 +9,8 @@ public interface QR_Interface {
 
 	int QR_IMAGE_SIZE = 150;
 	String IMAGE_FORMAT = "png";
+	String directoryName = System.getProperty("user.dir") + "\\recibos";
+
 
 	BufferedImage write(JLabel label, String info);
 

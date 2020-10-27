@@ -20,7 +20,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class QR_Implementation implements QR_Interface {
 
-	private String directoryName = System.getProperty("user.dir") + "\\recibos";
+	String directoryName = System.getProperty("user.dir") + "\\recibos";
 	private String fileName = "\\Recibo_num_";
 
 	@Override

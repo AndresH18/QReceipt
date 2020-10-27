@@ -1,4 +1,4 @@
-package interfaz;
+package viejos;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -19,11 +19,10 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import imprimir.Imprimir;
 import qr.QR_Implementation;
 import qr.QR_Interface;
 
-public class EspacioRecibo {
+public class EspacioRecibo2 {
 
 	private static final String COMPANY = "<html>Direccion: Cra 38# 6D Z sur 30<br>NIT: 112.358.132-1B<br>Telefono: (-57) 300336 9209<br>E-mail: qreceipt@receipt.qr</html>";
 	private static final String ROOT_PATH = System.getProperty("user.dir");
@@ -31,12 +30,6 @@ public class EspacioRecibo {
 
 //	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
 	private String[][] datosProductos;
-
-	public void setDatosProductos(String[][] datosProductos) {
-		this.datosProductos = datosProductos.clone();
-		refrescarTabla(this.datosProductos.clone());
-
-	}
 
 	private static final Font FUENTE_PLAIN_12 = new Font("Tahoma", Font.PLAIN, 12);
 	private static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
@@ -54,7 +47,6 @@ public class EspacioRecibo {
 	private JLabel lblEmpresaInfo;
 	private JSeparator separator1;
 
-	private JPanel panel1;
 	private JPanel body;
 	private JLabel lblHeadFactura;
 	private JPanel clienteInfo;
@@ -73,99 +65,67 @@ public class EspacioRecibo {
 
 	private JLabel lblQR;
 
-	public JLabel getLblQR() {
-		return this.lblQR;
-	}
-
 	private JSeparator separator2;
 
 	private JTable tabla;
 	private JScrollPane scrollPane;
 	private JLabel lblLogo;
 
-	public JLabel getLblLogo() {
-		return lblLogo;
-	}
-
 	private JButton btnTerminar;
-
-	public JButton getBtnTerminar() {
-		return this.btnTerminar;
-	}
 
 	private JButton btnRegresar;
 
-	public JButton getBtnRegresar() {
-		return btnRegresar;
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					EspacioRecibo2 window = new EspacioRecibo2();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+
+				}
+			}
+		});
 	}
 
-	private EspacioRecibo(JFrame frame, JPanel panelRecibo) {
-		this.frame = frame;
-		this.panelRecibo = panelRecibo;
-
-		initialize();
-
-		startActionListeners();
-
-	}
-
-	public EspacioRecibo(JFrame frame, JPanel panelRecibo, String[][] datosProductos) {
-		this.frame = frame;
-		this.panelRecibo = panelRecibo;
-		this.datosProductos = datosProductos.clone();
-
-		initialize();
-
-		startActionListeners();
-	}
-
-	private EspacioRecibo(JFrame frame, JPanel panel, String... datos) {
-		// orden datos: fecha, nombre, id, direccion;
-		this.frame = frame;
-		this.panelRecibo = panel;
-		this.fechaString = datos[0];
-		this.nombreString = datos[1];
-		this.idString = datos[2];
-		this.direccionString = datos[3];
-
-		initialize();
-
-		startActionListeners();
-	}
-
-	/**
-	 * 
-	 * @param frame
-	 * @param panel
-	 * @param fecha
-	 * @param nombre
-	 * @param id
-	 * @param direccion
-	 */
-	private EspacioRecibo(JFrame frame, JPanel panel, String fecha, String nombre, String id, String direccion) {
-		// orden datos: fecha, nombre, id, direccion;
-		this.frame = frame;
-		this.panelRecibo = panel;
-		this.fechaString = fecha;
-		this.nombreString = nombre;
-		this.idString = id;
-		this.direccionString = direccion;
-
-		initialize();
-
-		startActionListeners();
+	private EspacioRecibo2() {
+		pruebasInternas();
 
 	}
 
-	private void initialize() {
-		panel1 = new JPanel();
-		panel1.setBackground(Color.WHITE);
+	private void pruebasInternas() {
+
+		frame = new JFrame();
+		frame.setBounds(100, 100, 587, 632);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle(this.getClass().getCanonicalName());
+		frame.setBackground(new Color(0, 0, 0));
+		frame.setResizable(false);
+		frame.setAlwaysOnTop(true);
+		frame.setLayout(null);
+		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setBackground(Color.GRAY);
+
+		JPanel panelRecibo = new JPanel();
+		panelRecibo.setLayout(null);
+		panelRecibo.setVisible(true);
+		panelRecibo.setBackground(Color.RED);
+		panelRecibo.setBounds(0, 0, 578, 577);
+		frame.getContentPane().add(panelRecibo);
+
+		/**
+		 * 
+		 * DESDE AQUI SE COPIA
+		 * 
+		 */
+		JPanel panel1 = new JPanel();
+		panel1.setBackground(Color.ORANGE);
 		panel1.setBounds(0, 0, 578, 520);
 		panel1.setLayout(null);
 		panelRecibo.add(panel1);
 
 		JPanel panel2 = new JPanel();
-		panel2.setBackground(Color.WHITE);
+		panel2.setBackground(Color.CYAN);
 		panel2.setBounds(0, 520, 578, 577 - 520);
 		panel2.setLayout(null);
 		panelRecibo.add(panel2);
@@ -173,7 +133,7 @@ public class EspacioRecibo {
 		header = new JPanel();
 		header.setBounds(10, 0, 557, 90);
 		header.setLayout(null);
-		header.setBackground(Color.WHITE);
+		header.setBackground(new Color(255, 255, 255));
 		panel1.add(header);
 
 		lblEmpresa = new JLabel("QReceipt");
@@ -201,7 +161,7 @@ public class EspacioRecibo {
 
 		body = new JPanel();
 		body.setBounds(10, 95, 558, 407);
-		body.setBackground(Color.WHITE);
+		body.setBackground(new Color(255, 255, 255));
 		body.setLayout(null);
 		panel1.add(body);
 
@@ -319,114 +279,4 @@ public class EspacioRecibo {
 
 	}
 
-	private void startActionListeners() {
-		btnRegresar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-			}
-		});
-		btnRegresar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent k) {
-				if (k.isControlDown() && k.getKeyCode() == KeyEvent.VK_W) {
-					frame.dispose();
-					System.exit(0);
-				}
-			}
-		});
-
-	}
-
-	public void refrescarTabla(String[][] datosProductosOrig) {
-		String[][] datosProductos = datosProductosOrig.clone();
-
-		DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
-		textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
-//		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
-
-		DefaultTableCellRenderer textoTablaCentro = new DefaultTableCellRenderer();
-		textoTablaCentro.setHorizontalAlignment(SwingConstants.CENTER);
-//		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
-//		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-		tabla.setModel(new DefaultTableModel(datosProductos.clone(), new String[] { "CANTIDAD", "NOMBRE", "VALOR" }));
-
-		tabla.getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
-		tabla.getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
-	}
-
-	private void actualizarDatosCliente(String valor) {
-		this.fecha.setText(this.fechaString);
-		this.nombre.setText(this.nombreString);
-		this.id.setText(this.idString);
-		this.direccion.setText(this.direccionString);
-		this.valorTotal.setText(valor);
-
-		new QR_Implementation().directoryExists();
-		File directory = new File(QR_Interface.directoryName);
-		this.numFact.setText(String.valueOf(directory.listFiles().length + 1));
-	}
-
-	public void setDatosCliente(String[] infoCliente, String valor) {
-		// infoCliente => {fecha, nombre, id, direccion}
-		this.fechaString = infoCliente[0];
-		this.nombreString = infoCliente[1];
-		this.idString = infoCliente[2];
-		this.direccionString = infoCliente[3];
-		actualizarDatosCliente(valor);
-	}
-
-	public void imprimir() {
-//		PrinterJob job = PrinterJob.getPrinterJob();
-		new Imprimir(panel1, lblQR).ImprimirPanel(0.75, 0.75);
-
-	}
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EspacioRecibo window = new EspacioRecibo();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-
-				}
-			}
-		});
-	}
-
-	private EspacioRecibo() {
-		pruebasInternas();
-	}
-
-	private void pruebasInternas() {
-		final Color COLOR_FRAME = new Color(217, 222, 222);
-
-		frame = new JFrame();
-		frame.setBounds(100, 100, 587, 632);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle(this.getClass().getCanonicalName());
-		frame.setBackground(Color.BLACK);
-		frame.setResizable(false);
-		frame.setAlwaysOnTop(true);
-		frame.getContentPane().setBackground(COLOR_FRAME);
-
-		JPanel panelRecibo = new JPanel();
-		panelRecibo.setLayout(null);
-		panelRecibo.setVisible(true);
-		panelRecibo.setBackground(Color.WHITE);
-		panelRecibo.setBounds(0, 0, 578, 577);
-		frame.getContentPane().add(panelRecibo);
-
-		/**
-		 * 
-		 * DESDE AQUI SE COPIA
-		 * 
-		 */
-
-	}
 }

@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import numeros.Num6;
 
 public class FormatoRecibo {
-	
+
 	private String fecha;
 	private String nombre;
 	private String id;
@@ -110,6 +110,10 @@ public class FormatoRecibo {
 	private JTextField textFieldValorUnidad;
 	private JTextField textFieldDireccion;
 	private JTextField textFieldID_NIT;
+
+	public JTextField getTextFieldValorTotal() {
+		return textFieldValorTotal;
+	}
 
 	// JComboBox s Fechas
 	private JComboBox<String> comboBoxMonth, comboBoxDay, comboBoxYear;
@@ -921,7 +925,7 @@ public class FormatoRecibo {
 	// CUIDADO
 	private void infoForQR(String... productos) {
 //		if (!productos[0].equals("")) {
-		if( productos[0]!=null && !productos[0].equals("")) {
+		if (productos[0] != null && !productos[0].equals("")) {
 			String[] temp = new String[4 + productos.length];
 			System.out.println(temp.length);
 			temp[0] = this.fecha;
@@ -968,8 +972,9 @@ public class FormatoRecibo {
 
 		}
 	}
+
 	private void infoForQR() {
-		
+
 	}
 
 	public static void main(String[] args) {

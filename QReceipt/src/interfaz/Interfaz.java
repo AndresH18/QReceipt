@@ -57,7 +57,7 @@ public class Interfaz {
 	private static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
 
 	private static boolean logg = false;
-	
+
 	private File lastFile = null;
 
 	private boolean isVisibleFactura = false;
@@ -109,7 +109,7 @@ public class Interfaz {
 
 //		userLogin = new UserLogin(frame, tabs);
 		userLogin = new UserLogin(frame, tabs, panelLector);
-		
+
 		qr = new QR_Implementation();
 
 	}
@@ -175,8 +175,9 @@ public class Interfaz {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				System.out.println("CLOSING");
-				System.out.println("CLOSED");
+				System.err.println("CLOSING");
+				System.err.println("CLOSED");
+				System.err.println("THE PROGRAM HAS BEEN TERMINATED CORRECTLY");
 				System.exit(0);
 			}
 		});
@@ -199,7 +200,7 @@ public class Interfaz {
 //					userLogin = new UserLogin2(frame, tabs,logg);
 					// CAUTION DESCOMENTAR
 					userLogin.start(lastFile);
-					
+
 				} else if (tabs.getSelectedIndex() == 0) {
 
 				}
@@ -227,6 +228,9 @@ public class Interfaz {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("IMPRIMIR RECIBO");
+				frame.setAlwaysOnTop(false);
+				espacioRecibo.imprimir();
+				frame.setAlwaysOnTop(true);
 				qr.save(qr.write(espacioRecibo.getLblQR(), hex1));
 				reset();
 
@@ -251,7 +255,7 @@ public class Interfaz {
 
 //		entregarDatosCliente();
 		System.out.println(this.getClass().getCanonicalName() + " entregarDatosCliente()");
-		espacioRecibo.setDatosCliente(formatoRecibo.getInfoCliente());
+		espacioRecibo.setDatosCliente(formatoRecibo.getInfoCliente(), formatoRecibo.getTextFieldValorTotal().getText());
 
 //		datosQR();
 		datosQR();
