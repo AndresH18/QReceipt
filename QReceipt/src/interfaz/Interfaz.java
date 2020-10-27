@@ -196,9 +196,7 @@ public class Interfaz {
 			public void stateChanged(ChangeEvent e) {
 				System.out.println("tabs.getSelectedIndex() == " + tabs.getSelectedIndex());
 				if (tabs.getSelectedIndex() == 1) {
-					// CONTINUAR
-//					userLogin = new UserLogin2(frame, tabs,logg);
-					// CAUTION DESCOMENTAR
+					
 					userLogin.start(lastFile);
 
 				} else if (tabs.getSelectedIndex() == 0) {
@@ -229,19 +227,12 @@ public class Interfaz {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("IMPRIMIR RECIBO");
 				frame.setAlwaysOnTop(false);
+				System.err.println("ALWAYS ON TOP = FALSE");
 				espacioRecibo.imprimir();
 				frame.setAlwaysOnTop(true);
+				System.err.println("ALWAYS ON TOP = TRUE");
 				qr.save(qr.write(espacioRecibo.getLblQR(), hex1));
 				reset();
-
-//				JFrame f = new JFrame();
-//				f.setBounds(100,100,200,200);
-//				f.setVisible(true);
-//				f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//				f.setAlwaysOnTop(true);
-//				frame.setAlwaysOnTop(false);
-//				frame.setVisible(true);
-
 			}
 		});
 
@@ -267,9 +258,7 @@ public class Interfaz {
 		for (int i = 0; i < info.length; i++) {
 			info[i] = formatoRecibo.getInfoQR()[i];
 		}
-		// WARNING TODO: make global(final) SecretKey
 		String codi = (new Codificar(info).getCoded());
-//		Toolkit.getDefaultToolkit().beep();
 		System.out.println(this.getClass().getCanonicalName() + ".datosQR()");
 
 		System.out.println("codi:\t" + codi);
@@ -277,14 +266,6 @@ public class Interfaz {
 		System.out.println("hex1:\t" + hex1);
 		System.out.println();
 
-		// TODO encriptar
-
-//		String encryp1 = new Crypto().
-
-//		genQR(hex1);
-//		new QR_Writer(espacioRecibo.getLblQR(), hex1);
-
-//		qr.genQR(espacioRecibo.getLblQR(), hex1);
 
 		espacioRecibo.getLblQR().setIcon(new ImageIcon(qr.write(espacioRecibo.getLblQR(), hex1)));
 
@@ -292,7 +273,7 @@ public class Interfaz {
 
 	private String[][] valorUni_TotalProducto() {
 		System.out.println(this.getClass().getCanonicalName() + " valorUni_TotalProducto()");
-		// Evita problemas si no se ha puesto informacion
+
 		if (formatoRecibo.getDatosProductos().length == 0) {
 			return new String[][] { { "", "", "" } };
 		}
