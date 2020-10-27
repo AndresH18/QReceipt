@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,39 +16,25 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import interfaz.EspacioLectura;
 import sqlt2.SQLITE;
 
 public class UserLogin {
 
 	private SQLITE db = new SQLITE();
-	
-	private boolean logged = false;
-	
+	private File file;
+
+	private Boolean logged = false;
+
 	private JFrame frame;
 	private JTabbedPane tabs;
+	private JPanel panel;
 	private JPasswordField passwordField;
 	private JTextField usernameField;
 
 //	private String[][] listaUsers = { { "Usuario", "Contrase" + ((char) 241) + "a" } };
 //	private String[][] listaUsers = db.getDatosUsers();
 	private static final String[] ADMIN = { "Admin", "Admin" };
-
-	private UserLogin(JFrame frame, JTabbedPane tabs, SQLITE db) {
-		this.db = db;
-		this.frame = frame;
-		this.tabs = tabs;
-
-		loginStarter();
-	}
-
-	private UserLogin(JFrame frame, JTabbedPane tabs, SQLITE db, boolean logged) {
-		this.logged = logged;
-		this.db = db;
-		this.frame = frame;
-		this.tabs = tabs;
-
-		loginStarter();
-	}
 
 	public UserLogin(JFrame frame, JTabbedPane tabs, boolean logged) {
 		this.logged = logged;
@@ -57,15 +44,20 @@ public class UserLogin {
 //		loginProtocol();
 	}
 
-	public UserLogin(JFrame frame, JTabbedPane tabs) {
+	public UserLogin(JFrame frame, JTabbedPane tabs, JPanel panel) {
 		this.frame = frame;
 		this.tabs = tabs;
+		this.panel = panel;
 
 	}
 
-	public void start() {
+	public void start(File file) {
+		this.file = file;
 		if (!logged) {
 			loginStarter();
+		}
+		if(logged) {
+			System.out.println(new EspacioLectura(frame, panel, file));
 		}
 	}
 
@@ -86,6 +78,7 @@ public class UserLogin {
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (op == JOptionPane.CANCEL_OPTION || op == JOptionPane.CLOSED_OPTION) {
+			System.err.println("EL LECTOR QR SOLO ES PARA PERSONAL AUTORIZADO");
 			JOptionPane.showMessageDialog(frame, "EL LECTOR QR SOLO ES PARA PERSONAL AUTORIZADO");
 
 			tabs.setSelectedIndex(0);
@@ -97,7 +90,7 @@ public class UserLogin {
 //			usersLoginVerify(loginOpt);
 		}
 	}
-	
+
 	private void loginScreen() {
 		int loginOpt = JOptionPane.showOptionDialog(frame, loginPanel(), "Login", JOptionPane.YES_NO_CANCEL_OPTION,
 				JOptionPane.WARNING_MESSAGE, null, new String[] { "Continuar", "Cancelar", "Crear Usuario" }, 0);
@@ -112,8 +105,10 @@ public class UserLogin {
 				JOptionPane.showMessageDialog(frame, "BIENVENIDO", "", JOptionPane.PLAIN_MESSAGE);
 
 //				new Lector(frame, tabs);
+
 			} else {
 				Toolkit.getDefaultToolkit().beep();
+				System.err.println("NO SE RECONOCE AL USUARIO");
 				JOptionPane.showMessageDialog(frame, "NO SE RECONOCE AL USUARIO", "", JOptionPane.ERROR_MESSAGE);
 
 				tabs.setSelectedIndex(0);
@@ -121,6 +116,7 @@ public class UserLogin {
 			}
 		} else if (a == 1 || a == JOptionPane.CLOSED_OPTION) {
 			Toolkit.getDefaultToolkit().beep();
+			System.err.println("EL LECTOR QR SOLO ES PARA PERSONAL AUTORIZADO");
 			JOptionPane.showMessageDialog(frame, "EL LECTOR QR SOLO ES PARA PERSONAL AUTORIZADO");
 
 			tabs.setSelectedIndex(0);
@@ -188,9 +184,9 @@ public class UserLogin {
 
 //		if (ADMIN[0].equals(user) && ADMIN[1].equals(pass)) {
 		if (db.getAdmin()[0].equals(user) && db.getAdmin()[1].equals(pass)) {
-			System.out.println("Admin autenticado".toUpperCase());
+			System.err.println("Admin autenticado".toUpperCase());
 			boolean bool = true;
-			//Agregar usuario
+			// Agregar usuario
 			do {
 				int a = JOptionPane.showOptionDialog(frame, loginPanel(), "AGREGAR USUARIO",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
@@ -207,10 +203,11 @@ public class UserLogin {
 					System.out.println(usernameField.getText() + "::::" + new String(passwordField.getPassword()));
 
 					if (bool) {
+						System.err.println("NO SE ACEPTA EL USUARIO, INTENTE OTRO");
 						int eee = JOptionPane.showConfirmDialog(frame, "NO SE ACEPTA EL USUARIO, INTENTE OTRO",
 								"AGREGAR USUARIO", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-						
-						if(eee == JOptionPane.CANCEL_OPTION || eee == JOptionPane.CLOSED_OPTION) {
+
+						if (eee == JOptionPane.CANCEL_OPTION || eee == JOptionPane.CLOSED_OPTION) {
 							bool = false;
 							tabs.setSelectedIndex(0);
 						}
@@ -219,12 +216,12 @@ public class UserLogin {
 			} while (bool);
 			// se agrego usuario
 			loginScreen();
-			// TODO CONTINUAR:
 
 		} else {
 			Toolkit.getDefaultToolkit().beep();
 			JOptionPane.showMessageDialog(frame, "ERROR, NO SE RECONOCE AL ADMINISTRADOR", "ADMIN LOGIN",
 					JOptionPane.ERROR_MESSAGE);
+			System.err.println("ERROR, NO SE RECONOCE AL ADMINISTRADOR");
 			tabs.setSelectedIndex(0);
 		}
 	}

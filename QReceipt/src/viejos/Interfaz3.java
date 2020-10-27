@@ -105,7 +105,7 @@ public class Interfaz3 {
 		setLogos();
 
 //		userLogin = new UserLogin(frame, tabs);
-		userLogin = new UserLogin(frame, tabs);
+//		userLogin = new UserLogin(frame, tabs);
 		qr = new QR_Writer();
 
 	}
@@ -190,7 +190,7 @@ public class Interfaz3 {
 				if (tabs.getSelectedIndex() == 1) {
 					// CONTINUAR
 //					userLogin = new UserLogin2(frame, tabs,logg);
-					userLogin.start();
+//					userLogin.start();
 
 				} else if (tabs.getSelectedIndex() == 0) {
 

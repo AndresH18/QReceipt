@@ -57,9 +57,11 @@ public class Interfaz {
 	private static final Font FUENTE_BOLD_12 = new Font("Tahoma", Font.BOLD, 12);
 
 	private static boolean logg = false;
+	
+	private File lastFile = null;
 
 	private boolean isVisibleFactura = false;
-	
+
 	private String hex1;
 
 //	private UserLogin userLogin;
@@ -106,7 +108,8 @@ public class Interfaz {
 		setLogos();
 
 //		userLogin = new UserLogin(frame, tabs);
-		userLogin = new UserLogin(frame, tabs);
+		userLogin = new UserLogin(frame, tabs, panelLector);
+		
 		qr = new QR_Implementation();
 
 	}
@@ -130,7 +133,7 @@ public class Interfaz {
 		tab1 = new JPanel();
 		tab1.setLayout(null);
 		tab1.setBackground(new Color(255, 255, 255));
-		tabs.addTab("1", tab1);
+		tabs.addTab("GENERAR", tab1);
 		tabs.setBackgroundAt(0, Color.WHITE);
 
 		panelFormato = new JPanel();
@@ -154,15 +157,16 @@ public class Interfaz {
 		tab2 = new JPanel();
 		tab2.setBackground(COLOR_FRAME);
 		tab2.setLayout(null);
-		tabs.addTab("2", tab2);
+		tabs.addTab("LECTURA", tab2);
 
 		panelLector = new JPanel();
 		panelLector.setLayout(null);
 		panelLector.setVisible(true);
 		panelLector.setBackground(new Color(255, 255, 255));
 		panelLector.setBounds(0, 0, frame.getWidth(), frame.getHeight());
+		tab2.add(panelLector);
 
-		espacioLectura = new EspacioLectura(frame, panelLector);
+//		espacioLectura = new EspacioLectura(frame, panelLector, userLogin);
 
 	}
 
@@ -171,9 +175,11 @@ public class Interfaz {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				System.out.println("CLOSING");
+				System.out.println("CLOSED");
+				System.exit(0);
 			}
 		});
-		
 		tabs.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent k) {
@@ -191,8 +197,9 @@ public class Interfaz {
 				if (tabs.getSelectedIndex() == 1) {
 					// CONTINUAR
 //					userLogin = new UserLogin2(frame, tabs,logg);
-					userLogin.start();
-
+					// CAUTION DESCOMENTAR
+					userLogin.start(lastFile);
+					
 				} else if (tabs.getSelectedIndex() == 0) {
 
 				}
@@ -274,7 +281,7 @@ public class Interfaz {
 //		new QR_Writer(espacioRecibo.getLblQR(), hex1);
 
 //		qr.genQR(espacioRecibo.getLblQR(), hex1);
-		
+
 		espacioRecibo.getLblQR().setIcon(new ImageIcon(qr.write(espacioRecibo.getLblQR(), hex1)));
 
 	}
@@ -330,8 +337,8 @@ public class Interfaz {
 			DefaultTableCellRenderer textoTablaDerecha = new DefaultTableCellRenderer();
 			textoTablaDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
 
-			((JTable) j).setModel(new DefaultTableModel(new String[][] { {}, {}, {} },
-					new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
+			((JTable) j).setModel(
+					new DefaultTableModel(new String[][] {}, new String[] { "CANTIDAD", "NOMBRE", "VALOR UNITARIO" }));
 			((JTable) j).getColumnModel().getColumn(0).setCellRenderer(textoTablaCentro);
 			((JTable) j).getColumnModel().getColumn(1).setCellRenderer(textoTablaCentro);
 			((JTable) j).getColumnModel().getColumn(2).setCellRenderer(textoTablaDerecha);
@@ -380,7 +387,7 @@ public class Interfaz {
 			}
 		}
 	}
-	
+
 	private void setLogos() {
 		System.out.println("Window Icon:\t" + WINDOW_LOGO);
 		System.out.println();

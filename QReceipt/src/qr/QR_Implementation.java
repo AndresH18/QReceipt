@@ -1,6 +1,7 @@
 package qr;
 
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,6 +45,7 @@ public class QR_Implementation implements QR_Interface {
 				image.setRGB(x, y, ((greyValue == 0) ? 0 : 0xFFFFFF));
 			}
 		}
+		// CAUTION
 		// FIXME: is this part necessary??
 		Image thumbnail = image.getScaledInstance(label.getWidth() - 5, -1, Image.SCALE_SMOOTH);
 		BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
@@ -54,9 +56,16 @@ public class QR_Implementation implements QR_Interface {
 	}
 
 	@Override
-	public void read() {
-		// TODO Auto-generated method stub
-
+	public BufferedImage read(File file) {
+		if (file != null) {
+			try {
+				BufferedImage bufferedImage = ImageIO.read(file);
+				return bufferedImage;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -67,7 +76,7 @@ public class QR_Implementation implements QR_Interface {
 //		if (!directory.exists()) {
 //			directory.mkdir();
 //		}
-		exists();
+		directoryExists();
 
 //		int a = directory.listFiles().length;
 
@@ -87,7 +96,7 @@ public class QR_Implementation implements QR_Interface {
 	}
 
 	@Override
-	public void exists() {
+	public void directoryExists() {
 		File f = new File(directoryName);
 		if (!f.exists()) {
 			f.mkdir();
@@ -117,7 +126,7 @@ public class QR_Implementation implements QR_Interface {
 //			}
 //		}
 //	}
-	
+
 //	@Override
 //	public void changeState() {
 //		File f = new File(System.getProperty("user.dir") + "\\recibos");

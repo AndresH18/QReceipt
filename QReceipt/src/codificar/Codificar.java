@@ -9,8 +9,6 @@ public class Codificar implements ManejoInformacion_new {
 	private String[] info;
 	private String coded;
 
-	// TODO: USAR LA LIBRERIA PARA CODIFICAR LA INFO en un QR
-
 	public Codificar(String[] info) {
 		super();
 
@@ -62,7 +60,7 @@ public class Codificar implements ManejoInformacion_new {
 				break;
 			}
 		} while (true);
-		
+
 		return ((char) i);
 	}
 
@@ -83,6 +81,5 @@ public class Codificar implements ManejoInformacion_new {
 		}
 		return false;
 	}
-	
 
 }

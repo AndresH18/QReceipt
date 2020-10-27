@@ -12,11 +12,11 @@ public interface QR_Interface {
 
 	BufferedImage write(JLabel label, String info);
 
-	void read();
+	BufferedImage read(File file);
 
 	void save(BufferedImage bufferedImage);
 
-	void exists();
+	void directoryExists();
 
 //	void changeState();
 

@@ -739,11 +739,11 @@ public class FormatoRecibo {
 	private String sumarValorProductos() {
 		String[][] temporal = this.datosProductos.clone();
 		// CANTIDAD[0], NOMBRE[1], VALORUNITARIO[2]
-		int total = 0;
+		long total = 0;
 		// int i = 0;
 		for (int i = 0; i < temporal.length; i++) {
 //			[i][0] cantidad , [i][2] valorUnidad
-			total += (Integer.valueOf(temporal[i][0]) * Integer.valueOf(temporal[i][2]));
+			total += (Long.valueOf(temporal[i][0]) * Long.valueOf(temporal[i][2]));
 		}
 
 		return String.valueOf(total);
@@ -858,7 +858,7 @@ public class FormatoRecibo {
 	}
 
 	public JComponent[] getComponents() {
-		JComponent[] componentes = new JComponent[13];
+		JComponent[] componentes = new JComponent[15];
 		componentes[0] = panelFormato;
 		componentes[1] = comboBoxMonth;
 		componentes[2] = comboBoxDay;
@@ -872,6 +872,8 @@ public class FormatoRecibo {
 		componentes[10] = modificarValor;
 		componentes[11] = btnGenerarRecibo;
 		componentes[12] = listaProductos;
+		componentes[13] = textFieldValorTotal;
+		componentes[14] = lblValorPalabras;
 
 		return componentes;
 	}
@@ -910,15 +912,18 @@ public class FormatoRecibo {
 		this.id = id;
 		this.direccion = direccion;
 		// CUIDADO
-		infoForQR("");
+//		infoForQR("");
+		infoForQR(textFieldValorTotal.getText());
 
 		return new String[] { fecha, nombre, id, direccion };
 	}
 
 	// CUIDADO
 	private void infoForQR(String... productos) {
-		if (!productos[0].equals("")) {
+//		if (!productos[0].equals("")) {
+		if( productos[0]!=null && !productos[0].equals("")) {
 			String[] temp = new String[4 + productos.length];
+			System.out.println(temp.length);
 			temp[0] = this.fecha;
 			temp[1] = this.nombre;
 			temp[2] = this.id;
@@ -943,6 +948,7 @@ public class FormatoRecibo {
 			}
 		} else {
 			String[] temp = new String[4];
+			System.out.println(temp.length);
 			temp[0] = this.fecha;
 			temp[1] = this.nombre;
 			temp[2] = this.id;
@@ -961,6 +967,9 @@ public class FormatoRecibo {
 			}
 
 		}
+	}
+	private void infoForQR() {
+		
 	}
 
 	public static void main(String[] args) {
