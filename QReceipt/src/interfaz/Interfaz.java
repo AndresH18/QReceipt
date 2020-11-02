@@ -31,10 +31,13 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import accesoDatos.accesoRegistro.IManejoDatos;
+import accesoDatos.accesoRegistro.ManejoDatos;
 import codificar.Codificar;
 import crypto.Crypto;
 import login.UserLogin;
-import qr.QR_Implementation;
+import qr.IQR;
+import qr.QR;
 
 /*
  * **https://htmlcolors.com/google-color-picker
@@ -44,8 +47,8 @@ import qr.QR_Implementation;
 public class Interfaz {
 
 	private static final String ROOT_PATH = System.getProperty("user.dir");
-	private static final String LOGO_PATH = ROOT_PATH + "\\DOCS\\QReceipt_logo.jpeg";
-	private static final String WINDOW_LOGO = ROOT_PATH + "\\DOCS\\QReceipt_WindowLogo.jpg";
+	private static final String LOGO_PATH = ROOT_PATH + "\\.docs\\QReceipt_logo.jpeg";
+	static final String WINDOW_LOGO = ROOT_PATH + "\\.docs\\QReceipt_WindowLogo.jpg";
 
 	private static final int SEPARACION_FRAME = 24;
 	private static final Border RAISED_BORDER = BorderFactory.createRaisedBevelBorder();
@@ -58,19 +61,19 @@ public class Interfaz {
 
 	private static boolean logg = false;
 
-	private File lastFile = null;
+//	private File lastFile = null;
 
 	private boolean isVisibleFactura = false;
 
 	private String hex1;
 
-//	private UserLogin userLogin;
 	private UserLogin userLogin;
-	private QR_Implementation qr;
+	private IQR qr;
+
+	private IManejoDatos datos;
 
 	private EspacioRecibo espacioRecibo;
 	private FormatoRecibo formatoRecibo;
-	private EspacioLectura espacioLectura;
 
 	private JFrame frame;
 	private JPanel panelFormato;
@@ -110,7 +113,8 @@ public class Interfaz {
 //		userLogin = new UserLogin(frame, tabs);
 		userLogin = new UserLogin(frame, tabs, panelLector);
 
-		qr = new QR_Implementation();
+		qr = new QR();
+		datos = new ManejoDatos();
 
 	}
 
@@ -120,7 +124,7 @@ public class Interfaz {
 		frame.setBounds(100, 100, 587, 632);
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle(this.getClass().getCanonicalName());
-		frame.setBackground(new Color(0, 0, 0));
+//		frame.setBackground(new Color(0, 0, 0));
 		frame.setResizable(false);
 		frame.setAlwaysOnTop(true);
 		frame.getContentPane().setLayout(null);
@@ -152,7 +156,7 @@ public class Interfaz {
 		panelRecibo.setBounds(0, 0, frame.getWidth(), frame.getHeight());
 		tab1.add(panelRecibo);
 
-		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos());
+		espacioRecibo = new EspacioRecibo(frame, panelRecibo, formatoRecibo.getDatosProductos(), this);
 
 		tab2 = new JPanel();
 		tab2.setBackground(COLOR_FRAME);
@@ -181,6 +185,7 @@ public class Interfaz {
 				System.exit(0);
 			}
 		});
+
 		tabs.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent k) {
@@ -191,19 +196,22 @@ public class Interfaz {
 				}
 			}
 		});
+
 		tabs.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				System.out.println("tabs.getSelectedIndex() == " + tabs.getSelectedIndex());
 				if (tabs.getSelectedIndex() == 1) {
-					
-					userLogin.start(lastFile);
+
+//					userLogin.start(lastFile);
+					userLogin.start();
 
 				} else if (tabs.getSelectedIndex() == 0) {
 
 				}
 			}
 		});
+
 		formatoRecibo.getBtnGenerarRecibo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -215,6 +223,7 @@ public class Interfaz {
 
 			}
 		});
+
 		espacioRecibo.getBtnRegresar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -222,17 +231,41 @@ public class Interfaz {
 				controlVisibilidadFormatoRecibo();
 			}
 		});
-		espacioRecibo.getBtnTerminar().addActionListener(new ActionListener() {
+
+		espacioRecibo.getBtnImprimir().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("IMPRIMIR RECIBO");
 				frame.setAlwaysOnTop(false);
 				System.err.println("ALWAYS ON TOP = FALSE");
-				espacioRecibo.imprimir();
+				boolean b = espacioRecibo.imprimir();
 				frame.setAlwaysOnTop(true);
 				System.err.println("ALWAYS ON TOP = TRUE");
-				qr.save(qr.write(espacioRecibo.getLblQR(), hex1));
+				if (b) {
+
+					String num = espacioRecibo.getNumFact().getText();
+					qr.save(qr.writeQR(espacioRecibo.getLblQR(), hex1));
+					datos.agregarEntrada(num, false);
+
+					reset();
+					espacioRecibo.getBtnRegresar().doClick();
+				}
+
+			}
+		});
+
+		espacioRecibo.getBtnGuardar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String num = espacioRecibo.getNumFact().getText();
+
+				qr.save(qr.writeQR(espacioRecibo.getLblQR(), hex1));
+
+				datos.agregarEntrada(num, false);
+
 				reset();
+				espacioRecibo.getBtnRegresar().doClick();
+
 			}
 		});
 
@@ -263,11 +296,11 @@ public class Interfaz {
 
 		System.out.println("codi:\t" + codi);
 		hex1 = Crypto.stringToHex(codi);
+
 		System.out.println("hex1:\t" + hex1);
 		System.out.println();
 
-
-		espacioRecibo.getLblQR().setIcon(new ImageIcon(qr.write(espacioRecibo.getLblQR(), hex1)));
+		espacioRecibo.getLblQR().setIcon(new ImageIcon(qr.writeQR(espacioRecibo.getLblQR(), hex1)));
 
 	}
 
@@ -296,7 +329,7 @@ public class Interfaz {
 		return datos;
 	}
 
-	private void reset() {
+	public void reset() {
 		System.out.println(this.getClass().getCanonicalName() + " reset()");
 		System.out.println();
 
@@ -347,8 +380,10 @@ public class Interfaz {
 			}
 			espacioRecibo.getBtnRegresar().setVisible(true);
 			espacioRecibo.getBtnRegresar().setEnabled(true);
-			espacioRecibo.getBtnTerminar().setVisible(true);
-			espacioRecibo.getBtnTerminar().setEnabled(true);
+			espacioRecibo.getBtnImprimir().setVisible(true);
+			espacioRecibo.getBtnImprimir().setEnabled(true);
+			espacioRecibo.getBtnGuardar().setVisible(true);
+			espacioRecibo.getBtnGuardar().setEnabled(true);
 			panelRecibo.setVisible(true);
 
 		} else {
@@ -360,8 +395,10 @@ public class Interfaz {
 
 			espacioRecibo.getBtnRegresar().setVisible(false);
 			espacioRecibo.getBtnRegresar().setEnabled(false);
-			espacioRecibo.getBtnTerminar().setVisible(false);
-			espacioRecibo.getBtnTerminar().setEnabled(false);
+			espacioRecibo.getBtnImprimir().setVisible(false);
+			espacioRecibo.getBtnImprimir().setEnabled(false);
+			espacioRecibo.getBtnGuardar().setVisible(false);
+			espacioRecibo.getBtnGuardar().setVisible(false);
 			for (JComponent componente : componentesformato) {
 				// no hacerle nada al JTable
 				if (!(componente instanceof JTable)) {

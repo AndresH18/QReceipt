@@ -294,7 +294,7 @@ public class SQLITE {
 		return false;
 	}
 
-	private void mostartDataBaseCompleta() {
+	protected void mostartDataBaseCompleta() {
 		System.out.println("BASE DE DATOS COMPLETA");
 		String[][] s = getDatos();
 		if (s != null) {
@@ -316,30 +316,5 @@ public class SQLITE {
 		}
 	}
 
-	public static void main(String[] args) {
-		// agregar y ---verificar(USER, PASSWORD)
-		Scanner sc = new Scanner(System.in);
-		SQLITE s = new SQLITE();
-		
-		s.mostartDataBaseCompleta();
 
-//		System.out.println("insertar usuario y contrase" + (char) 241 + "a");
-//
-//		s.insertar(sc.nextLine(), sc.nextLine());
-//		s.insertar(" sssdsdd", "jkjdksjdk");
-//		s.insertar("kjksjdkljfhldh", "jdkjdfjhd hjkdhf");
-//		s.insertar("andress", "pass");
-//		s.insertar("USER", "PASS");
-//		System.out.println();
-//		s.mostartDataBaseCompleta();
-//		System.out.println();
-//		s.mostarBaseParcial();
-//		System.out.println("=============");
-//		for (String a : s.getAdmin()) {
-//			System.out.println(a);
-//		}
-
-		sc.close();
-
-	}
 }

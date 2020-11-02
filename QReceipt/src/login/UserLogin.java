@@ -22,9 +22,11 @@ import sqlt2.SQLITE;
 public class UserLogin {
 
 	private SQLITE db = new SQLITE();
-	private File file;
+	private EspacioLectura espacioLectura;
 
 	private Boolean logged = false;
+
+	private File file;
 
 	private JFrame frame;
 	private JTabbedPane tabs;
@@ -36,7 +38,7 @@ public class UserLogin {
 //	private String[][] listaUsers = db.getDatosUsers();
 	private static final String[] ADMIN = { "Admin", "Admin" };
 
-	public UserLogin(JFrame frame, JTabbedPane tabs, boolean logged) {
+	private UserLogin(JFrame frame, JTabbedPane tabs, boolean logged) {
 		this.logged = logged;
 		this.frame = frame;
 		this.tabs = tabs;
@@ -48,16 +50,33 @@ public class UserLogin {
 		this.frame = frame;
 		this.tabs = tabs;
 		this.panel = panel;
+		this.espacioLectura = new EspacioLectura(this.frame, this.panel, this);
 
 	}
 
 	public void start(File file) {
+		this.panel.setVisible(false);
+
 		this.file = file;
 		if (!logged) {
 			loginStarter();
 		}
-		if(logged) {
-			System.out.println(new EspacioLectura(frame, panel, file));
+		if (logged) {
+//			this.espacioLectura.setQrFile(file);
+			this.panel.setVisible(true);
+
+		}
+	}
+
+	public void start() {
+		this.panel.setVisible(false);
+
+		if (!logged) {
+			loginStarter();
+		}
+		if (logged) {
+			this.panel.setVisible(true);
+
 		}
 	}
 
@@ -102,7 +121,7 @@ public class UserLogin {
 		if (a == 0) {
 			// Continuar
 			if (autenticarUsuario(usernameField.getText(), passwordField.getPassword())) {
-				JOptionPane.showMessageDialog(frame, "BIENVENIDO", "", JOptionPane.PLAIN_MESSAGE);
+//				JOptionPane.showMessageDialog(frame, "BIENVENIDO", "", JOptionPane.PLAIN_MESSAGE);
 
 //				new Lector(frame, tabs);
 
@@ -173,6 +192,7 @@ public class UserLogin {
 	}
 
 	private void autenticarAdmin(String username, char[] password) {
+		boolean bbb = false;
 		System.out.println("autenticarAdmin");
 
 		String pass = new String(password);
@@ -192,19 +212,35 @@ public class UserLogin {
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 						new String[] { "OK", "CANCEL" }, 0);
 
-				if (a == JOptionPane.CANCEL_OPTION || a == JOptionPane.CLOSED_OPTION || a == 1) {
+				if (a == JOptionPane.CANCEL_OPTION || a == JOptionPane.CLOSED_OPTION || a == 1 || a == JOptionPane.DEFAULT_OPTION) {
 					bool = false;
 					Toolkit.getDefaultToolkit().beep();
 					tabs.setSelectedIndex(0);
 				} else if (a == JOptionPane.OK_OPTION) {
 					System.err.println(db.getClass().toString() + " SAYS:");
-					// invertimos para manejar el ciclo
-					bool = !db.insertar(usernameField.getText(), new String(passwordField.getPassword()));
+
+					String s1 = usernameField.getText();
+					String s2 = new String(passwordField.getPassword());
+					
+					int i1 = 5;
+					int i2 = 8;
+					
+//					if (s1.length() >= 5 && s2.length() >= 8) {
+					if (s1.length() >= i1 && s2.length() >= i2) {
+						// invertimos para manejar el ciclo
+//					bool = !db.insertar(usernameField.getText(), new String(passwordField.getPassword()));
+						bool = !db.insertar(s1, s2);
+						bbb = true;
+
+					}
 					System.out.println(usernameField.getText() + "::::" + new String(passwordField.getPassword()));
 
 					if (bool) {
 						System.err.println("NO SE ACEPTA EL USUARIO, INTENTE OTRO");
-						int eee = JOptionPane.showConfirmDialog(frame, "NO SE ACEPTA EL USUARIO, INTENTE OTRO",
+						int eee = JOptionPane.showConfirmDialog(frame,
+								"NO SE ACEPTARON LOS CAMPOS. TENGA EN CUENTA LO SIGUIENTE"
+										+ "\n-EL USUARIO DEBE TENER " + i1 + " CARACTERES O M" +(char)193+"S" + "\n-LA CONTRASE" + (char) 209
+										+ "A DEBE TENER " + s2 + " O M" +(char)193+"S CARACTERES\n-ESCOGER UN USUARIO NO EXISTENTE EN EL SISTEMA",
 								"AGREGAR USUARIO", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
 
 						if (eee == JOptionPane.CANCEL_OPTION || eee == JOptionPane.CLOSED_OPTION) {
@@ -213,9 +249,12 @@ public class UserLogin {
 						}
 					}
 				}
+
 			} while (bool);
 			// se agrego usuario
-			loginScreen();
+			if(bbb) {
+				loginScreen();
+			}
 
 		} else {
 			Toolkit.getDefaultToolkit().beep();
@@ -253,6 +292,18 @@ public class UserLogin {
 		controls.add(passwordField);
 		panel.add(controls, BorderLayout.CENTER);
 		return panel;
+	}
+
+	public Boolean getLogged() {
+		return logged;
+	}
+
+	public void setLogged(Boolean logged) {
+		this.logged = logged;
+	}
+
+	public JTabbedPane getTabs() {
+		return tabs;
 	}
 
 }

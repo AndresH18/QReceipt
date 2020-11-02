@@ -20,34 +20,41 @@ public class Imprimir {
 		this.label = label;
 	}
 
-	public void ImprimirPanel(double x, double y) {
+	public boolean ImprimirPanel(double x, double y) {
 		PrinterJob job = PrinterJob.getPrinterJob();
 
 		job.setPrintable(new MyPanel(panel, x, y).get());
 
-		if (job.printDialog()) {
+		boolean b = job.printDialog();		
+//		if (job.printDialog()) {
+		if (b) {
 			try {
 				job.print();
+				return true;
 			} catch (PrinterException e) {
 				System.err.println("Mistake Printing");
 				System.out.println(e.getLocalizedMessage());
 			}
 		}
+		return false;
 	}
 
-	public void ImprimirLabel(double x, double y) {
+	public boolean ImprimirLabel(double x, double y) {
 		PrinterJob job = PrinterJob.getPrinterJob();
 
 		job.setPrintable(new MyLabel(label, x, y).get());
-
-		if (job.printDialog()) {
+		boolean b = job.printDialog();
+//		if (job.printDialog()) {
+		if (b) {
 			try {
 				job.print();
+				return true;
 			} catch (PrinterException e) {
 				System.err.println("Mistake Printing");
 				System.out.println(e.getLocalizedMessage());
 			}
 		}
+		return false;
 	}
 
 }

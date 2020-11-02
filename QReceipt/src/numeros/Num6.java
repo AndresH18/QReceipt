@@ -150,7 +150,7 @@ public class Num6 {
 							|| Character.getNumericValue(sep[i].charAt(1)) != 0) {
 						palabra += "BILLONES ";
 					} else {
-						palabra += "BILLON";
+						palabra += "BILLON ";
 					}
 				} else if (i == 1) {
 					// palabra += "MIL ";
