@@ -224,7 +224,7 @@ public class UserLogin {
 					
 					int i1 = 5;
 					int i2 = 8;
-					
+					// Verificacion de que el usuario y la contraseña cumplan con las condiciones
 //					if (s1.length() >= 5 && s2.length() >= 8) {
 					if (s1.length() >= i1 && s2.length() >= i2) {
 						// invertimos para manejar el ciclo
