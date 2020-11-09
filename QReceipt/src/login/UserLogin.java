@@ -240,7 +240,7 @@ public class UserLogin {
 						int eee = JOptionPane.showConfirmDialog(frame,
 								"NO SE ACEPTARON LOS CAMPOS. TENGA EN CUENTA LO SIGUIENTE"
 										+ "\n-EL USUARIO DEBE TENER " + i1 + " CARACTERES O M" +(char)193+"S" + "\n-LA CONTRASE" + (char) 209
-										+ "A DEBE TENER " + s2 + " O M" +(char)193+"S CARACTERES\n-ESCOGER UN USUARIO NO EXISTENTE EN EL SISTEMA",
+										+ "A DEBE TENER " + i2 + " O M" +(char)193+"S CARACTERES\n-ESCOGER UN USUARIO NO EXISTENTE EN EL SISTEMA",
 								"AGREGAR USUARIO", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
 
 						if (eee == JOptionPane.CANCEL_OPTION || eee == JOptionPane.CLOSED_OPTION) {
