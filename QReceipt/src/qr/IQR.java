@@ -26,7 +26,7 @@ public interface IQR {
 	BufferedImage readAndPlace(String num, JLabel label);
 
 	void save(BufferedImage bufferedImage);
-	
+
 	void save(BufferedImage bufferedImage, String path);
 
 	void directoryExists();

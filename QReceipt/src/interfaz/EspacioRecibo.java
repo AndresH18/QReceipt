@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -16,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -25,8 +22,8 @@ import javax.swing.table.DefaultTableModel;
 import accesoDatos.accesoRegistro.IManejoDatos;
 import accesoDatos.accesoRegistro.ManejoDatos;
 import imprimir.Imprimir;
-import qr.QR;
 import qr.IQR;
+import qr.QR;
 
 public class EspacioRecibo {
 
@@ -36,7 +33,6 @@ public class EspacioRecibo {
 
 	private static final String COMPANY = "<html>Direccion: Cra 38# 6D Z sur 30<br>NIT: 112.358.132-1B<br>Telefono: (-57) 300336 9209<br>E-mail: qreceipt@receipt.qr</html>";
 	private static final String ROOT_PATH = System.getProperty("user.dir");
-	private static final String LOGO_PATH = ROOT_PATH + "\\.docs\\QReceipt_logo.jpeg";
 
 //	private String[][] datosProductos = {{"TV" , "10002" , "8888"} , {"computador" , "333" , "888"} , {"holla" , "2" , "100"}};
 	private String[][] datosProductos;
@@ -85,18 +81,20 @@ public class EspacioRecibo {
 	private JButton btnRegresar;
 	private JButton btnGuardar;
 
-	public EspacioRecibo(JFrame frame, JPanel panelRecibo, String[][] datosProductos) {
-		datos = new ManejoDatos();
-		datos.crearArchivo();
+	private JButton ayuda;
 
-		this.frame = frame;
-		this.panelRecibo = panelRecibo;
-		this.datosProductos = datosProductos.clone();
-
-		initialize();
-
-		startActionListeners();
-	}
+//	private  EspacioRecibo(JFrame frame, JPanel panelRecibo, String[][] datosProductos) {
+//		datos = new ManejoDatos();
+//		datos.crearArchivo();
+//
+//		this.frame = frame;
+//		this.panelRecibo = panelRecibo;
+//		this.datosProductos = datosProductos.clone();
+//
+//		initialize();
+//
+//		startActionListeners();
+//	}
 
 	public EspacioRecibo(JFrame frame, JPanel panelRecibo, String[][] datosProductos, Interfaz faz) {
 		datos = new ManejoDatos();
@@ -587,6 +585,10 @@ public class EspacioRecibo {
 		btnRegresar.setVerticalAlignment(SwingConstants.CENTER);
 		btnRegresar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panel2.add(btnRegresar);
+
+		ayuda = new JButton();
+		ayuda.setBounds(2, panelRecibo.getHeight() - 10, 20, 18);
+		panelRecibo.add(ayuda);
 
 		btnImprimir = new JButton("<html>IMPRIMIR</html>");
 		btnImprimir.setBounds(481 - 130, 10, 86, 25);

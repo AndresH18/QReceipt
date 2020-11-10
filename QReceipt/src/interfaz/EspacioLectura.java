@@ -38,6 +38,7 @@ import buscador.Buscador;
 import codificar.Decodificar;
 import crypto.Crypto;
 import login.UserLogin;
+import manual.Manual;
 import qr.IQR;
 import qr.QR;
 
@@ -54,6 +55,7 @@ public class EspacioLectura {
 	private JButton btnSeleccionarArchivo;
 	private JButton btnBuscar;
 	private JButton btnPagar;
+	private JButton ayuda;
 	private JLabel lblInfo;
 	private JSeparator separador;
 	private JScrollPane scrollPane;
@@ -66,7 +68,7 @@ public class EspacioLectura {
 	private Buscador buscador;
 	private IQR qr;
 	private IManejoDatos data;
-	
+
 	private JFileChooser fc;
 
 	private JPanel header;
@@ -92,22 +94,12 @@ public class EspacioLectura {
 	private JLabel valorTotal;
 	private JLabel lblQR;
 	private JLabel estadoPago;
-	
-	private int opt = 0;
-	
-	
-	
-	
+
+//	private int opt = 0;
 
 //	public void setQrFile(File qrFile) {
 //		this.qrFile = qrFile;
 //	}
-
-	
-
-	
-
-
 
 	public EspacioLectura(JFrame frame, JPanel panel, UserLogin userLogin) {
 		this.frame = frame;
@@ -128,15 +120,16 @@ public class EspacioLectura {
 		valorTotal.setText("");
 		lblQR.setText("");
 		numFact.setText("");
-
-		setExpLogo(btnSeleccionarArchivo);
-		setEmpLogo(lblLogo);
-
+		try {
+			setExpLogo(btnSeleccionarArchivo);
+			setEmpLogo(lblLogo);
+			setAyudaLogo(ayuda);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		startActions();
 
 	}
-
-
 
 	private void initialize() {
 		btnCerrarSesion = new JButton("<html>Cerrar Sesi" + (char) 243 + "n");
@@ -170,6 +163,10 @@ public class EspacioLectura {
 		btnPagar.setBounds(panelTab.getWidth() - 150 - 80 - 10, panelTab.getHeight() - (75 + 27), 70, 28);
 		btnPagar.setFocusable(false);
 		panelTab.add(btnPagar);
+
+		ayuda = new JButton();
+		ayuda.setBounds(2, panelTab.getHeight() - 85, 20, 18);
+		panelTab.add(ayuda);
 
 		panelInfo = new JPanel();
 		panelInfo.setLayout(null);
@@ -339,7 +336,9 @@ public class EspacioLectura {
 		setExpLogo(lblQR);
 
 		setEmpLogo(lblLogo);
-		
+
+		setAyudaLogo(ayuda);
+
 		buscador = new Buscador();
 		fc = new JFileChooser(System.getProperty("user.home"));
 		qr = new QR();
@@ -406,6 +405,10 @@ public class EspacioLectura {
 		btnPagar.setBounds(panelTab.getWidth() - 150 - 80 - 10, panelTab.getHeight() - (75 + 27), 70, 28);
 		btnPagar.setFocusable(false);
 		panelTab.add(btnPagar);
+
+		ayuda = new JButton();
+		ayuda.setBounds(2, panelTab.getHeight() - 60, 20, 18);
+		panelTab.add(ayuda);
 
 		panelInfo = new JPanel();
 		panelInfo.setLayout(null);
@@ -578,39 +581,39 @@ public class EspacioLectura {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				
-				if(fc.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+
+				if (fc.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
 					File f1 = fc.getSelectedFile();
-					if(f1.getPath().endsWith(".png")) {
-						
-						if(qr.readQR(f1) != null) {
+					if (f1.getPath().endsWith(".png")) {
+
+						if (qr.readQR(f1) != null) {
 							BufferedImage buf = qr.read(f1);
-							opt = 1;
-							
+//							opt = 1;
+
 							String s1 = qr.readQR(f1);
 							System.out.println("hex: " + s1);
 							String s2 = Crypto.hexToString(s1);
 							System.out.println("lin: " + s2);
 							String[] s = new Decodificar(s2).getDeCoded().clone();
-							
-							String n = s[s.length-1];
+
+							String n = s[s.length - 1];
 //							String n = s[5];
-							
-							if(!data.existe(n)) {
+
+							if (!data.existe(n)) {
 								data.agregarEntrada(n, false);
 							}
 							boolean b = data.getEstado(n);
-							
-							if(b) {
+
+							if (b) {
 								estadoPago.setText("PAGADA");
 								estadoPago.setForeground(Color.BLACK);
-							}else {
+							} else {
 								estadoPago.setText("NO SE HA PAGADO");
 								estadoPago.setForeground(Color.RED);
 							}
-							
+
 							lblQR.setIcon(new ImageIcon(buf));
-							
+
 							fecha.setText(s[0]);
 							nombre.setText(s[1]);
 							id.setText(s[2]);
@@ -618,15 +621,17 @@ public class EspacioLectura {
 							valorTotal.setText(s[4]);
 //							numFact.setText(n);
 							numFact.setText(s[5]);
-							
-						}else{
-							JOptionPane.showMessageDialog(frame, "NO SE DETECTO UN RECIBO VALIDO" ,"", JOptionPane.ERROR_MESSAGE);
+
+						} else {
+							JOptionPane.showMessageDialog(frame, "NO SE DETECTO UN RECIBO VALIDO", "",
+									JOptionPane.ERROR_MESSAGE);
 						}
-					}else {
-						JOptionPane.showMessageDialog(frame, "EL TIPO DE ARCHIVO NO ES VALIDO", "", JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(frame, "EL TIPO DE ARCHIVO NO ES VALIDO", "",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				
+
 			}
 		});
 
@@ -664,6 +669,13 @@ public class EspacioLectura {
 
 				buscador.cambiar(frame);
 
+			}
+		});
+
+		ayuda.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Manual.openManual();
 			}
 		});
 	}
@@ -714,36 +726,19 @@ public class EspacioLectura {
 		}
 	}
 
-	private BufferedImage resize(BufferedImage image, JLabel label) {
-		if (image != null) {
-			Image thumbnail = image.getScaledInstance(label.getWidth(), -1, Image.SCALE_SMOOTH);
+	private void setAyudaLogo(JButton btn) {
+		final String s = System.getProperty("user.dir") + "\\.docs\\UserManual.png";
+		BufferedImage buf1 = null;
+		try {
+			buf1 = ImageIO.read(new File(s));
+			Image thumbnail = buf1.getScaledInstance(btn.getWidth(), -1, Image.SCALE_SMOOTH);
 			BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
 					BufferedImage.TYPE_INT_RGB);
 			buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
 
-			return buf2;
+			btn.setIcon(new ImageIcon(buf2));
+		} catch (IOException e) {
 
-		} else {
-			return image;
-		}
-	}
-
-	private String traducir(BufferedImage image) {
-		if (image != null) {
-
-			LuminanceSource source = new BufferedImageLuminanceSource(image);
-			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-
-			try {
-				Result result = new MultiFormatReader().decode(bitmap);
-				return result.getText();
-			} catch (NotFoundException e) {
-				e.printStackTrace();
-			}
-			Toolkit.getDefaultToolkit().beep();
-			return "THERE IS NO \"QR\" IN THE IMAGE ";
-		} else {
-			return null;
 		}
 	}
 
@@ -782,12 +777,9 @@ public class EspacioLectura {
 	public JLabel getLblQR() {
 		return lblQR;
 	}
-	
-	public void setOpt(int opt) {
-		this.opt = opt;
-	}
 
-
-
+//	public void setOpt(int opt) {
+//		this.opt = opt;
+//	}
 
 }

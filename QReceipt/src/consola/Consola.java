@@ -1,7 +1,4 @@
-import java.util.Scanner;
-
-import accesoDatos.accesoRegistro.IManejoDatos;
-import accesoDatos.accesoRegistro.ManejoDatos;
+package consola;
 import sqlt2.SQLITE;
 
 public class Consola extends SQLITE {

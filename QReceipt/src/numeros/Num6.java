@@ -272,6 +272,5 @@ public class Num6 {
 		}
 		return palabra;
 	}
-	
 
 }

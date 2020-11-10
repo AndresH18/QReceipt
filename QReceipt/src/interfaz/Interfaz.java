@@ -110,8 +110,11 @@ public class Interfaz {
 		initialize();
 
 		startActionListeners();
-
-		setLogos();
+		try {
+			setLogos();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 //		userLogin = new UserLogin(frame, tabs);
 		userLogin = new UserLogin(frame, tabs, panelLector);

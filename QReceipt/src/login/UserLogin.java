@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +25,7 @@ public class UserLogin {
 
 	private Boolean logged = false;
 
-	private File file;
+//	private File file;
 
 	private JFrame frame;
 	private JTabbedPane tabs;
@@ -54,19 +53,19 @@ public class UserLogin {
 
 	}
 
-	public void start(File file) {
-		this.panel.setVisible(false);
-
-		this.file = file;
-		if (!logged) {
-			loginStarter();
-		}
-		if (logged) {
-//			this.espacioLectura.setQrFile(file);
-			this.panel.setVisible(true);
-
-		}
-	}
+//	private void start(File file) {
+//		this.panel.setVisible(false);
+//
+//		this.file = file;
+//		if (!logged) {
+//			loginStarter();
+//		}
+//		if (logged) {
+////			this.espacioLectura.setQrFile(file);
+//			this.panel.setVisible(true);
+//
+//		}
+//	}
 
 	public void start() {
 		this.panel.setVisible(false);
@@ -212,7 +211,8 @@ public class UserLogin {
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 						new String[] { "OK", "CANCEL" }, 0);
 
-				if (a == JOptionPane.CANCEL_OPTION || a == JOptionPane.CLOSED_OPTION || a == 1 || a == JOptionPane.DEFAULT_OPTION) {
+				if (a == JOptionPane.CANCEL_OPTION || a == JOptionPane.CLOSED_OPTION || a == 1
+						|| a == JOptionPane.DEFAULT_OPTION) {
 					bool = false;
 					Toolkit.getDefaultToolkit().beep();
 					tabs.setSelectedIndex(0);
@@ -221,7 +221,7 @@ public class UserLogin {
 
 					String s1 = usernameField.getText();
 					String s2 = new String(passwordField.getPassword());
-					
+
 					int i1 = 5;
 					int i2 = 8;
 					// Verificacion de que el usuario y la contraseña cumplan con las condiciones
@@ -238,9 +238,10 @@ public class UserLogin {
 					if (bool) {
 						System.err.println("NO SE ACEPTA EL USUARIO, INTENTE OTRO");
 						int eee = JOptionPane.showConfirmDialog(frame,
-								"NO SE ACEPTARON LOS CAMPOS. TENGA EN CUENTA LO SIGUIENTE"
-										+ "\n-EL USUARIO DEBE TENER " + i1 + " CARACTERES O M" +(char)193+"S" + "\n-LA CONTRASE" + (char) 209
-										+ "A DEBE TENER " + i2 + " O M" +(char)193+"S CARACTERES\n-ESCOGER UN USUARIO NO EXISTENTE EN EL SISTEMA",
+								"NO SE ACEPTARON LOS CAMPOS. TENGA EN CUENTA LO SIGUIENTE" + "\n-EL USUARIO DEBE TENER "
+										+ i1 + " CARACTERES O M" + (char) 193 + "S" + "\n-LA CONTRASE" + (char) 209
+										+ "A DEBE TENER " + i2 + " O M" + (char) 193
+										+ "S CARACTERES\n-ESCOGER UN USUARIO NO EXISTENTE EN EL SISTEMA",
 								"AGREGAR USUARIO", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
 
 						if (eee == JOptionPane.CANCEL_OPTION || eee == JOptionPane.CLOSED_OPTION) {
@@ -252,7 +253,7 @@ public class UserLogin {
 
 			} while (bool);
 			// se agrego usuario
-			if(bbb) {
+			if (bbb) {
 				loginScreen();
 			}
 

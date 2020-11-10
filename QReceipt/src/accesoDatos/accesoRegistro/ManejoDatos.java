@@ -1,13 +1,12 @@
 package accesoDatos.accesoRegistro;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import accesoDatos.conexionDatos.*;
-import accesoDatos.exceptions.*;
+import accesoDatos.conexionDatos.AccesoRegistro;
+import accesoDatos.conexionDatos.IAccesoRegistro;
+import accesoDatos.exceptions.AccesoDatosException;
 
 public class ManejoDatos implements IManejoDatos {
 
@@ -124,9 +123,9 @@ public class ManejoDatos implements IManejoDatos {
 	 * @param dest
 	 * @throws IOException
 	 */
-	private static void copyFileUsingJava7Files(File source, File dest) throws IOException {
-		Files.copy(source.toPath(), dest.toPath());
-	}
+//	private static void copyFileUsingJava7Files(File source, File dest) throws IOException {
+//		Files.copy(source.toPath(), dest.toPath());
+//	}
 
 	@Override
 	public void crearArchivo() {

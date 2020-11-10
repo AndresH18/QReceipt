@@ -1,16 +1,21 @@
 package interfaz;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,6 +33,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import manual.Manual;
 import numeros.Num6;
 
 public class FormatoRecibo {
@@ -143,6 +149,7 @@ public class FormatoRecibo {
 
 	// JButton
 	private JButton btnGenerarRecibo;
+	private JButton ayuda;
 
 	public JButton getBtnGenerarRecibo() {
 		return btnGenerarRecibo;
@@ -154,6 +161,7 @@ public class FormatoRecibo {
 
 		initialize();
 		startActionListeners();
+		setAyudaLogo(ayuda);
 	}
 
 	private void initialize() {
@@ -412,6 +420,10 @@ public class FormatoRecibo {
 		btnGenerarRecibo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		panelFormato.add(btnGenerarRecibo);
 
+		ayuda = new JButton();
+		ayuda.setBounds(2, panelFormato.getHeight() - 85, 20, 18);
+		panelFormato.add(ayuda);
+
 	}
 
 	private void startActionListeners() {
@@ -665,6 +677,12 @@ public class FormatoRecibo {
 						&& comboBoxYear.getSelectedIndex() != 0) {
 
 				}
+			}
+		});
+		ayuda.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Manual.openManual();
 			}
 		});
 	}
@@ -970,6 +988,23 @@ public class FormatoRecibo {
 			for (int i = 0; i < temp.length; i++) {
 				this.infoQR[i] = temp[i];
 			}
+
+		}
+
+	}
+
+	private void setAyudaLogo(JButton btn) {
+		final String s = System.getProperty("user.dir") + "\\.docs\\UserManual.png";
+		BufferedImage buf1 = null;
+		try {
+			buf1 = ImageIO.read(new File(s));
+			Image thumbnail = buf1.getScaledInstance(btn.getWidth(), -1, Image.SCALE_SMOOTH);
+			BufferedImage buf2 = new BufferedImage(thumbnail.getWidth(null), thumbnail.getHeight(null),
+					BufferedImage.TYPE_INT_RGB);
+			buf2.getGraphics().drawImage(thumbnail, 0, 0, null);
+
+			btn.setIcon(new ImageIcon(buf2));
+		} catch (IOException e) {
 
 		}
 	}

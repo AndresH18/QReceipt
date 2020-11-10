@@ -1,8 +1,11 @@
 package sqlt2;
 
 import java.io.File;
-import java.sql.*;
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SQLITE {
 
@@ -210,7 +213,7 @@ public class SQLITE {
 				}
 				a = true;
 			}
-			
+
 			rs.clearWarnings();
 			rs.close();
 			stmt.close();
@@ -315,6 +318,5 @@ public class SQLITE {
 			}
 		}
 	}
-
 
 }

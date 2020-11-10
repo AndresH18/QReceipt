@@ -25,7 +25,7 @@ public class Imprimir {
 
 		job.setPrintable(new MyPanel(panel, x, y).get());
 
-		boolean b = job.printDialog();		
+		boolean b = job.printDialog();
 //		if (job.printDialog()) {
 		if (b) {
 			try {

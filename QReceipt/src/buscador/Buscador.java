@@ -15,7 +15,6 @@ import javax.swing.SwingConstants;
 
 import accesoDatos.accesoRegistro.IManejoDatos;
 import accesoDatos.accesoRegistro.ManejoDatos;
-import accesoDatos.conexionDatos.AccesoRegistro;
 import codificar.Decodificar;
 import crypto.Crypto;
 import interfaz.EspacioLectura;
@@ -32,12 +31,12 @@ public class Buscador {
 
 	private String entry;
 
-	private String fecha;
-	private String nombre;
-	private String id;
-	private String direccion;
-	private String valor;
-	private String estado;
+//	private String fecha;
+//	private String nombre;
+//	private String id;
+//	private String direccion;
+//	private String valor;
+//	private String estado;
 
 	private JFrame frame;
 	private JTextField textField;
@@ -60,7 +59,7 @@ public class Buscador {
 //		start(frame);
 //	}
 
-	@Deprecated(since = "I didn't like how it")
+	@Deprecated(since = "I didn't like it")
 	private void start(JFrame frame) {
 //		this.frame = frame;
 //
@@ -90,12 +89,12 @@ public class Buscador {
 			entry = textField.getText();
 //			System.out.println(entry.replaceAll("[^[0-9]]", "@"));
 //			System.out.println(entry.replaceAll("[^[[0-9]+]]", "@"));
-			
+
 //			// remove spaces " "
 //			entry = entry.replace(" ", "");
 ////			// remove Letters, leave numbers
 //			entry = entry.replaceAll("[a-zA-Z]", "");
-			
+
 			entry = entry.replaceAll("[^[0-9]]", "");
 //			entry = entry.replaceAll("[^[[0-9]+]]", "");
 
@@ -104,8 +103,7 @@ public class Buscador {
 				existe = data.existe(entry);
 				if (existe) {
 //				lectura.getLblQR().setIcon(new ImageIcon(new QR().read(dato)));
-					lectura.getLblQR()
-							.setIcon(new ImageIcon(new QR().readAndPlace((entry), lectura.getLblQR())));
+					lectura.getLblQR().setIcon(new ImageIcon(new QR().readAndPlace((entry), lectura.getLblQR())));
 
 					String s1 = new QR().readQR(entry);
 					System.out.println("hex: " + s1);
@@ -147,7 +145,7 @@ public class Buscador {
 	}
 
 	public void cambiar(JFrame frame) {
-		
+
 		if (existe) {
 
 			int opt = JOptionPane.showConfirmDialog(frame, "CONFIRMAR PAGAR FACTURA", "", JOptionPane.OK_CANCEL_OPTION,
@@ -155,7 +153,7 @@ public class Buscador {
 			if (opt == JOptionPane.OK_OPTION) {
 				data.cambiarEstado(entry, true);
 				lectura.getEstadoPago().setText("PAGADA");
-				lectura.getEstadoPago().setForeground(Color.BLACK);				
+				lectura.getEstadoPago().setForeground(Color.BLACK);
 			}
 
 		} else {

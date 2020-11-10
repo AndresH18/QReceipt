@@ -2,7 +2,9 @@ package accesoDatos.conexionDatos;
 
 import java.util.List;
 
-import accesoDatos.exceptions.*;
+import accesoDatos.exceptions.AccesoDatosException;
+import accesoDatos.exceptions.EscrituraDatosException;
+import accesoDatos.exceptions.LecturaDatosException;
 
 public interface IAccesoRegistro {
 
